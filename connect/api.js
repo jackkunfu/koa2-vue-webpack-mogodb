@@ -1,9 +1,16 @@
-var api = require('koa-router')
-var mogoDb = require('mongodb')
-var ConnextMongodb = require('./connect')
+var api = require('koa-router')({
+    prefix: '/api'
+})
+var ConnextMongodb = require('./connect.js')
 var cnt = new ConnextMongodb();
 
-api.post('/list', function(ctx, next) {
-    var data = await cnt.getList();
-    ctx.end(data);
+api.get('/aa', async function(ctx, next) {
+    ctx.body = '11111111111'
 })
+
+api.post('/aaa', async function(ctx, next) {
+    var data = await cnt.getList('hutong')
+    ctx.body = data;
+})
+
+module.exports = api

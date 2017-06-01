@@ -11,7 +11,7 @@ const users = require('./routes/users')
 const api = require('./connect/api')
 
 // error handler
-onerror(app)
+// onerror(app)
 
 // middlewares
 app.use(bodyparser({
@@ -19,9 +19,13 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+app.use(require('koa-static')(__dirname + '/front/dist/static'))
 
-app.use(views(__dirname + '/views', {
+// app.use(views(__dirname + '/views', {
+//     extension: 'pug'
+// }))
+
+app.use(views(__dirname + '/front/dist', {
     extension: 'pug'
 }))
 
@@ -36,6 +40,8 @@ app.use(async(ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+
+// api
 app.use(api.routes(), api.allowedMethods())
 
 module.exports = app
