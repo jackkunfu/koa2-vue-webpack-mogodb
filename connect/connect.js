@@ -24,22 +24,18 @@ class ConnextMongodb {
     }
 
     getList(name, opts = {}) {
-        return new Promise(
-            (resolve, reject) => {
-                this.cntMongo(name).then(
-                    (db) => {
-                        db.collection(name).find(opts).toArray((err, docs) => {
-                            assert.equal(err, null)
-                            console.log("Found the following records")
-                            console.log(docs)
-                            db.close()
-                            console.log('连接关闭')
-                            resolve(docs)
-                        })
-                    }
-                )
-            }
-        )
+        return new Promise((resolve, reject) => {
+            this.cntMongo(name).then((db) => {
+                db.collection(name).find(opts).toArray((err, docs) => {
+                    assert.equal(err, null)
+                    console.log("Found the following records")
+                    console.log(docs)
+                    db.close()
+                    console.log('连接关闭')
+                    resolve(docs)
+                })
+            })
+        })
     }
 
     _operatePromise(name, cb) {
