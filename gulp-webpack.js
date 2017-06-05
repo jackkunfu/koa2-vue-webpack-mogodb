@@ -1,6 +1,6 @@
 var path = require('path')
-var utils = require('./utils')
-var config = require('../config')
+var utils = require('./front/build/utils')
+var config = require('./front/config')
 var vueLoaderConfig = require('./front/build/vue-loader.conf')
 
 function resolve(dir) {
@@ -9,7 +9,7 @@ function resolve(dir) {
 
 module.exports = {
     entry: {
-        app: './src/main.js'
+        app: './front/src/main.js'
     },
     output: {
         path: config.build.assetsRoot,

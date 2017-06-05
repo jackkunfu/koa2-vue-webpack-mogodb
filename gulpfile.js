@@ -2,8 +2,9 @@ var gulp = require('gulp')
 var nodemon = require('gulp-nodemon')
 var browserSync = require('browser-sync')
 
-// var webpackProdutionConfig = require('./front/build/gulp.webpack.prod.conf')
-var webpackProdutionConfig = require('gulp-webpack.js')
+var webpack = require('webpack')
+    // var webpackProdutionConfig = require('./front/build/gulp.webpack.prod.conf')
+var webpackProdutionConfig = require('./gulp-webpack.js')
 
 gulp.task('nodemon', function(cb) {
     var started = false;
@@ -46,7 +47,8 @@ gulp.task('vue', ['nodemon'], function() {
     })
 })
 
-gulp.task('default', ['browser-sync', 'vue'], function() {})
+// gulp.task('default', ['browser-sync', 'vue'], function() {})
+gulp.task('default', ['vue'], function() {})
 
 // gulp启动webpack-dev-server
 /**
