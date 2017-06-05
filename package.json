@@ -27,6 +27,7 @@
         "nodemon": "^1.8.1",
         "gulp": "^3.9.1",
         "gulp-nodemon": "^2.2.1",
-        "browser-sync": "^2.18.12"
+        "browser-sync": "^2.18.12",
+        "webpack": "^2.6.1"
     }
 }

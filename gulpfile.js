@@ -2,7 +2,8 @@ var gulp = require('gulp')
 var nodemon = require('gulp-nodemon')
 var browserSync = require('browser-sync')
 
-var webpackProdutionConfig = require('./front/build/webpack.prod.conf')
+// var webpackProdutionConfig = require('./front/build/gulp.webpack.prod.conf')
+var webpackProdutionConfig = require('gulp-webpack.js')
 
 gulp.task('nodemon', function(cb) {
     var started = false;
@@ -18,8 +19,7 @@ gulp.task('nodemon', function(cb) {
     });
 })
 
-gulp.task('browser-sync', ['nodemon', 'vue'], function() {
-    gulp.watch('front/src/**/*.*', ['vue'])
+gulp.task('browser-sync', ['nodemon'], function() {
     browserSync.init(null, {
         proxy: "http://localhost:3000", // 注意这里要换成你在koa中设定的 服务端口一般是3000
         files: ["public/**/*.*", "routes/**/*.*", "views/**/*.*", "mongoose/**/*.*", "app.js", "front/src/**/*.*"],
@@ -29,7 +29,8 @@ gulp.task('browser-sync', ['nodemon', 'vue'], function() {
 });
 
 // 监控vue组件变化 build
-gulp.task('vue', function() {
+gulp.task('vue', ['nodemon'], function() {
+    gulp.watch('front/src/**/*.*', ['vue'])
     webpack(webpackProdutionConfig, function(err, stats) {
         // spinner.stop()
         if (err) throw err
@@ -45,7 +46,7 @@ gulp.task('vue', function() {
     })
 })
 
-gulp.task('default', ['browser-sync'], function() {})
+gulp.task('default', ['browser-sync', 'vue'], function() {})
 
 // gulp启动webpack-dev-server
 /**
