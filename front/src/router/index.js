@@ -1,9 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
-import List from '@/components/List'
-import Detail from '@/components/Detail'
-import Buy from '@/components/Buy'
+// import Hello from '@/components/Hello'
+// import List from '@/components/List'
+// import Detail from '@/components/Detail'
+// import Buy from '@/components/Buy'
+
+import Hello from '../components/Hello'
+import List from '../components/List'
+import Detail from '../components/Detail'
+import Buy from '../components/Buy'
 
 Vue.use(Router)
 
