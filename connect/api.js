@@ -13,4 +13,10 @@ api.post('/aaa', async function(ctx, next) {
     ctx.body = data;
 })
 
+// file upload
+api.post('/flUp', async function(ctx, next) {
+    var data = ctx.body
+    ctx.body = data;
+})
+
 module.exports = api

@@ -12,10 +12,10 @@ module.exports = {
         app: './front/src/main.js'
     },
     output: {
-        path: config.build.assetsRoot,
+        path: __dirname + '/dist_gulp',
         filename: '[name].js',
-        publicPath: process.env.NODE_ENV === 'production' ?
-            config.build.assetsPublicPath : config.dev.assetsPublicPath
+        chunkFilename: '[name].js',
+        // publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath
     },
     resolve: {
         extensions: ['.js', '.vue', '.json'],

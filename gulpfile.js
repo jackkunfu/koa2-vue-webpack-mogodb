@@ -30,8 +30,7 @@ gulp.task('browser-sync', ['nodemon'], function() {
 });
 
 // 监控vue组件变化 build
-gulp.task('vue', ['nodemon'], function() {
-    gulp.watch('front/src/**/*.*', ['vue'])
+gulp.task('vue', function() {
     webpack(webpackProdutionConfig, function(err, stats) {
         // spinner.stop()
         if (err) throw err
@@ -41,14 +40,14 @@ gulp.task('vue', ['nodemon'], function() {
             children: false,
             chunks: false,
             chunkModules: false
-        }) + '\n\n')
-
+        }) + '\n')
         console.log('  Build complete.\n')
     })
 })
 
-// gulp.task('default', ['browser-sync', 'vue'], function() {})
-gulp.task('default', ['vue'], function() {})
+gulp.task('default', ['browser-sync'], function() {
+    gulp.watch('front/src/**/*.*', ['vue'])
+})
 
 // gulp启动webpack-dev-server
 /**

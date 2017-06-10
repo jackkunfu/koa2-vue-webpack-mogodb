@@ -19,11 +19,11 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/views'))
+app.use(require('koa-static')(__dirname + '/front/dist/static'))
 
-// app.use(views(__dirname + '/views', {
-//     extension: 'pug'
-// }))
+app.use(views(__dirname + '/front/dist', {
+    extension: 'pug'
+}))
 
 // logger
 app.use(async(ctx, next) => {
