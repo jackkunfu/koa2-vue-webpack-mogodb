@@ -1,4 +1,6 @@
-### koa2 vue-cli gulp webpack
+## 貌似还有不少问题
+
+### koa2 vue-cli gulp webpack2
 
 * 目的实现前后端分离状态下，node端，vue-cli纯前端也能同时实时开发预览效果，联调
 
