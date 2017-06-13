@@ -3,8 +3,8 @@ var nodemon = require('gulp-nodemon')
 var browserSync = require('browser-sync')
 
 var webpack = require('webpack')
-    // var webpackProdutionConfig = require('./front/build/gulp.webpack.prod.conf')
-var webpackProdutionConfig = require('./gulp-webpack.js')
+    // var webpackProdutionConfig = require('./gulp-webpack.conf')
+var webpackProdutionConfig = require('./front/build/gulp-webpack.prod.conf')
 
 gulp.task('nodemon', function(cb) {
     var started = false;
@@ -31,6 +31,7 @@ gulp.task('browser-sync', ['nodemon'], function() {
 
 // 监控vue组件变化 build
 gulp.task('vue', function() {
+    console.log('---------------webpack build vue-cli--------------')
     webpack(webpackProdutionConfig, function(err, stats) {
         // spinner.stop()
         if (err) throw err
@@ -45,6 +46,6 @@ gulp.task('vue', function() {
     })
 })
 
-gulp.task('default', ['browser-sync'], function() {
+gulp.task('default', ['vue', 'browser-sync'], function() {
     gulp.watch('front/src/**/*.*', ['vue'])
 })
