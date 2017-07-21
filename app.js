@@ -6,6 +6,8 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
+const connect = require('./controller/mongoose/connect.js')
+
 const index = require('./controller/routes/index')
 const users = require('./controller/routes/users')
 const admin = require('./controller/routes/admin')

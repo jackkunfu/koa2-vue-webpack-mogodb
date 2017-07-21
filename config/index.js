@@ -1,3 +1,4 @@
 module.exports = {
-	apiBasUrl: 'http:localhost:8000'
+	serverUrl: 'http:localhost:8000',
+	dbUrl: 'http://localhost:27107/test'
 }
