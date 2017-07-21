@@ -6,12 +6,13 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
-const index = require('./routes/index')
-const users = require('./routes/users')
-const api = require('./connect/api')
+const index = require('./controller/routes/index')
+const users = require('./controller/routes/users')
+const admin = require('./controller/routes/admin')
+// const api = require('./controller/connect/api')
 
 // error handler
-// onerror(app)
+onerror(app)
 
 // middlewares
 app.use(bodyparser({
@@ -19,14 +20,17 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/views'))
+app.use(require('koa-static')(__dirname + '/static'))
 
+app.use(views(__dirname + '/views'))
+
+// pug 
 // app.use(views(__dirname + '/views', {
 //     extension: 'pug'
 // }))
 
 // logger
-app.use(async(ctx, next) => {
+app.use(async (ctx, next) => {
     const start = new Date()
     await next()
     const ms = new Date() - start
@@ -36,8 +40,9 @@ app.use(async(ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(admin.routes(), admin.allowedMethods())
 
 // api
-app.use(api.routes(), api.allowedMethods())
+// app.use(api.routes(), api.allowedMethods())
 
 module.exports = app

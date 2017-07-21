@@ -1,13 +1,13 @@
-const router = require('koa-router')()
+import {router, cntDb} from '../_basic.js';
 
 router.prefix('/users')
 
 router.get('/', function (ctx, next) {
-  ctx.body = 'this is a users response!'
+  ctx.body = 'users index!'
 })
 
 router.get('/bar', function (ctx, next) {
-  ctx.body = 'this is a users/bar response'
+  ctx.body = 'users/bar response'
 })
 
 module.exports = router
