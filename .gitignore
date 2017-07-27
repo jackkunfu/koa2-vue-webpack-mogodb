@@ -1,1 +1,4 @@
 node_modules
+vue/node_modules
+vue-element/node_modules
+vue-old/node_modules

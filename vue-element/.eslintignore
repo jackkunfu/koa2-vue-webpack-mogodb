@@ -1,0 +1,10 @@
+# -----------------------
+# @author : junqi.chen
+# @date   : 2017-07-19
+# -----------------------
+# link : https://github.com/eslint/eslint
+# ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code.
+
+build/*.js
+config/*.js
+src/*
