@@ -1,0 +1,20 @@
+# -----------------------
+# @author : junqi.chen
+# @date   : 2017-07-19
+# -----------------------
+# link    : http://www.alloyteam.com/2014/12/editor-config/
+# EditorConfig 可以帮助开发者在不同的编辑器和IDE之间定义和维护一致的代码风格。
+# EditorConfig包含一个用于定义代码格式的文件和一批编辑器插件，
+# 这些插件可以让编辑器读取配置文件并依此格式化代码。
+# EditorConfig的配置文件十分易读，
+# 并且可以很好的在VCS（Version Control System）下工作。
+
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
