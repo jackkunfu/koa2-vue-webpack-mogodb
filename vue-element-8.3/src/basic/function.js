@@ -8,6 +8,7 @@ class ElmentUiTableManage {
         this.curData = null; // 当前点击编辑需要更改的数据
         this.editCtn = editCtn;
         this.vm = vm
+        this.edit = this.edit.bind(this.vm)
     }
 
     async del(i, row, id) { // 删除操作
@@ -20,7 +21,7 @@ class ElmentUiTableManage {
         this.curData = $.extend(true, {}, row)
             // this.editCtn()
             // console.log(document.getElementsByClassName(this.editCtn))
-    }.bind(this.vm)
+    }
 
     async editOk() { // 提交编辑的数据
         var d = await this.api.edit();
@@ -36,10 +37,19 @@ class ElmentUiTableManage {
 
     init() {
         return {
-            del: this.del,
-            edit: this.edit,
-            editOk: this.editOk,
-            editCancel: this.editCancel
+            data(){
+                return {
+                    curEditing: this.curEditing,
+                    curData: this.curData,
+                }
+            },
+            methods: {
+                del: this.del,
+                edit: this.edit,
+                editOk: this.editOk,
+                editCancel: this.editCancel
+            }
+            
         }
     }
 }
