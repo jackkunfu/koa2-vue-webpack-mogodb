@@ -133,73 +133,19 @@
         methods: methodsManage
     }
 
-    
- 
     export default {
         mixins: [mixMethods],
         data() {
             return {
-                curRole: {},
-                labelPosition: 'left',
-                roleData: [],
-                totalPage,
-                currentPage,
-                curEditing: null
             }
-        },
-        beforeMount(){
-            // this.$options.mixins = [mixMethods]
         },
         mounted () {
             this.$store.state.topTip = '角色管理'
             this.roleData = roleData;
             this.$nextTick(() => {
-                // this._apiData.userList().then((d)=>{
-                //     // console.log(d)
-                //     this.tableData = d;
-                // })
-
-                // console.log(this.tableData)
             })
         },
         methods: {
-            // ...roeManageFunArr,
-
-            // edit(i, row, id) {
-            //     var curRow = $.extend(true, {}, row)
-            //     this.curRole = curRow;
-            //     this.curRole.nameCopy = this.curRole.name
-            //     $(window).scrollTop($('.edit-ctn').offset().top)
-            //     $('.edit-ctn').show();
-            //     this.curEditing = {id: id, index: i}
-            // },
-            // del(i, row, id) {
-            //     console.log(id);
-            //     this.roleData.splice(i, 1);
-            //     // var res = await this._apiData.delAccount();
-            //     // alert(res.msg)
-            //     // res.success && this.roleData.splice(i, 1);
-            // },
-            // async getData() {
-            //     // return (()=>{
-            //     //     this._apiData.userList().then((d)=>{
-            //     //         return d;
-            //     //     })
-            //     // })()
-            //     return await this._apiData.roleList()
-            // },
-            // async editOk(){
-            //     this.curRole.nameCopy = null
-            //     this.$set(this.roleData, this.curEditing.index, this.curRole);
-            //     $('.edit-ctn').hide();
-            //     // var res = await this._apiData.update({id: this.curEditing.id});
-            //     // alert(res.msg)
-            //     // res.success && $('.edit-ctn').hide();             
-            //     // res.success && this.$set(this.roleData, this.curEditing.index, this.curRole);             
-            // },
-            // editCancel(){
-            //     $('.edit-ctn').hide();                
-            // }
         }       
     }
 </script>
