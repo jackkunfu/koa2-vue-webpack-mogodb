@@ -1,8 +1,10 @@
-import userModel from './models/userModel.js'
-import movieModel from './models/movieModel.js'
+var userModel = require('./models/user.js')
+var movieModel = require('./models/movie.js')
 
+var pdEntryModel = require('./models/pd/nav.js')
 
 module.exports = {
-	userModel,
-	movieModel
+    userModel,
+    movieModel,
+    pdEntryModel
 }

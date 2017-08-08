@@ -6,12 +6,12 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
-const connect = require('./controller/mongoose/connect.js')
+const connect = require('./controller/db.js')
 
 const index = require('./controller/routes/index')
 const users = require('./controller/routes/users')
 const admin = require('./controller/routes/admin')
-// const api = require('./controller/connect/api')
+    // const api = require('./controller/connect/api')
 
 // error handler
 onerror(app)
@@ -32,7 +32,7 @@ app.use(views(__dirname + '/views'))
 // }))
 
 // logger
-app.use(async (ctx, next) => {
+app.use(async(ctx, next) => {
     const start = new Date()
     await next()
     const ms = new Date() - start

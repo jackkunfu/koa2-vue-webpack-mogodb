@@ -1,11 +1,13 @@
-import {router, cntDb} from '../_basic.js';
+const router = require('koa-router')();
 
-route.prefix('/admin');
+router.prefix('/admin');
 
-router.get('/', function (ctx, next) {
-  ctx.body = 'admin index!'
+router.get('/', function(ctx, next) {
+    ctx.body = 'admin index!'
 })
 
-router.get('/a', function (ctx, next) {
-  ctx.body = 'admin/a index!'
+router.get('/a', function(ctx, next) {
+    ctx.body = 'admin/a index!'
 })
+
+module.exports = router

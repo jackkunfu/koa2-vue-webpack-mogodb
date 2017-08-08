@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
-import dbUrl from '../../config'
+var dbUrl = require('../config').pdDb
 
-mongoose.Promise = global.Promise
-mongoose.connect(dbUrl, { server:{auto_reconnect:true} })
+// mongoose.Promise = global.Promise
+mongoose.connect(dbUrl, { server: { auto_reconnect: true } })
+    // mongoose.createConnection(dbUrl, { server: { auto_reconnect: true } })
 
 const connect = mongoose.connection
 
@@ -17,10 +18,11 @@ connect.on('error', (err) => {
 
 connect.on('close', () => {
     console.log('重新连接数据库')
-    mongoose.connect(dbUrl, { server:{auto_reconnect: true} })
+    mongoose.connect(dbUrl, { server: { auto_reconnect: true } })
 })
 
-export default connect
+module.exports = connect
+
 
 
 // 之前以为是每次请求每次连接

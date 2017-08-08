@@ -1,4 +1,4 @@
 module.exports = {
-	serverUrl: 'http:localhost:8000',
-	dbUrl: 'http://localhost:27107/test'
+    serverUrl: 'http:localhost:8000',
+    pdDb: 'mongodb://127.0.0.1:27017/pd'
 }
