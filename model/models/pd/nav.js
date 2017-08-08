@@ -23,5 +23,8 @@ navSchema.statics = { // Schema 的静态方法 model里调用
         return this.find({ id: id })
             .exec(cb) // 执行回调方法
     },
-
 }
+
+navSchema.methods = {}
+
+module.exports = mongoose.model(navSchema)

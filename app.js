@@ -22,14 +22,19 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/static'))
+// app.use(require('koa-static')(__dirname + '/static'))
+// app.use(views(__dirname + '/views'))
 
-app.use(views(__dirname + '/views'))
 
 // pug 
 // app.use(views(__dirname + '/views', {
 //     extension: 'pug'
 // }))
+
+
+app.use(views(__dirname + '/vue-element-8.3/dist/static'))
+app.use(require('koa-static')(__dirname + '/vue-element-8.3/dist'))
+
 
 // logger
 app.use(async(ctx, next) => {

@@ -38,6 +38,6 @@ movieSchema.statics = { // Schema 的静态方法 model里调用
     }
 }
 
-var movieModel = mongoose.model(movieSchema);
+var Movie = mongoose.model(movieSchema);
 
-module.exports = movieModel
+module.exports = Movie
