@@ -11,7 +11,7 @@ const connect = require('./controller/db.js')
 const index = require('./controller/routes/index')
 const users = require('./controller/routes/users')
 const admin = require('./controller/routes/admin')
-    // const api = require('./controller/connect/api')
+const api = require('./controller/api')
 
 // error handler
 onerror(app)
@@ -22,8 +22,8 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-// app.use(require('koa-static')(__dirname + '/static'))
-// app.use(views(__dirname + '/views'))
+    // app.use(require('koa-static')(__dirname + '/static'))
+    // app.use(views(__dirname + '/views'))
 
 
 // pug 
@@ -32,8 +32,8 @@ app.use(logger())
 // }))
 
 
-app.use(views(__dirname + '/vue-element-8.3/dist/static'))
-app.use(require('koa-static')(__dirname + '/vue-element-8.3/dist'))
+app.use(views(__dirname + '/dist/static'))
+app.use(require('koa-static')(__dirname + '/dist'))
 
 
 // logger
@@ -50,6 +50,6 @@ app.use(users.routes(), users.allowedMethods())
 app.use(admin.routes(), admin.allowedMethods())
 
 // api
-// app.use(api.routes(), api.allowedMethods())
+app.use(api.routes(), api.allowedMethods())
 
 module.exports = app

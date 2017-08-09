@@ -20,6 +20,4 @@ UserComment.pre('save', function(next) {
     next();
 });
 
-var userModel = mongoose.model(UserComment);
-
-module.exports = userModel;
+module.exports = mongoose.model('User', UserComment);

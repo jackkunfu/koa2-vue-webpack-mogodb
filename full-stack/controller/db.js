@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 var dbUrl = require('../config').pdDb
 
-// mongoose.Promise = global.Promise
+mongoose.Promise = global.Promise
 mongoose.connect(dbUrl, { server: { auto_reconnect: true } })
     // mongoose.createConnection(dbUrl, { server: { auto_reconnect: true } })
 
