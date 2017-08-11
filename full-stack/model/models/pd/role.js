@@ -27,5 +27,7 @@ roleSchema.statics = {
 }
 
 const Role = mongoose.model('Role', roleSchema)
+    // console.log('Role')
+    // console.log(Role)
 
 module.exports = Role

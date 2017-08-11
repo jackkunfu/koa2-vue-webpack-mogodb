@@ -6,11 +6,8 @@ const model = require('../model')
 const PdRole = model.PdRole
 
 api.post('/aa', async(ctx, next) => {
-    console.log('3333222')
 
-    var data = await cnt.getList('hutong')
-    console.log('3333222')
-    ctx.body = data;
+    ctx.body = {};
 })
 
 api.post('/admin/list', async(ctx, next) => {
@@ -23,20 +20,18 @@ api.post('/admin/list', async(ctx, next) => {
 })
 api.post('/admin/updateRole', async(ctx, next) => {
     var newRole = ctx.request.body;
-    newRole.url = newRole.url || ''
     newRole.power = newRole.power || []
-
 
     if (!newRole.id) {
         var search = await PdRole.fentch({ name: newRole.name })
 
         if (search.length !== 0) {
             ctx.body = {
-                msg: '已存在该名称的分类',
+                msg: '已存在该名称',
                 success: false,
                 data: search[0]
             }
-            return
+            return false
         }
 
         newRole.createTime = new Date()
@@ -52,7 +47,6 @@ api.post('/admin/updateRole', async(ctx, next) => {
 
         PdRole.fentch({ name: newRole.name }, async(err, res) => {
             err && console.log(err);
-            console.log(res)
 
             if (res.length == 0) {
                 newRole.id = null;
@@ -79,12 +73,7 @@ api.post('/admin/updateRole', async(ctx, next) => {
                 };
             }
         })
-
-
-
     }
-
-
 
 })
 

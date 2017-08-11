@@ -1,8 +1,9 @@
 class MongooseModelBasic {
-    constructor(model, schema) {
-        this.model = model;
+    constructor(modelName, schema) {
+        this.modelName = modelName;
         this.schema = schema;
-        this.init();
+        this.schemaObj = null;
+        return this.init();
     }
 
     init() {
@@ -11,16 +12,18 @@ class MongooseModelBasic {
         var ObjectId = Schema.ObjectId;
         this.schema.id = ObjectId;
 
-        var schemaObj = new Schema(this.schema);
+        this.schemaObj = new Schema(this.schema);
 
-        schemaObj.pre('save', (next) => {
+        this.schemaObj.pre('save', (next) => {
             next()
         })
 
-        schemaObj.statics = {
+        this.schemaObj.statics = {
             fentch(options = {}, cb) {
                 if (options == {}) {
-
+                    // 这里的this，应该是谁调用这个方法，谁就是this
+                    // 具体使用时是接口中的model对象调用的，所以这里应该是具体的model
+                    // 所以此构造函数中不用bind改变this的指向
                     return this.findAll().exec(cb)
                 } else {
                     return this.find(options).exec(cb)
@@ -31,7 +34,8 @@ class MongooseModelBasic {
             }
         }
 
-        return mongoose.model(this.name, schemaObj)
+        var obj = mongoose.model(this.modelName, this.schemaObj)
+        return obj
     }
 }
 
