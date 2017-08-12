@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 const ObjectId = Schema.ObjectId
 
 // schema
-// import { userSchema } from '../schema.js'
+// import { userSchema } from '../schema/schema.js'
 
 const UserComment = new Schema({
     id: ObjectId,

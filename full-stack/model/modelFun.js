@@ -9,8 +9,6 @@ class MongooseModelBasic {
     init() {
         const mongoose = require('mongoose');
         const Schema = mongoose.Schema;
-        var ObjectId = Schema.ObjectId;
-        this.schema.id = ObjectId;
 
         this.schemaObj = new Schema(this.schema);
 

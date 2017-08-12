@@ -19,7 +19,7 @@
 const MongooseModel = require('./modelFun.js')
 
 module.exports = {
-    PdRole: new MongooseModel('PdRole', {
+    PdRole: new MongooseModel('Role', {
         name: String,
         createTime: Date,
         power: Array
