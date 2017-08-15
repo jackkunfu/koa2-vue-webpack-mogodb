@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a,
+a:hover,
+a:active,
+a:link {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+.ctn {
+    width: 55rem;
+    margin: 5rem auto;
+}
+
+.fl {
+    float: left;
+    display: block;
+}
+
+.fr {
+    float: right;
+    display: block;
+}
+
+.btn {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 2px;
+    background: skyblue;
+    color: #FFF;
+    cursor: pointer;
+}

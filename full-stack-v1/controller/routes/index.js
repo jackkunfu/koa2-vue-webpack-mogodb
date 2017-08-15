@@ -1,26 +1,30 @@
 const router = require('koa-router')()
 
 router.get('/', async(ctx, next) => {
-    await ctx.render('index', {
-        // title: 'Hello Koa 2!'
-    })
+    await ctx.render('index', {})
 })
 
-router.get('/string', async(ctx, next) => {
-    ctx.body = 'koa2 string'
-})
 
-router.get('/json', async(ctx, next) => {
-    ctx.body = {
-        title: 'koa2 json'
-    }
-})
 
-router.post('/aa', async function(ctx, next) {
-    console.log('3333222')
-    var data = await cnt.getList('hutong')
-    console.log('3333222')
-    ctx.body = data;
+
+
+
+
+// sports项目路由
+router.get('/list', async(ctx, next) => {
+    await ctx.render('list', {})
+})
+router.get('/detail', async(ctx, next) => {
+    await ctx.render('detail', {})
+})
+router.get('/self', async(ctx, next) => {
+    await ctx.render('self', {})
+})
+router.get('/enroll', async(ctx, next) => {
+    await ctx.render('enroll', {})
+})
+router.get('/manage/hall', async(ctx, next) => {
+    await ctx.render('manage/hall', {})
 })
 
 module.exports = router

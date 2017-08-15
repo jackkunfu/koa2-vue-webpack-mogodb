@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>demo</title>
+	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+</head>
+<body>
+
+	<style>
+		.top{
+			text-align: center;
+			line-height: 10rem;
+			font-size: 4rem;
+			border-bottom: 1px solid #1C26AB;
+		}
+		.list{
+		}
+		.list .box{
+			overflow: hidden;
+			margin-bottom: 5rem;
+			border-bottom: 1px solid #eee;
+			padding-bottom: 4rem;
+		}
+		
+		.box img, .box .name, .box .address{
+			float: left;
+		}
+
+		.box img {
+			display: block;
+			width: 15rem;
+			min-height: 15rem;
+			margin-right: 4rem;
+			background: #eee;
+		}
+		.box .name{
+			width: 35rem;
+			font-size: 4rem;
+			line-height: 1;
+			color: #111;
+		}
+		.box .address{
+			font-size: 3rem;
+			margin-top: 5rem;
+			color: #333;
+		}
+	</style>
+
+	<div class="top">
+		训练营
+	</div>
+	<div class="ctn">
+		<div class="list">
+			<div class="box" v-for="(item,i) in lists">
+				<a :href="'detail.html?id='+item.id">
+					<img :src="item.img" alt="" />
+					<div class="name">{{item.name}}</div>
+					<div class="address">{{item.address}}</div>
+				</a>
+			</div>
+		</div>
+	</div>
+
+
+	<script>
+
+		new Vue({
+			el: '.ctn',
+			data: {
+				lists: [
+					{id:0,img:'',name:'1111111',address:'2222222222222'},
+					{id:0,img:'',name:'1111111',address:'2222222222222'},
+					{id:0,img:'',name:'1111111',address:'2222222222222'},
+					{id:0,img:'',name:'1111111',address:'2222222222222'},
+					{id:0,img:'',name:'1111111',address:'2222222222222'},
+					{id:0,img:'',name:'1111111',address:'2222222222222'},
+					{id:0,img:'',name:'1111111',address:'2222222222222'}
+				]
+			},
+			mounted: function(){
+				var _this = this;
+				this.$nextTick(function () {
+		        	// _this.aa = _this._ajaxData()
+      			})
+				
+			}
+		})
+		
+	</script>
+
+	
+</body>
+</html>

@@ -27,8 +27,11 @@ class MongooseModelBasic {
                     return this.find(options).exec(cb)
                 }
             },
-            update(cur, newRole, cb) {
-                return this.update(cur, newRole).exec(cb)
+            // update(conditions, newRole, cb) {
+            //     return this.update(conditions, newRole).exec(cb)
+            // },
+            del(options, cb) {
+                return this.fentch({ _id: options.name }).remove()
             }
         }
 

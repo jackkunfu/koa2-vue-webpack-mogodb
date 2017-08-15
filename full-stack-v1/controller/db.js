@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-// var dbUrl = require('../config').zwDb;
-var dbUrl = require('../config').pdDb;
+var dbUrl = require('../config').zwDb;
+// var dbUrl = require('../config').pdDb;
 
 mongoose.Promise = global.Promise;
 mongoose.connect(dbUrl, { server: { auto_reconnect: true } });

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>demo</title>
+	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+	
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+</head>
+<body>
+
+	<style>
+
+		.top{
+			text-align: center;
+			line-height: 10rem;
+			font-size: 4rem;
+			border-bottom: 1px solid #1C26AB;
+		}
+
+		.self-top{
+			padding: 8rem 0;
+			font-size: 3rem;
+			text-align: center;
+			border-bottom: 1px solid #666;
+		}
+
+		.box{
+			display: inline-block;
+			float: left;
+			width: 50%;
+			height: 15rem;
+			line-height: 15rem;
+			text-align: center;
+			font-size: 3rem;
+			border: 1px solid #666;
+		}
+	</style>
+
+	<div class="top">
+		个人中心	
+	</div>
+	<div class="self">
+		
+	
+
+	<div class="self-top">
+		<img :src="userInfo.img" alt="" style="display: block;width: 10rem;height: 10rem;margin: 1rem auto;" />
+		{{userInfo.name}}
+	</div>
+
+	<div class="ctn">
+		
+		<a :href="'order.html?id='+userInfo.id" class="box">我的订单</a>
+		<a :href="'order.html?id='+userInfo.id" class="box">我的课程</a>
+		<a :href="'order.html?id='+userInfo.id" class="box">上课记录</a>
+		<a :href="'order.html?id='+userInfo.id" class="box">最新活动</a>
+		<a :href="'order.html?id='+userInfo.id" class="box">在线客服</a>
+		<a :href="'order.html?id='+userInfo.id" class="box">使用说明</a>
+		<div style="text-align: center;color: #1C26AB;font-size: 3rem;line-height: 12rem;">统一咨询电话：0571-88682939</div>
+	</div>
+
+	</div>
+
+
+	<script>
+
+		new Vue({
+			el: '.self',
+			data: {
+				userInfo: {
+					id: 0,
+					name: 'xxx',
+					img: ''
+				}
+			},
+			mounted: function(){
+				var _this = this;
+				this.$nextTick(function () {
+      			})
+				
+			}
+		})
+		
+	</script>
+
+	
+</body>
+</html>

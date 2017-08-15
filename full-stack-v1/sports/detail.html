@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>demo</title>
+	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+</head>
+<body>
+
+	<style>
+		.top{
+			text-align: center;
+			line-height: 10rem;
+			font-size: 4rem;
+			border-bottom: 1px solid #1C26AB;
+		}
+		
+		.poster img{
+			width: 100%;
+
+		}
+
+		.detail ul.tab{
+			border: 1px solid #666;
+			overflow: hidden;
+
+		}
+		.detail .tab li{
+			float: left;
+			width: 33.3333%;
+			text-align: center;
+			line-height: 6rem;
+			font-size: 3rem;
+		}
+
+		.detail .tab li.cur{
+			background: yellow;
+		}
+
+		.detail ul.main{
+			width: 100%;
+		}
+
+		.detail ul.main >li{
+			width: 100%;
+			float: left;
+			font-size: 3rem;
+			line-height: 5rem;
+			color: #666;
+			word-break: break-all;
+			margin-bottom: 10rem;
+		}
+
+		.detail ul.main li .title{
+			color: #333;
+			margin-top: 2rem;
+		}
+
+		.judge{
+			padding:2rem 0 3rem;
+			border-bottom: 1px solid #eee;
+			overflow: hidden;
+		}
+
+		.judge img{
+			float: left;
+			display: block;
+			width: 8rem;
+			height: 8rem;
+			background: #eee;
+			border-radius: 50%;
+			margin-right: 2rem;
+		}
+
+		.judge .right{
+			float: left;
+			display: block;
+			width: 43rem;
+		}
+
+		.judge .right .name{
+			float: left;
+		}
+		.judge .right .time{
+			float: right;
+		}
+
+		.judge .right .text{
+			font-size: 3rem;
+			line-height: 5rem;
+			color: #666;
+			word-break: break-all;
+			margin-top: 5rem;
+		}
+
+		.show{
+			display: block;
+		}
+		.hide{
+			display: none;
+		}
+
+		.fixed-btm{
+			width: 100%;
+			border-top: 1px solid #eee;
+			position: fixed;
+			bottom: 0;
+			left: 0;
+		}
+		.fixed-btm >div, .fixed-btm a{
+			text-align: center;
+			line-height: 8rem;
+			height: 8rem;
+			font-size: 3rem;
+		}
+		.fixed-btm .fl{
+			width: 70%;
+			border-right: 1px solid #eee;
+			background: #1C26AB;
+		}
+		.fixed-btm .fr{
+			width: 30%;
+		}
+	
+		.upload{
+			width: 20rem;
+			height: 8rem;
+			line-height: 8rem;
+			font-size: 3rem;
+			margin: 2rem auto 12rem;
+			text-align: center;
+			background: #1C26AB;
+			color: #FFF;
+		}
+
+		ul.img-list li{
+			width: 50%;
+			height: 15rem;
+			margin-bottom: 2rem;
+			float: left;
+		}
+		ul.img-list li img{
+			width: 100%;
+			height: 100%;
+		}
+		ul.img-list li:nth-of-type(2n) img{
+			padding-left: 1rem;
+		}
+		ul.img-list li:nth-of-type(2n-1) img{
+			padding-right: 1rem;
+		}
+	</style>
+	<div id="el">
+		<div class="top">
+			白塔湖训练馆
+		</div>
+
+		<div class="ctn">
+			
+			<div class="poster">
+				<ul>
+					<li v-for="item in posterlists">
+						<img :src="item.img" alt=""/>
+					</li>
+				</ul>
+			</div>
+
+			<div class="detail">
+
+				<ul class="tab">
+					<li :class="cur == 0 ? 'cur':''" @click="cur=0">课程介绍</li>
+					<li :class="cur == 1 ? 'cur':''" @click="cur=1">精彩瞬间</li>
+					<li :class="cur == 2 ? 'cur':''" @click="cur=2">课程评价</li>
+				</ul>
+				
+				<ul class="main">
+					<li :class="cur == 0 ? 'show' : 'hide'">
+						<div class="title">简介</div>
+						<div>{{detail.desc}}</div>
+						<div class="title">优势</div>
+						<div>{{detail.good}}</div>
+						<div class="title">课程</div>
+						<div v-for="item in detail.class">
+							<div>{{detail.title}}</div>
+							{{detail.desc}}
+						</div>
+					</li>
+					<li :class="cur == 1 ? 'show' : 'hide'">
+						<ul style="overflow: hidden;margin-top:2rem;" class="img-list">
+							<li v-for="item in imglists">
+								<img :src="item.img" alt=""/>
+							</li>
+						</ul>
+						<div class="upload">我要上传</div>
+					</li>
+					<li :class="cur == 2 ? 'show' : 'hide'">
+						<div class="judge" v-for="item in judgeLists">
+							<img :src="item.img"/>
+							<div class="right">
+								<div class="name">{{item.name}}</div>
+								<div class="time">{{item.time}}</div>
+								<div class="text">{{item.text}}</div>
+
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+
+
+		<div class="fixed-btm">
+			<a :href="'enroll.html?id='+id" class="fl">立即报名</a>
+			<a href="tel:" class="fr">咨询</a>
+		</div>
+
+	</div>
+
+
+	<script>
+
+		new Vue({
+			el: '#el',
+			data: {
+				id: 0,
+				cur: 0,
+				judgeLists: [
+					{img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'},
+					{img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'},
+					{img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'},
+					{img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'},
+					{img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'}
+				],
+				posterlists: [],
+				imglists: [
+					{img:'http://mpic.tiankong.com/ecc/3e3/ecc3e349338dbe58603cf270d9cd7c9c/640.jpg?x-oss-process=image/resize,m_lfit,h_600,w_600/watermark,image_cXVhbmppbmcucG5n,t_90,g_ne,x_5,y_5'},
+					{img:'http://mpic.tiankong.com/ecc/3e3/ecc3e349338dbe58603cf270d9cd7c9c/640.jpg?x-oss-process=image/resize,m_lfit,h_600,w_600/watermark,image_cXVhbmppbmcucG5n,t_90,g_ne,x_5,y_5'},
+					{img:'http://mpic.tiankong.com/ecc/3e3/ecc3e349338dbe58603cf270d9cd7c9c/640.jpg?x-oss-process=image/resize,m_lfit,h_600,w_600/watermark,image_cXVhbmppbmcucG5n,t_90,g_ne,x_5,y_5'}
+				],
+				detail:{
+					desc: 'bfuhiegnlNEOPVAJOBJNl;nb;WJ;EOBJbn;WBEOnbWBPE',
+					good: '优势；aoaj[goagkp[kb;,bfjodajoajogja,z/vldj;avm,nvmzbfklhfkjvlfmb]] ',
+					class: [
+						{title:'初级',desc:'这是一个初级课程'},
+						{title:'高级',desc:'这是一个高级课程'}
+					]
+				}
+			},
+			mounted: function(){
+				var _this = this;
+				this.$nextTick(function () {
+		        	_this.aa = _this._ajaxData()
+      			})
+				
+			}
+		})
+		
+	</script>
+
+	
+</body>
+</html>

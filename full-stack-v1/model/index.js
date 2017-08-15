@@ -5,5 +5,17 @@ module.exports = {
         name: String,
         createTime: Date,
         power: Array
-    })
+    }),
+
+
+
+    // sports
+    TrainHalls: new ModelFun('hall', {
+        name: String,
+        img: String,
+        createTime: Date,
+        address: String,
+        desc: String
+    }),
+
 }

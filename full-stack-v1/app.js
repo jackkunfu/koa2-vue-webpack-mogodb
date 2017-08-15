@@ -31,9 +31,14 @@ app.use(logger())
 //     extension: 'pug'
 // }))
 
+// vue project
+// app.use(views(__dirname + '/dist/static'))
+// app.use(require('koa-static')(__dirname + '/dist'))
 
-app.use(views(__dirname + '/dist/static'))
-app.use(require('koa-static')(__dirname + '/dist'))
+
+// sports project
+app.use(views(__dirname + '/sports'))
+app.use(require('koa-static')(__dirname + '/sports'))
 
 
 // logger

@@ -1,0 +1,124 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>训练场管理</title>
+    <link rel="stylesheet" type="text/css" href="/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="/css/manage.css" />
+
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/vue.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/mixTable.js"></script>
+</head>
+
+<body>
+    <div class="manage-ctn">
+        <ul class="nav">
+            <li><a href="">训练馆</a></li>
+            <li><a href="">教练</a></li>
+        </ul>
+
+        <div class="table">
+            <div class="tip">{{tip}}</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>名称</th>
+                        <th>地点</th>
+                        <th>图片</th>
+                        <th>描述</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, i) in tableData" :data-id="item._id">
+                        <td>{{item.name}}</td>
+                        <td>{{item.address}}</td>
+                        <td><img :src="item.img"></td>
+                        <td>{{item.desc}}</td>
+                        <td>
+                            <span class="edit btn" @click="edit(item)">编辑</span>
+                            <span class="del btn" @click="del(item._id)">删除</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"><span style="text-align:center;line-height:60px;">暂无数据</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="addOrUpdate">
+                <div>{{changeStatus}} {{curEditItem.nameCopy}}</div>
+                <div>
+                    <div class="fl">名称</div>
+                    <div class="fr"><input type="text" v-model="curEditItem.name"></div>
+                </div>
+                <div>
+                    <div class="fl">地点</div>
+                    <div class="fr"><input type="text" v-model="curEditItem.address"></div>
+                </div>
+                <div>
+                    <div class="fl">图片</div>
+                    <div class="fr">
+                        <div class="img-up-ctn">
+                            <img :src="curEditItem.img" />
+                            <span>点击上传</span>
+                            <input type="file" />
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    <div class="fl">描述</div>
+                    <div class="fr"><input type="text" v-model="curEditItem.desc"></div>
+                </div>
+
+                <div>
+                    <span class="btn" @click="addOrUpdate">{{changeStatus}}</span>
+                    <span class="btn" @click="cancel">取消</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            mixins: [mixtable],
+            el: '.table',
+            data: {
+                tip: '训练馆管理',
+                api: {
+                    add: '/api/addHall',
+                    update: '',
+                    del: '/api/delHall',
+                    list: '/api/listHall'
+                }
+            },
+            mounted: function() {
+                var _this = this;
+                this.$nextTick(function() {
+
+
+
+                    _this._ajaxData(_this.api.list, 'post', {}, function(d) {
+                        if (d.success) {
+                            _this.tableData = d.data;
+                        } else {
+                            alert(d.msg)
+                        }
+                    })
+
+
+                })
+            },
+            methods: {}
+        })
+    </script>
+
+
+
+</body>
+
+</html>
