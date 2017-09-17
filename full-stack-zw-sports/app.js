@@ -26,7 +26,7 @@ app.use(logger())
     // app.use(views(__dirname + '/views'))
 
 
-// pug 
+// pug
 // app.use(views(__dirname + '/views', {
 //     extension: 'pug'
 // }))
