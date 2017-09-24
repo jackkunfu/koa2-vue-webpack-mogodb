@@ -33,31 +33,34 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>名称</th>
-                            <th>地点</th>
-                            <th>教练</th>
-                            <th>电话</th>
-                            <th>操作</th>
+                            <th>学员姓名</th>
+                            <th>性别</th>
+                            <th>家长姓名</th>
+                            <th>联系电话</th>
+                            <th>报名课程</th>
+                            <th>所属训练营</th>
+                            <th>报名费用</th>
+                            <th>付款方式</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(item, i) in tableData" :data-id="item._id">
                             <td>{{item.name}}</td>
-                            <td>{{item.address}}</td>
-                            <td><img :src="item.img"></td>
-                            <td>{{item.desc}}</td>
-                            <td>
-                                <span class="edit btn" @click="edit(item)">编辑</span>
-                                <span class="del btn" @click="del(item._id)">删除</span>
-                            </td>
+                            <td>{{item.sex}}</td>
+                            <td>{{item.parName}}</td>
+                            <td>{{item.mobile}}</td>
+                            <td>{{item.stydy}}</td>
+                            <td>{{item.hall}}</td>
+                            <td>{{item.fee}}</td>
+                            <td>{{item.payWay}}</td>
                         </tr>
                         <tr>
-                            <td colspan="5"><span style="text-align:center;line-height:60px;">暂无数据</span></td>
+                            <td colspan="8"><span style="text-align:center;line-height:60px;">暂无数据</span></td>
                         </tr>
                     </tbody>
                 </table>
 
-                <div class="addOrUpdate">
+                <!-- <div class="addOrUpdate">
                     <div>{{changeStatus}} {{curEditItem.nameCopy}}</div>
                     <div>
                         <div class="fl">名称</div>
@@ -87,7 +90,7 @@
                         <span class="btn" @click="addOrUpdate">{{changeStatus}}</span>
                         <span class="btn" @click="cancel">取消</span>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 

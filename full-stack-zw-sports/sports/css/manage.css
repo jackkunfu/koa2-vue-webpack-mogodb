@@ -1,9 +1,30 @@
-.manage-ctn {
+.manage-ctn, .top{
     width: 100%;
     max-width: 1200px;
     min-width: 800px;
     margin: 0 auto;
     overflow: hidden;
+}
+
+.top{
+    line-height: 48px;
+    height: 48px;
+    border-bottom: 1px solid #c1c1c1;
+}
+.top .left{
+    font-size: 16px;
+    float: left;
+    margin-left: 20px;
+}
+.top .left i{
+    font-size: 10px;
+    color: #666;
+    margin-left: 10px;
+}
+
+.top .right{
+    float: right;
+    margin-right: 20px;
 }
 
 .nav {
