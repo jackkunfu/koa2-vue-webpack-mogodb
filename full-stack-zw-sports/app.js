@@ -6,7 +6,7 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
-const connect = require('./controller/db.js')
+// const connect = require('./controller/db.js')
 
 const index = require('./controller/routes/index')
 const users = require('./controller/routes/users')
@@ -37,8 +37,12 @@ app.use(logger())
 
 
 // sports project
-app.use(views(__dirname + '/sports'))
-app.use(require('koa-static')(__dirname + '/sports'))
+// app.use(views(__dirname + '/sports'))
+// app.use(require('koa-static')(__dirname + '/sports'))
+
+// alisports project
+app.use(views(__dirname + '/alisport'))
+app.use(require('koa-static')(__dirname + '/alisport'))
 
 
 // logger
