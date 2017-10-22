@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<title>demo</title>
 	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
 
@@ -12,42 +13,35 @@
 <body>
 
 	<style>
-		.top{
-			text-align: center;
-			line-height: 10rem;
-			font-size: 4rem;
-			border-bottom: 1px solid #1C26AB;
-		}
-		.list{
-		}
 		.list .box{
 			overflow: hidden;
-			margin-bottom: 5rem;
-			border-bottom: 1px solid #eee;
-			padding-bottom: 4rem;
+			margin-bottom: 1rem;
+			border-bottom: 1px solid #efefef;
+			padding-bottom: 1rem;
 		}
-		
+
 		.box img, .box .name, .box .address{
 			float: left;
+			line-height: 1.5;
 		}
 
 		.box img {
 			display: block;
-			width: 15rem;
-			min-height: 15rem;
-			margin-right: 4rem;
-			background: #eee;
+			width: 8rem;
+			height: 8rem;
+			margin-right: 1rem;
+			background: #c1c1c1;
 		}
 		.box .name{
-			width: 35rem;
-			font-size: 4rem;
-			line-height: 1;
-			color: #111;
+			width: 15rem;
+			font-size: 2rem;
+			color: #333;
+			margin-top: 1rem;
 		}
 		.box .address{
-			font-size: 3rem;
-			margin-top: 5rem;
-			color: #333;
+			font-size: 1.2rem;
+			margin-top: 1rem;
+			color: #666;
 		}
 	</style>
 
@@ -87,12 +81,12 @@
 				this.$nextTick(function () {
 		        	// _this.aa = _this._ajaxData()
       			})
-				
+
 			}
 		})
-		
+
 	</script>
 
-	
+
 </body>
 </html>

@@ -12,33 +12,29 @@
 <body>
 
 	<style>
-		.top{
-			text-align: center;
-			line-height: 10rem;
-			font-size: 4rem;
-			border-bottom: 1px solid #1C26AB;
+
+		.poster{
+			height: 12rem;
 		}
-		
 		.poster img{
 			width: 100%;
-
 		}
 
 		.detail ul.tab{
 			border: 1px solid #666;
 			overflow: hidden;
-
 		}
 		.detail .tab li{
 			float: left;
 			width: 33.3333%;
 			text-align: center;
-			line-height: 6rem;
-			font-size: 3rem;
+			line-height: 3rem;
+			font-size: 1.5rem;
 		}
 
 		.detail .tab li.cur{
-			background: yellow;
+			background: #00aaee;
+			color: #fff;
 		}
 
 		.detail ul.main{
@@ -48,38 +44,42 @@
 		.detail ul.main >li{
 			width: 100%;
 			float: left;
-			font-size: 3rem;
-			line-height: 5rem;
+			font-size: 1.2rem;
+			line-height: 1.1;
 			color: #666;
 			word-break: break-all;
-			margin-bottom: 10rem;
+			margin-bottom: 2rem;
 		}
 
 		.detail ul.main li .title{
+			font-size: 1.5rem;
 			color: #333;
-			margin-top: 2rem;
+			margin-top: 1rem;
+			line-height: 1.6;
 		}
 
 		.judge{
-			padding:2rem 0 3rem;
-			border-bottom: 1px solid #eee;
+			padding: 1rem 0 1.5rem;
+			border-bottom: 1px solid #efefef;
 			overflow: hidden;
+			font-size: 1.6rem;
+			color: #333;
 		}
 
 		.judge img{
 			float: left;
 			display: block;
-			width: 8rem;
-			height: 8rem;
-			background: #eee;
+			width: 5rem;
+			height: 5rem;
+			background: #efefef;
 			border-radius: 50%;
-			margin-right: 2rem;
+			margin-right: 1rem;
 		}
 
 		.judge .right{
 			float: left;
 			display: block;
-			width: 43rem;
+			width: 20rem;
 		}
 
 		.judge .right .name{
@@ -90,11 +90,11 @@
 		}
 
 		.judge .right .text{
-			font-size: 3rem;
-			line-height: 5rem;
+			font-size: 1.2rem;
+			line-height: 2.5rem;
 			color: #666;
 			word-break: break-all;
-			margin-top: 5rem;
+			margin-top: 2.2rem;
 		}
 
 		.show{
@@ -104,43 +104,24 @@
 			display: none;
 		}
 
-		.fixed-btm{
-			width: 100%;
-			border-top: 1px solid #eee;
-			position: fixed;
-			bottom: 0;
-			left: 0;
-		}
-		.fixed-btm >div, .fixed-btm a{
-			text-align: center;
-			line-height: 8rem;
-			height: 8rem;
-			font-size: 3rem;
-		}
-		.fixed-btm .fl{
-			width: 70%;
-			border-right: 1px solid #eee;
-			background: #1C26AB;
-		}
-		.fixed-btm .fr{
-			width: 30%;
-		}
-	
+		
+
 		.upload{
 			width: 20rem;
-			height: 8rem;
-			line-height: 8rem;
-			font-size: 3rem;
-			margin: 2rem auto 12rem;
+			height: 4rem;
+			line-height: 4rem;
+			font-size: 2rem;
+			margin: 1rem auto;
 			text-align: center;
-			background: #1C26AB;
+			background: #00aaee;
 			color: #FFF;
+			border-radius: 8px;
 		}
 
 		ul.img-list li{
 			width: 50%;
-			height: 15rem;
-			margin-bottom: 2rem;
+			height: 10rem;
+			margin-bottom: 1rem;
 			float: left;
 		}
 		ul.img-list li img{
@@ -148,10 +129,10 @@
 			height: 100%;
 		}
 		ul.img-list li:nth-of-type(2n) img{
-			padding-left: 1rem;
+			padding-left: 0.5rem;
 		}
 		ul.img-list li:nth-of-type(2n-1) img{
-			padding-right: 1rem;
+			padding-right: 0.5rem;
 		}
 	</style>
 	<div id="el">
@@ -160,7 +141,7 @@
 		</div>
 
 		<div class="ctn">
-			
+
 			<div class="poster">
 				<ul>
 					<li v-for="item in posterlists">
@@ -176,7 +157,7 @@
 					<li :class="cur == 1 ? 'cur':''" @click="cur=1">精彩瞬间</li>
 					<li :class="cur == 2 ? 'cur':''" @click="cur=2">课程评价</li>
 				</ul>
-				
+
 				<ul class="main">
 					<li :class="cur == 0 ? 'show' : 'hide'">
 						<div class="title">简介</div>
@@ -256,12 +237,12 @@
 				this.$nextTick(function () {
 		        	_this.aa = _this._ajaxData()
       			})
-				
+
 			}
 		})
-		
+
 	</script>
 
-	
+
 </body>
 </html>
