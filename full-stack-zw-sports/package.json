@@ -1,7 +1,6 @@
 {
   "name": "project",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "start": "node bin/www",
     "dev-gulp": "./node_modules/.bin/nodemon bin/www-gulp",
