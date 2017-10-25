@@ -1,1 +1,49 @@
-<!DOCTYPE html><html><head><meta charset=utf-8><title>back-manage</title><link href=static/css/app.e12000fa9324451721bfcc59598b5a1e.css rel=stylesheet></head><body><div id=app></div><script type=text/javascript src=static/js/manifest.eb20135678da95cabcb0.js></script><script type=text/javascript src=static/js/vendor.fcf56764a9a89dadc57f.js></script><script type=text/javascript src=static/js/app.d99efbea58ac80997eb5.js></script></body></html>
+<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0"><style>/*支持pc端480px展示*/
+        .pc {
+            width: 480px;
+            /* overflow: hidden; */
+            margin: 0 auto;
+            border: 1px solid #dfdfdf;
+        }
+
+        .pc #app .bottom,
+        .pc #app .page-title,
+        .pc #app .list .search-ctn,
+        .pc #app .fix-bottom,
+        .pc #app .shade-panel {
+            width: 480px;
+            left: 50%;
+            margin-left: -240px;
+        }
+
+        #app .shade-panel {
+            z-index: 11;
+        }</style><link href=/static/css/app.a8ab89d891463f6c62d249c23b687cc0.css rel=stylesheet></head><body><div id=app></div><script type=text/javascript src="https://webapi.amap.com/maps?v=1.3&key=8aa3b95352d136c64a9049fe6bfaa84f&plugin=AMap.Autocomplete"></script><script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script><script type=text/javascript src=http://g.alicdn.com/alisports_frontend/aliapp_jsbridge/0.0.4/jsapi.js></script><script>function isPC() {
+            var userAgentInfo = navigator.userAgent;
+            var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
+            var flag = true;
+            for (var v = 0; v < Agents.length; v++) {
+                if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            return flag;
+        }
+        if (isPC()) {
+            document.documentElement.style.fontSize = '16px';
+            document.body.setAttribute("class", 'pc');
+        } else {
+            var w = document.documentElement.clientWidth / 24;
+            document.documentElement.style.fontSize = w + 'px';
+        }
+
+        function aliPayOk(callback) {
+            // 如果jsbridge已经注入则直接调用
+            if (window.AlipayJSBridge) {
+                callback && callback();
+            } else {
+                // 如果没有注入则监听注入的事件
+                document.addEventListener('AlipayJSBridgeReady', callback, false);
+            }
+        }</script><script type=text/javascript src=/static/js/manifest.e74cfc9c12b9b07d2e35.js></script><script type=text/javascript src=/static/js/vendor.2f37c2e2f1c244c3374c.js></script><script type=text/javascript src=/static/js/app.b70e29fe62d018342f3b.js></script></body></html>
