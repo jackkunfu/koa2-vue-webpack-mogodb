@@ -104,8 +104,6 @@
 			display: none;
 		}
 
-		
-
 		.upload{
 			width: 20rem;
 			height: 4rem;
@@ -193,34 +191,25 @@
 			</div>
 		</div>
 
-
-
 		<div class="fixed-btm">
-			<a :href="'enroll.html?id='+id" class="fl">立即报名</a>
+			<a :href="'enroll.html?id='+id" class="fl" @click="enroll(id)">立即报名</a>
 			<a href="tel:" class="fr">咨询</a>
 		</div>
 
 	</div>
-
 
 	<script>
 
 		new Vue({
 			el: '#el',
 			data: {
-				id: 0,
+				id: null,
 				cur: 0,
 				judgeLists: [
-					{img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'},
-					{img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'},
-					{img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'},
-					{img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'},
 					{img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'}
 				],
 				posterlists: [],
 				imglists: [
-					{img:'http://mpic.tiankong.com/ecc/3e3/ecc3e349338dbe58603cf270d9cd7c9c/640.jpg?x-oss-process=image/resize,m_lfit,h_600,w_600/watermark,image_cXVhbmppbmcucG5n,t_90,g_ne,x_5,y_5'},
-					{img:'http://mpic.tiankong.com/ecc/3e3/ecc3e349338dbe58603cf270d9cd7c9c/640.jpg?x-oss-process=image/resize,m_lfit,h_600,w_600/watermark,image_cXVhbmppbmcucG5n,t_90,g_ne,x_5,y_5'},
 					{img:'http://mpic.tiankong.com/ecc/3e3/ecc3e349338dbe58603cf270d9cd7c9c/640.jpg?x-oss-process=image/resize,m_lfit,h_600,w_600/watermark,image_cXVhbmppbmcucG5n,t_90,g_ne,x_5,y_5'}
 				],
 				detail:{
@@ -233,11 +222,24 @@
 				}
 			},
 			mounted: function(){
+				this.id = location.href.split('id=')[0];
 				var _this = this;
-				this.$nextTick(function () {
-		        	_this.aa = _this._ajaxData()
-      			})
+				_this._ajaxData('type', '/zhengwu/image/'+this.id, {}, function(data){
+					_this.imglists = data.code == 1 ? data.data : [];
+				})
+				_this._ajaxData('type', '/zhengwu/commnet/'+this.id, {page: 1, row: 10}, function(data){
+					_this.judgeLists = data.code == 1 ? data.data : [];
+				})
+				_this._ajaxData('type', '/zhengwu/train/'+this.id, {page: 1, row: 10}, function(data){
+					_this.judgeLists = data.code == 1 ? data.data : [];
+				})
 
+				this.$nextTick(function () {})
+			},
+			methods: {
+				enroll(id){
+					location.href = '/enroll.html?id='+this.id
+				}
 			}
 		})
 

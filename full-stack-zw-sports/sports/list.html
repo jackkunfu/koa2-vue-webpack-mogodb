@@ -20,7 +20,7 @@
 			padding-bottom: 1rem;
 		}
 
-		.box img, .box .name, .box .address{
+		.box img, .box >div{
 			float: left;
 			line-height: 1.5;
 		}
@@ -32,16 +32,31 @@
 			margin-right: 1rem;
 			background: #c1c1c1;
 		}
+		.box .address img {
+			width: 2rem;
+			height: auto;
+			position: relative;
+			top: -0.5rem;
+			margin-right: 0.3rem;
+			background: #fff;
+		}
 		.box .name{
 			width: 15rem;
 			font-size: 2rem;
 			color: #333;
 			margin-top: 1rem;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
 		}
 		.box .address{
 			font-size: 1.2rem;
 			margin-top: 1rem;
+			padding-top: 0.5rem;
 			color: #666;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
 		}
 	</style>
 
@@ -50,13 +65,19 @@
 	</div>
 	<div class="ctn">
 		<div class="list">
-			<div class="box" v-for="(item,i) in lists">
-				<a :href="'detail.html?id='+item.id">
-					<img :src="item.img" alt="" />
-					<div class="name">{{item.name}}</div>
-					<div class="address">{{item.address}}</div>
-				</a>
-			</div>
+			<a v-for="(item,i) in lists" :href="'detail.html?id='+item.trainId">
+				<div class="box">
+					<img :src="item.photo" alt="" />
+					<div>
+						<div class="name">{{item.name}}</div>
+						<div class="address">
+							<img src="address.png" />
+							{{item.address}}
+						</div>
+					</div>
+				</div>
+			</a>
+			<div v-if="!isMore" style="margin: 0.5rem; text-align:center;">没有更多了</div>
 		</div>
 	</div>
 
@@ -67,21 +88,47 @@
 			el: '.ctn',
 			data: {
 				lists: [
-					{id:0,img:'',name:'1111111',address:'2222222222222'},
-					{id:0,img:'',name:'1111111',address:'2222222222222'},
-					{id:0,img:'',name:'1111111',address:'2222222222222'},
-					{id:0,img:'',name:'1111111',address:'2222222222222'},
-					{id:0,img:'',name:'1111111',address:'2222222222222'},
-					{id:0,img:'',name:'1111111',address:'2222222222222'},
-					{id:0,img:'',name:'1111111',address:'2222222222222'}
-				]
+					{id:0,photo:'',name:'1111111',address:'2222222222222'},
+					{id:0,photo:'',name:'1111111',address:'2222222222222'},
+					{id:0,photo:'',name:'1111111',address:'2222222222222'}
+				],
+				isMore: true,
+				done: true,
+				page: 1
 			},
 			mounted: function(){
 				var _this = this;
-				this.$nextTick(function () {
-		        	// _this.aa = _this._ajaxData()
-      			})
+				this.list(1);
 
+				this.$nextTick(function () {
+					// 底部
+					$(window).scroll(()=>{
+						if($(document).height() - $(document).scrollTop() - $(window).height() == 0){
+							if(this.isMore && this.done){
+								this.page++
+								this.list(this.page);
+							}
+						}
+					})
+				})
+
+			},
+			methods:{
+				list(v){
+					var _this = this;
+					_this.done = false;
+					_this._ajaxData('type', '/zhengwu/train', {page: 1, row: 10}, function(data){
+						var list = data.code == 1 ? data.data : [];
+						if(data.code == 1){
+							if(list.length > 0) _this.lists = _this.lists.concat(list)
+							else _this.isMore = false;
+						}else{
+							// _this.page--;
+							alert(data.msg);
+						}
+						_this.done = true;
+					})
+				}
 			}
 		})
 

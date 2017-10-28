@@ -71,7 +71,7 @@
 			<div class="fl">请选择课程类型</div>
 			<div class="fr">
 				<!-- <input type="text" v-model="type"/> -->
-				<select name="" id="">
+				<select name="" v-model="item.classType">
 					<option value="">初级</option>
 					<option value="">中级</option>
 					<option value="">高级</option>
@@ -82,7 +82,7 @@
 		<div class="row">
 			<div class="fl">学员姓名</div>
 			<div class="fr">
-				<input type="text" v-model="name"/>
+				<input type="text" v-model="item.name"/>
 			</div>
 		</div>
 
@@ -97,67 +97,86 @@
 		<div class="row">
 			<div class="fl">生日</div>
 			<div class="fr">
-				<input type="text" v-model="birth"/>
+				<input type="text" v-model="item.birth"/>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="fl">地址</div>
 			<div class="fr">
-				<input type="text" v-model="address"/>
+				<input type="text" v-model="item.address"/>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="fl">父母姓名</div>
 			<div class="fr">
-				<input type="text" v-model="parent"/>
+				<input type="text" v-model="item.familyName"/>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="fl">父母手机</div>
 			<div class="fr">
-				<input type="text" v-model="papaNum"/>
+				<input type="text" v-model="item.mobile"/>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="fl">备注</div>
 			<div class="fr">
-				<textarea type="text" v-model="desc"></textarea>
+				<textarea type="text" v-model="item.desc"></textarea>
 			</div>
 		</div>
 
 		<div class="fixed-btm">
-			<div class="fl">费用合计<span style="color: red;margin: 0 10px;">{{price}}</span>元</div>
+			<div class="fl">费用合计<span style="color: red;margin: 0 10px;" @click="pay">{{item.pay}}</span>元</div>
 			<div class="fr">支付</div>
 		</div>
 	</div>
-
-
-
 
 	<script>
 
 		new Vue({
 			el: '.ctn',
 			data: {
-				type: '',
-				name: '',
-				sex: '',
-				birth: '',
-				address: '',
-				parent: '',
-				papaNum: '',
-				desc: '',
-				price: 0
+				item: {
+					classType: '',
+					name: '',
+					sex: '',
+					birth: '',
+					address: '',
+					familyName: '',
+					mobile: '',
+					desc: '',
+					pay: 0,
+					trainId: null
+				}
 			},
 			mounted: function(){
-				var _this = this;
-				this.$nextTick(function () {
-      			})
+				this.item.trainId = location.href.split('id=')[0];
 
+				var _this = this;
+				this.$nextTick(function () {})
+
+			},
+			methods: {
+				pay(){
+					if(!localStorage.zwUserId){
+						if(confirm('还没登陆，是否去登陆？')){
+							location.href = "/login.html"
+						}
+					}
+					_this._ajaxData('type', '/zhengwu/train', {page: 1, row: 10}, function(data){
+						if(data.code == 1){
+							location.href.
+						}else{
+							// _this.page--;
+							alert(data.msg);
+						}
+						_this.done = true;
+					})
+				}
 			}
 		})
 
