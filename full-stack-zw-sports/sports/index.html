@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<title>demo</title>
+	<title>训练营</title>
 	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
 
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
@@ -87,11 +87,7 @@
 		new Vue({
 			el: '.ctn',
 			data: {
-				lists: [
-					{id:0,photo:'',name:'1111111',address:'2222222222222'},
-					{id:0,photo:'',name:'1111111',address:'2222222222222'},
-					{id:0,photo:'',name:'1111111',address:'2222222222222'}
-				],
+				lists: [],
 				isMore: true,
 				done: true,
 				page: 1
@@ -117,15 +113,17 @@
 				list(v){
 					var _this = this;
 					_this.done = false;
-					_this._ajaxData('type', '/zhengwu/train', {page: 1, row: 10}, function(data){
-						var list = data.code == 1 ? data.data : [];
-						if(data.code == 1){
-							if(list.length > 0) _this.lists = _this.lists.concat(list)
-							else _this.isMore = false;
-						}else{
-							// _this.page--;
-							alert(data.msg);
-						}
+					_this._ajaxData('get', '/zhengwu/train', {pageNo: v, pageSize: 20}, function(data){
+						var list = data.list || [];
+						if(list.length > 0) _this.lists = _this.lists.concat(list)
+						else _this.isMore = false;
+						// if(data.code == 1){
+						// 	if(list.length > 0) _this.lists = _this.lists.concat(list)
+						// 	else _this.isMore = false;
+						// }else{
+						// 	// _this.page--;
+						// 	alert(data.msg);
+						// }
 						_this.done = true;
 					})
 				}

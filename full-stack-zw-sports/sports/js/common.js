@@ -1,5 +1,5 @@
 (function(Vue, $) {
-    var base = 'http://118.31.19.178'
+    var base = 'http://zhengwusport.com'
     Vue.prototype._ajaxData = function(type, url, options, cb) {
         $.ajax({
             type: type,
@@ -7,14 +7,10 @@
             dataType: 'json',
             data: options
         }).done(function(res) {
-			if(res.code == 1){
-				cb(res);
-			}else{
-				alert(res.msg)
-			}
+			cb(res);
         }).fail(function(e) {
             console.error(e);
-            alert(e.msg)
+            alert('请求失败'+e)
         })
     }
 
