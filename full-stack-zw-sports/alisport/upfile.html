@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>upload base64</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+    <input type="file" id="file" accept="image/*" />
+
+    <script>
+
+        if(Blob){
+            alert('Blob ok')
+        }
+        if(FileReader){
+            alert('FileReader ok')
+        }
+        if(atob){
+            alert('atob ok')
+        }
+        if(Uint8Array){
+            alert('Uint8Array ok')
+        }
+
+        document.getElementById('file').addEventListener('change',function(){
+            var file = document.getElementById('file').files[0];
+            baseToBlob(file, function(data){
+                var formData = new FormData();
+                formData.append("upfile", data);
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://test.hpaopao.com/uploadImage',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+                        console.log(data);
+                        alert(JSON.stringify(data));
+                    },
+                    error: function(data) {
+                        aliPayNative.loading(true);
+                        // alert("图片过大，上传出错"+JSON.stringify(data));
+                        alert('图片过大，上传失败，1M以内');
+                    }
+                });
+            })
+        })
+
+
+        function baseToBlob(file, cb) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var img = new Image();
+                img.src = this.result;
+                if (img.complete) {
+                    callback();
+                } else {
+                    img.onload = callback;
+                }
+
+                function callback() {
+                    var baseData = compress(img, 0.1);
+                    alert('开始转blob')
+                    cb(dataURLtoBlob(baseData));
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function compress(img, quality) {
+            alert('开始压缩')
+            var canvas = document.createElement("canvas");
+            var ctx = canvas.getContext('2d');
+            var moreCanvas = document.createElement("canvas");
+            var morectx = moreCanvas.getContext("2d");
+            var maxsize = 100 * 1024;
+            var width = img.width;
+            var height = img.height;
+            var ratio;
+            if ((ratio = width * height / 4000000) > 1) {
+                ratio = Math.sqrt(ratio);
+                width /= ratio;
+                height /= ratio;
+            } else {
+                ratio = 1;
+            }
+            canvas.width = width;
+            canvas.height = height;
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            var count;
+            if ((count = width * height / 1000000) > 1) {
+                count = ~~(Math.sqrt(count) + 1);
+                var nw = ~~(width / count);
+                var nh = ~~(height / count);
+                moreCanvas.width = nw;
+                moreCanvas.height = nh;
+                for (var i = 0; i < count; i++) {
+                    for (var j = 0; j < count; j++) {
+                        morectx.drawImage(img, i * nw * ratio, j * nh * ratio, nw * ratio, nh * ratio, 0, 0, nw, nh);
+                        ctx.drawImage(moreCanvas, i * nw, j * nh, nw, nh);
+                    }
+                }
+            } else {
+                ctx.drawImage(img, 0, 0, width, height);
+            }
+            var ndata = canvas.toDataURL('image/jpeg', quality);
+            moreCanvas.width = moreCanvas.height = canvas.width = canvas.height = 0;
+            alert('压缩成base64成功')
+            return ndata;
+        }
+
+        function dataURLtoBlob(dataurl) {
+            var arr = dataurl.split(','),
+                mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]),
+                n = bstr.length,
+                u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], { type: mime });
+        }
+    </script>
+    
+</body>
+</html>
