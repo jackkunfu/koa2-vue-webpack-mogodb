@@ -1,16 +1,16 @@
 (function(Vue, $) {
-
-    Vue.prototype._ajaxData = function(url, type, options, cb) {
+    var base = 'http://zhengwusport.com'
+    Vue.prototype._ajaxData = function(type, url, options, cb) {
         $.ajax({
             type: type,
-            url: url,
+            url: base + url,
             dataType: 'json',
             data: options
         }).done(function(res) {
-            cb(res);
+			cb(res);
         }).fail(function(e) {
             console.error(e);
-            alert(e.msg)
+            alert('请求失败'+e)
         })
     }
 

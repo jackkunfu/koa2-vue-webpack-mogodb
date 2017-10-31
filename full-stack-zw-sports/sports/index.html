@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<title>训练营</title>
+	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+</head>
+<body>
+
+	<style>
+		.list{
+			padding-bottom: 4rem;
+		}
+		.list .box{
+			overflow: hidden;
+			margin-bottom: 1rem;
+			border-bottom: 1px solid #efefef;
+			padding-bottom: 1rem;
+		}
+
+		.box img, .box >div{
+			float: left;
+			line-height: 1.5;
+		}
+
+		.box img {
+			display: block;
+			width: 8rem;
+			height: 8rem;
+			margin-right: 1rem;
+			background: #c1c1c1;
+		}
+		.box .address img {
+			width: 2rem;
+			height: auto;
+			position: relative;
+			top: -0.5rem;
+			margin-right: 0.3rem;
+			background: #fff;
+		}
+		.box .name{
+			width: 15rem;
+			font-size: 2rem;
+			color: #333;
+			margin-top: 1rem;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+		.box .address{
+			font-size: 1.2rem;
+			margin-top: 1rem;
+			padding-top: 0.5rem;
+			color: #666;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+	</style>
+
+	<div class="top">
+		训练营
+	</div>
+	<div class="ctn">
+		<div class="list">
+			<a v-for="(item,i) in lists" :href="'detail.html?id='+item.trainId">
+				<div class="box">
+					<img :src="item.photo" alt="" />
+					<div>
+						<div class="name">{{item.name}}</div>
+						<div class="address">
+							<img src="address.png" />
+							{{item.address}}
+						</div>
+					</div>
+				</div>
+			</a>
+			<div v-if="!isMore" style="margin: 0.5rem; text-align:center;">没有更多了</div>
+		</div>
+		<div class="fix-btm">
+			<a href="index.html">训练营</a>
+			<a href="self.html">我的</a>
+		</div>
+	</div>
+
+	
+
+
+	<script>
+
+		new Vue({
+			el: '.ctn',
+			data: {
+				lists: [],
+				isMore: true,
+				done: true,
+				page: 1
+			},
+			mounted: function(){
+				var _this = this;
+				this.list(1);
+
+				this.$nextTick(function () {
+					// 底部
+					$(window).scroll(()=>{
+						if($(document).height() - $(document).scrollTop() - $(window).height() == 0){
+							if(this.isMore && this.done){
+								this.page++
+								this.list(this.page);
+							}
+						}
+					})
+				})
+
+			},
+			methods:{
+				list(v){
+					var _this = this;
+					_this.done = false;
+					_this._ajaxData('get', '/zhengwu/train', {pageNo: v, pageSize: 20}, function(data){
+						var list = data.list || [];
+						if(list.length > 0) _this.lists = _this.lists.concat(list)
+						else _this.isMore = false;
+						// if(data.code == 1){
+						// 	if(list.length > 0) _this.lists = _this.lists.concat(list)
+						// 	else _this.isMore = false;
+						// }else{
+						// 	// _this.page--;
+						// 	alert(data.msg);
+						// }
+						_this.done = true;
+					})
+				}
+			}
+		})
+
+	</script>
+
+
+</body>
+</html>

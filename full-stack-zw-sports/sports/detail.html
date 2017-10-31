@@ -4,9 +4,11 @@
 	<meta charset="UTF-8">
 	<title>demo</title>
 	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+	<!-- <link rel="stylesheet" type="text/css" href="js/wangEditor.min.css"/> -->
 
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="js/vue.min.js"></script>
+	<!-- <script type="text/javascript" src="js/wangEditor.min.js"></script> -->
 	<script type="text/javascript" src="js/common.js"></script>
 </head>
 <body>
@@ -104,8 +106,6 @@
 			display: none;
 		}
 
-		
-
 		.upload{
 			width: 20rem;
 			height: 4rem;
@@ -160,7 +160,10 @@
 
 				<ul class="main">
 					<li :class="cur == 0 ? 'show' : 'hide'">
-						<div class="title">简介</div>
+						<div v-html="detail"></div>
+						<!-- <div id="editor"></div> -->
+						<!-- <div v-html="trainDetail"></div> -->
+						<!-- <div class="title">简介</div>
 						<div>{{detail.desc}}</div>
 						<div class="title">优势</div>
 						<div>{{detail.good}}</div>
@@ -168,76 +171,91 @@
 						<div v-for="item in detail.class">
 							<div>{{detail.title}}</div>
 							{{detail.desc}}
-						</div>
+						</div> -->
 					</li>
 					<li :class="cur == 1 ? 'show' : 'hide'">
-						<ul style="overflow: hidden;margin-top:2rem;" class="img-list">
+						<ul style="overflow: hidden;margin-top:2rem;" class="img-list" v-if="imglists.length>0">
 							<li v-for="item in imglists">
 								<img :src="item.img" alt=""/>
 							</li>
 						</ul>
+						<div class="no-list" v-if="imglists.length==0">暂无图片</div>
 						<div class="upload">我要上传</div>
 					</li>
 					<li :class="cur == 2 ? 'show' : 'hide'">
-						<div class="judge" v-for="item in judgeLists">
+						<div class="judge" v-for="item in judgeLists" v-if="judgeLists.length>0">
 							<img :src="item.img"/>
 							<div class="right">
 								<div class="name">{{item.name}}</div>
 								<div class="time">{{item.time}}</div>
 								<div class="text">{{item.text}}</div>
-
 							</div>
 						</div>
+						<div class="no-list" v-if="judgeLists.length==0">暂无评价</div>
 					</li>
 				</ul>
 			</div>
 		</div>
 
-
-
 		<div class="fixed-btm">
-			<a :href="'enroll.html?id='+id" class="fl">立即报名</a>
+			<a :href="'enroll.html?id='+id" class="fl" @click="enroll(id)">立即报名</a>
 			<a href="tel:" class="fr">咨询</a>
 		</div>
 
 	</div>
-
 
 	<script>
 
 		new Vue({
 			el: '#el',
 			data: {
-				id: 0,
+				id: null,
 				cur: 0,
 				judgeLists: [
-					{img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'},
-					{img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'},
-					{img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'},
-					{img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'},
-					{img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'}
+					// {img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'}
 				],
 				posterlists: [],
 				imglists: [
-					{img:'http://mpic.tiankong.com/ecc/3e3/ecc3e349338dbe58603cf270d9cd7c9c/640.jpg?x-oss-process=image/resize,m_lfit,h_600,w_600/watermark,image_cXVhbmppbmcucG5n,t_90,g_ne,x_5,y_5'},
-					{img:'http://mpic.tiankong.com/ecc/3e3/ecc3e349338dbe58603cf270d9cd7c9c/640.jpg?x-oss-process=image/resize,m_lfit,h_600,w_600/watermark,image_cXVhbmppbmcucG5n,t_90,g_ne,x_5,y_5'},
-					{img:'http://mpic.tiankong.com/ecc/3e3/ecc3e349338dbe58603cf270d9cd7c9c/640.jpg?x-oss-process=image/resize,m_lfit,h_600,w_600/watermark,image_cXVhbmppbmcucG5n,t_90,g_ne,x_5,y_5'}
+					// {img:'http://mpic.tiankong.com/ecc/3e3/ecc3e349338dbe58603cf270d9cd7c9c/640.jpg?x-oss-process=image/resize,m_lfit,h_600,w_600/watermark,image_cXVhbmppbmcucG5n,t_90,g_ne,x_5,y_5'}
 				],
-				detail:{
-					desc: 'bfuhiegnlNEOPVAJOBJNl;nb;WJ;EOBJbn;WBEOnbWBPE',
-					good: '优势；aoaj[goagkp[kb;,bfjodajoajogja,z/vldj;avm,nvmzbfklhfkjvlfmb]] ',
-					class: [
-						{title:'初级',desc:'这是一个初级课程'},
-						{title:'高级',desc:'这是一个高级课程'}
-					]
-				}
+				detail: ''
+				// detail:{
+				// 	desc: 'bfuhiegnlNEOPVAJOBJNl;nb;WJ;EOBJbn;WBEOnbWBPE',
+				// 	good: '优势；aoaj[goagkp[kb;,bfjodajoajogja,z/vldj;avm,nvmzbfklhfkjvlfmb]] ',
+				// 	class: [
+				// 		{title:'初级',desc:'这是一个初级课程'},
+				// 		{title:'高级',desc:'这是一个高级课程'}
+				// 	]
+				// }
 			},
 			mounted: function(){
+				this.id = location.href.split('id=')[1] || '54f1b1185e2d4733b44ea55b1154726c';
 				var _this = this;
-				this.$nextTick(function () {
-		        	_this.aa = _this._ajaxData()
-      			})
+				_this._ajaxData('get', '/zhengwu/image', {
+					trainId: this.id
+				}, function(data){
+					_this.imglists = data.list || [];
+				})
+				_this._ajaxData('get', '/zhengwu/commnet', {
+					trainId: this.id
+				}, function(data){
+					_this.judgeLists = data.list || [];
+				})
+				// _this._ajaxData('get', '/zhengwu/detail', {
+				// 	trainId: this.id
+				// }, function(data){
+				// 	_this.judgeLists = data.list || [];
+				// })
 
+				// this.$nextTick(function () {
+				// 	var editor = new wangEditor('#editor');
+				// 	editor.create();
+				// })
+			},
+			methods: {
+				enroll(id){
+					location.href = '/enroll.html?id='+this.id
+				}
 			}
 		})
 

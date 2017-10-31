@@ -19,7 +19,7 @@ li {
 
 .ctn {
     /*width: 15rem;*/
-    margin: 1rem;
+    padding: 1rem;
 }
 
 .fl {
@@ -72,3 +72,29 @@ li {
 .fixed-btm .fr{
     width: 30%;
 }
+
+.no-list{
+    font-size: 1.5rem;
+    color: #666;
+    text-align: center;
+    line-height: 5rem;
+}
+
+.fix-btm{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3rem;
+    line-height: 3rem;
+    border-top: 1px solid #c1c1c1;
+}
+.fix-btm a{
+    display: block;
+    float: left;
+    width: 50%;
+    color: #00aaee;
+    font-size: 1.5rem;
+    text-align: center;
+}
+    
