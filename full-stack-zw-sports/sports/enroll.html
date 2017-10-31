@@ -71,10 +71,10 @@
 			<div class="fl">请选择课程类型</div>
 			<div class="fr">
 				<!-- <input type="text" v-model="type"/> -->
-				<select name="" v-model="item.classType">
-					<option value="">初级</option>
-					<option value="">中级</option>
-					<option value="">高级</option>
+				<select v-model="item.classType">
+					<option value="0">初级</option>
+					<option value="1">中级</option>
+					<option value="2">高级</option>
 				</select>
 			</div>
 		</div>
@@ -89,8 +89,8 @@
 		<div class="row">
 			<div class="fl">性别</div>
 			<div class="fr">
-				<input type="radio" name="sex" value="男"/><span style="position: relative;top:-1.5rem;">男</span>
-				<input type="radio" name="sex" value="女"/><span style="position: relative;top:-1.5rem;">女</span>
+				<input type="radio" name="sex" value="0" v-model="item.sex"/><span style="position: relative;top:-1.5rem;">男</span>
+				<input type="radio" name="sex" value="1" v-model="item.sex"/><span style="position: relative;top:-1.5rem;">女</span>
 			</div>
 		</div>
 
@@ -130,8 +130,14 @@
 		</div>
 
 		<div class="fixed-btm">
-			<div class="fl">费用合计<span style="color: red;margin: 0 10px;" @click="pay">{{item.pay}}</span>元</div>
-			<div class="fr">支付</div>
+			<div class="fl">费用合计
+				<span style="color: red;margin: 0 10px;">
+					<span v-if="item.classType==0">{{item.pay0}}</span>
+					<span v-if="item.classType==1">{{item.pay1}}</span>
+					<span v-if="item.classType==2">{{item.pay2}}</span>
+				</span>元
+			</div>
+			<div class="fr" @click="pay">支付</div>
 		</div>
 	</div>
 
@@ -141,7 +147,7 @@
 			el: '.ctn',
 			data: {
 				item: {
-					classType: '',
+					classType: 0,
 					name: '',
 					sex: '',
 					birth: '',
@@ -149,12 +155,14 @@
 					familyName: '',
 					mobile: '',
 					desc: '',
-					pay: 0,
+					pay0: 0,
+					pay1: 1,
+					pay2: 2,
 					trainId: null
 				}
 			},
 			mounted: function(){
-				this.item.trainId = location.href.split('id=')[0];
+				this.item.trainId = location.href.split('id=')[1];
 
 				var _this = this;
 				this.$nextTick(function () {})
@@ -162,14 +170,15 @@
 			},
 			methods: {
 				pay(){
-					if(!localStorage.zwUserId){
-						if(confirm('还没登陆，是否去登陆？')){
-							location.href = "/login.html"
-						}
-					}
-					_this._ajaxData('type', '/zhengwu/train', {page: 1, row: 10}, function(data){
+					// if(!localStorage.zwUserId){
+					// 	if(confirm('还没登陆，是否去登陆？')){
+					// 		location.href = "/login.html"
+					// 	}
+					// }
+					this.item.pay = this.item['pay'+this.item.classType];
+					this._ajaxData('post', '/zhengwu/pay', this.item, function(data){
 						if(data.code == 1){
-							location.href.
+							// location.href.
 						}else{
 							// _this.page--;
 							alert(data.msg);
