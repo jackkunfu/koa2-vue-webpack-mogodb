@@ -68,7 +68,7 @@
 	</div>
 	<div class="ctn">
 		<div class="list">
-			<a v-for="(item,i) in lists" :href="'detail.html?id='+item.trainId">
+			<a v-for="(item,i) in lists" :href="'detail.html?id='+item.id+'&remarks='+item.remarks">
 				<div class="box">
 					<img :src="item.photo" alt="" />
 					<div>
@@ -88,7 +88,7 @@
 		</div>
 	</div>
 
-	
+
 
 
 	<script>
