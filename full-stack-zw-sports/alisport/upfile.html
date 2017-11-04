@@ -7,21 +7,24 @@
 </head>
 <body>
     <input type="file" id="file" accept="image/*" />
+        <div style="background: red;height:140px;"></div>
+
 
     <script>
 
-        if(Blob){
-            alert('Blob ok')
-        }
-        if(FileReader){
-            alert('FileReader ok')
-        }
-        if(atob){
-            alert('atob ok')
-        }
-        if(Uint8Array){
-            alert('Uint8Array ok')
-        }
+        // if(Blob){
+        //     alert('Blob ok')
+        // }
+        // if(FileReader){
+        //     alert('FileReader ok')
+        // }
+        // if(atob){
+        //     alert('atob ok')
+        // }
+        // if(Uint8Array){
+        //     alert('Uint8Array ok')
+        // }
+
 
         document.getElementById('file').addEventListener('change',function(){
             var file = document.getElementById('file').files[0];
@@ -30,7 +33,8 @@
                 formData.append("upfile", data);
                 $.ajax({
                     type: 'POST',
-                    url: 'http://test.hpaopao.com/uploadImage',
+                    url: 'http://run.alisports.com/api/uploadImage',
+                    // url: 'http://192.168.2.50:8000/api/uploadImage',
                     data: formData,
                     contentType: false,
                     processData: false,
@@ -39,7 +43,7 @@
                         alert(JSON.stringify(data));
                     },
                     error: function(data) {
-                        aliPayNative.loading(true);
+                        // aliPayNative.loading(true);
                         // alert("图片过大，上传出错"+JSON.stringify(data));
                         alert('图片过大，上传失败，1M以内');
                     }
@@ -108,6 +112,8 @@
             var ndata = canvas.toDataURL('image/jpeg', quality);
             moreCanvas.width = moreCanvas.height = canvas.width = canvas.height = 0;
             alert('压缩成base64成功')
+            console.log('ndata')
+            console.log(ndata)
             return ndata;
         }
 
@@ -120,7 +126,11 @@
             while (n--) {
                 u8arr[n] = bstr.charCodeAt(n);
             }
-            return new Blob([u8arr], { type: mime });
+            var blob = new Blob([u8arr], { type: mime });
+            // blob.filename="1.jpg"
+            console.log('blob')
+            console.log(blob)
+            return blob
         }
     </script>
     

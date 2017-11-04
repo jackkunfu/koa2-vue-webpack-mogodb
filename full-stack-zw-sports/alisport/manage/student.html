@@ -1,0 +1,137 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>训练场管理</title>
+    <link rel="stylesheet" type="text/css" href="/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="/css/manage.css" />
+
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/vue.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/mixTable.js"></script>
+</head>
+
+<body>
+    <div class="manage-ctn">
+        <div class="top">
+            <div class="left">郑武体育<i>数据管理中心</i></div>
+            <div class="right">
+                欢迎你<span>{{name}}</span>
+                <a href="javascript:;">退出</a>
+            </div>
+        </div>
+        <div class="">
+            <ul class="nav">
+                <li><a href="">训练馆</a></li>
+                <li><a href="">教练</a></li>
+            </ul>
+
+            <div class="table">
+                <div class="tip">{{tip}}</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>学员姓名</th>
+                            <th>性别</th>
+                            <th>家长姓名</th>
+                            <th>联系电话</th>
+                            <th>报名课程</th>
+                            <th>所属训练营</th>
+                            <th>报名费用</th>
+                            <th>付款方式</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, i) in tableData" :data-id="item._id">
+                            <td>{{item.name}}</td>
+                            <td>{{item.sex}}</td>
+                            <td>{{item.parName}}</td>
+                            <td>{{item.mobile}}</td>
+                            <td>{{item.stydy}}</td>
+                            <td>{{item.hall}}</td>
+                            <td>{{item.fee}}</td>
+                            <td>{{item.payWay}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="8"><span style="text-align:center;line-height:60px;">暂无数据</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- <div class="addOrUpdate">
+                    <div>{{changeStatus}} {{curEditItem.nameCopy}}</div>
+                    <div>
+                        <div class="fl">名称</div>
+                        <div class="fr"><input type="text" v-model="curEditItem.name"></div>
+                    </div>
+                    <div>
+                        <div class="fl">地点</div>
+                        <div class="fr"><input type="text" v-model="curEditItem.address"></div>
+                    </div>
+                    <div>
+                        <div class="fl">图片</div>
+                        <div class="fr">
+                            <div class="img-up-ctn">
+                                <img :src="curEditItem.img" />
+                                <span>点击上传</span>
+                                <input type="file" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div>
+                        <div class="fl">描述</div>
+                        <div class="fr"><input type="text" v-model="curEditItem.desc"></div>
+                    </div>
+
+                    <div>
+                        <span class="btn" @click="addOrUpdate">{{changeStatus}}</span>
+                        <span class="btn" @click="cancel">取消</span>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        new Vue({
+            mixins: [mixtable],
+            el: '.manage-ctn',
+            data: {
+                tip: '训练馆管理',
+                api: {
+                    add: '/api/addHall',
+                    update: '',
+                    del: '/api/delHall',
+                    list: '/api/listHall'
+                }
+            },
+            mounted: function() {
+                var _this = this;
+                this.$nextTick(function() {
+
+
+
+                    _this._ajaxData(_this.api.list, 'post', {}, function(d) {
+                        if (d.success) {
+                            _this.tableData = d.data;
+                        } else {
+                            alert(d.msg)
+                        }
+                    })
+
+
+                })
+            },
+            methods: {}
+        })
+    </script>
+
+
+
+</body>
+
+</html>

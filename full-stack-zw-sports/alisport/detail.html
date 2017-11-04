@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>demo</title>
+	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+	<!-- <link rel="stylesheet" type="text/css" href="js/wangEditor.min.css"/> -->
+
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<!-- <script type="text/javascript" src="js/wangEditor.min.js"></script> -->
+	<script type="text/javascript" src="js/common.js"></script>
+</head>
+<body>
+
+	<style>
+
+		.poster{
+			height: 12rem;
+			width: 100%;
+			overflow: hidden;
+		}
+		.poster ul{
+			position: relative;
+			transition: all .3s;
+		}
+		.poster ul li{
+			float: left;
+		}
+		.poster ul li img{
+			width: 100%;
+			height: 12rem;
+		}
+
+		.detail ul.tab{
+			border: 1px solid #666;
+			overflow: hidden;
+		}
+		.detail .tab li{
+			float: left;
+			width: 33.3333%;
+			text-align: center;
+			line-height: 3rem;
+			font-size: 1.5rem;
+		}
+
+		.detail .tab li.cur{
+			background: #00aaee;
+			color: #fff;
+		}
+
+		.detail ul.main{
+			width: 100%;
+		}
+
+		.detail ul.main >li{
+			width: 100%;
+			float: left;
+			font-size: 1.2rem;
+			line-height: 1.1;
+			color: #666;
+			word-break: break-all;
+			margin-bottom: 2rem;
+		}
+
+		.detail ul.main li .title{
+			font-size: 1.5rem;
+			color: #333;
+			margin-top: 1rem;
+			line-height: 1.6;
+		}
+
+		.judge{
+			padding: 1rem 0 1.5rem;
+			border-bottom: 1px solid #efefef;
+			overflow: hidden;
+			font-size: 1.6rem;
+			color: #333;
+		}
+
+		.judge img{
+			float: left;
+			display: block;
+			width: 5rem;
+			height: 5rem;
+			background: #efefef;
+			border-radius: 50%;
+			margin-right: 1rem;
+		}
+
+		.judge .right{
+			float: left;
+			display: block;
+			width: 20rem;
+		}
+
+		.judge .right .name{
+			float: left;
+		}
+		.judge .right .time{
+			float: right;
+		}
+
+		.judge .right .text{
+			font-size: 1.2rem;
+			line-height: 2.5rem;
+			color: #666;
+			word-break: break-all;
+			margin-top: 2.2rem;
+		}
+
+		.show{
+			display: block;
+		}
+		.hide{
+			display: none;
+		}
+
+		.upload{
+			width: 15rem;
+			height: 3rem;
+			line-height: 3rem;
+			font-size: 1.5rem;
+			margin: 1rem auto;
+			text-align: center;
+			background: #00aaee;
+			color: #FFF;
+			border-radius: 8px;
+		}
+
+		ul.img-list li{
+			width: 50%;
+			height: 10rem;
+			margin-bottom: 1rem;
+			float: left;
+		}
+		ul.img-list li img{
+			width: 100%;
+			height: 100%;
+		}
+		ul.img-list li:nth-of-type(2n) img{
+			padding-left: 0.5rem;
+		}
+		ul.img-list li:nth-of-type(2n-1) img{
+			padding-right: 0.5rem;
+		}
+	</style>
+	<div id="el">
+		<div class="top">
+			白塔湖训练馆
+		</div>
+
+		<div class="poster">
+			<ul :style="{ overflow: 'hidden', width: posterlists.length*100+'%', left: posterLeft+'px' }">
+				<li v-for="item in posterlists" :style="{ width: 100/(posterlists.length)+'%' }">
+					<img :src="item.img" alt=""/>
+				</li>
+			</ul>
+		</div>
+
+		<div class="ctn">
+
+			<div class="detail" style="padding-bottom:4.5rem;">
+
+				<ul class="tab">
+					<li :class="cur == 0 ? 'cur':''" @click="cur=0">课程介绍</li>
+					<li :class="cur == 1 ? 'cur':''" @click="cur=1">精彩瞬间</li>
+					<li :class="cur == 2 ? 'cur':''" @click="cur=2">课程评价</li>
+				</ul>
+
+				<ul class="main">
+					<li :class="cur == 0 ? 'show' : 'hide'" style="padding-top:1rem;">
+						<div v-html="detail"></div>
+						<!-- <div id="editor"></div> -->
+						<!-- <div v-html="trainDetail"></div> -->
+						<!-- <div class="title">简介</div>
+						<div>{{detail.desc}}</div>
+						<div class="title">优势</div>
+						<div>{{detail.good}}</div>
+						<div class="title">课程</div>
+						<div v-for="item in detail.class">
+							<div>{{detail.title}}</div>
+							{{detail.desc}}
+						</div> -->
+					</li>
+					<li :class="cur == 1 ? 'show' : 'hide'">
+						<ul style="overflow: hidden;margin-top:2rem;" class="img-list" v-if="imglists.length>0">
+							<li v-for="item in imglists">
+								<img :src="item.img" alt=""/>
+							</li>
+						</ul>
+						<div class="no-list" v-if="imglists.length==0">暂无图片</div>
+						<div class="upload">我要上传</div>
+					</li>
+					<li :class="cur == 2 ? 'show' : 'hide'">
+						<div class="judge" v-for="item in judgeLists" v-if="judgeLists.length>0">
+							<img :src="item.img"/>
+							<div class="right">
+								<div class="name">{{item.name}}</div>
+								<div class="time">{{item.time}}</div>
+								<div class="text">{{item.text}}</div>
+							</div>
+						</div>
+						<div class="no-list" v-if="judgeLists.length==0">暂无评价</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="fixed-btm">
+			<a :href="'enroll.html?id='+id" class="fl" @click="enroll(id)">立即报名</a>
+			<a href="tel:" class="fr">咨询</a>
+		</div>
+
+	</div>
+
+	<script>
+
+		new Vue({
+			el: '#el',
+			data: {
+				id: null,
+				cur: 0,
+				judgeLists: [
+					// {img: 'https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a9d3fd1f4134970a33d78bfc91cad1c8a6865db8.jpg',name:'xxx',time:'2017-01-01 21:00:00',text: 'xxx'}
+				],
+				posterlists: [
+					{img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509555745078&di=afa72ed0b40d8349b03c293e9f29f545&imgtype=0&src=http%3A%2F%2Ffile1.sheencity.com%2Fdata%2Fbig%2F2012-11%2F14%2F76c910d797e6b7716626341427ef9dbe.jpg'},
+					{img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509555745078&di=afa72ed0b40d8349b03c293e9f29f545&imgtype=0&src=http%3A%2F%2Ffile1.sheencity.com%2Fdata%2Fbig%2F2012-11%2F14%2F76c910d797e6b7716626341427ef9dbe.jpg'},
+					{img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509555745078&di=afa72ed0b40d8349b03c293e9f29f545&imgtype=0&src=http%3A%2F%2Ffile1.sheencity.com%2Fdata%2Fbig%2F2012-11%2F14%2F76c910d797e6b7716626341427ef9dbe.jpg'},
+					{img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509555745078&di=afa72ed0b40d8349b03c293e9f29f545&imgtype=0&src=http%3A%2F%2Ffile1.sheencity.com%2Fdata%2Fbig%2F2012-11%2F14%2F76c910d797e6b7716626341427ef9dbe.jpg'}
+				],
+				posterLeft: 0,
+				imglists: [
+					// {img:'http://mpic.tiankong.com/ecc/3e3/ecc3e349338dbe58603cf270d9cd7c9c/640.jpg?x-oss-process=image/resize,m_lfit,h_600,w_600/watermark,image_cXVhbmppbmcucG5n,t_90,g_ne,x_5,y_5'}
+				],
+				detail: ''
+				// detail:{
+				// 	desc: 'bfuhiegnlNEOPVAJOBJNl;nb;WJ;EOBJbn;WBEOnbWBPE',
+				// 	good: '优势；aoaj[goagkp[kb;,bfjodajoajogja,z/vldj;avm,nvmzbfklhfkjvlfmb]] ',
+				// 	class: [
+				// 		{title:'初级',desc:'这是一个初级课程'},
+				// 		{title:'高级',desc:'这是一个高级课程'}
+				// 	]
+				// }
+			},
+			mounted: function(){
+				this.id = location.href.split('id=')[1].split('&')[0];
+				this.detail = decodeURI(location.href.split('remarks=')[1].split('&')[0]);
+				var _this = this;
+				_this._ajaxData('get', '/zhengwu/image', {
+					trainId: this.id
+				}, function(data){
+					_this.imglists = data.list || [];
+				})
+				_this._ajaxData('get', '/zhengwu/commnet', {
+					trainId: this.id
+				}, function(data){
+					_this.judgeLists = data.list || [];
+				})
+				// _this._ajaxData('get', '/zhengwu/detail', {
+				// 	trainId: this.id
+				// }, function(data){
+				// 	_this.judgeLists = data.list || [];
+				// })
+
+				// this.$nextTick(function () {
+				// 	var editor = new wangEditor('#editor');
+				// 	editor.create();
+				// })
+				// 轮播图
+				var curPoster = 0, flag = true;
+				var w = document.documentElement.clientWidth || document.body.clientWidth;
+				if(this.posterlists.length > 1){
+					setInterval(function(){
+						if(curPoster == _this.posterlists.length-1) flag = false;
+						else if(curPoster == 0) flag = true;
+						if(flag){
+							curPoster++;
+							_this.posterLeft -= w;
+						}else{
+							curPoster--;
+							_this.posterLeft += w;
+						}
+					}, 2000)
+				}
+
+			},
+			methods: {
+				enroll(id){
+					location.href = '/enroll.html?id='+this.id
+				}
+			}
+		})
+
+	</script>
+
+
+</body>
+</html>

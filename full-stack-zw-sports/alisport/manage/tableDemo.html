@@ -1,0 +1,97 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>管理</title>
+    <link rel="stylesheet" type="text/css" href="/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="/css/manage.css" />
+
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/vue.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/mixTable.js"></script>
+</head>
+
+<body>
+    <div class="manage-ctn">
+        <ul class="nav">
+            <li>
+                <a href=""></a>
+            </li>
+        </ul>
+
+        <div class="table">
+            <table>
+                <thead>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, i) in tableData">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <span class="edit btn" @click="edit(item)">编辑</span>
+                            <span class="del btn" @click="del(item.id)">删除</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="addOrUpdate">
+                <div>
+                    <div class="fl"></div>
+                    <div class="fl"><input type="text" :model="curEditItem"></div>
+                </div>
+
+                <div>
+                    <span class="btn" @click="addOrUpdate">{{changeStatus}}</span>
+                    <span class="btn" @click="cancel">取消</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            mixins: [mixtable],
+            el: '.table',
+            data: {
+                api: {
+                    add: '',
+                    update: '',
+                    del: '',
+                    list: ''
+                }
+            },
+            mounted: function() {
+                var _this = this;
+                this.$nextTick(function() {
+
+
+
+                    _this._ajaxData(_this.api.list, 'post', {}, function(d) {
+                        if (d.success) {
+                            _this.tableData = d.data;
+                        } else {
+                            alert(d.msg)
+                        }
+                    })
+
+
+
+
+                })
+            }
+        })
+    </script>
+
+
+
+</body>
+
+</html>
