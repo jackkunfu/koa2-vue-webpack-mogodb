@@ -60,7 +60,7 @@
 			line-height: 1.1;
 			color: #666;
 			word-break: break-all;
-			margin-bottom: 2rem;
+			margin-bottom: 4rem;
 		}
 
 		.detail ul.main li .title{
@@ -314,7 +314,7 @@
 						processData: false,
 						success: function(data) {
 							alert('上传成功');
-							_this.imglists.push({addr: baseUrl + data})
+							_this.imglists.push({addr: data})
 						},
 						error: function(data) {
 							loading(true);
