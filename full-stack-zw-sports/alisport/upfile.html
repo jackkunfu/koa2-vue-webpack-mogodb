@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <title>upload base64</title>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://g.alicdn.com/alisports_frontend/aliapp_jsbridge/0.0.4/jsapi.js"></script>
+
 </head>
 <body>
     <input type="file" id="file" accept="image/*" />
-        <div style="background: red;height:140px;"></div>
+     <div style="background: red;height:140px;"></div>
+     <button id="btn">上传</button>
 
 
     <script>
@@ -24,6 +27,111 @@
         // if(Uint8Array){
         //     alert('Uint8Array ok')
         // }
+
+        function aliPayOk(callback) {
+            // 如果jsbridge已经注入则直接调用
+            if (window.AlipayJSBridge) {
+                callback && callback();
+            } else {
+                // 如果没有注入则监听注入的事件
+                document.addEventListener('AlipayJSBridgeReady', callback, false);
+            }
+        }
+
+        function loading(stop, text) {
+		    aliPayOk(function() {
+		        if(!stop){
+		            AlipayJSBridge.call('showLoading', {
+		                text: text ? text : '加载中'
+		            });
+		        }else{
+		            AlipayJSBridge.call('hideLoading');
+		        }
+		    })
+		}
+
+        document.getElementById('btn').onclick = function(){
+        	alert(1)
+
+        	aliPayOk(function(){
+        		AlipayJSBridge.call('photo', {
+		            dataType: 'dataURL',
+		            quality: 75,
+		            allowEdit: true,
+		            multimediaConfig: { // 可选，仅当该项被配置时，图片被传输至 APMultimedia
+		                compress: 2, // 可选，默认为4。 0-低质量，1-中质量，2-高质量，3-不压缩，4-根据网络情况自动选择
+		                business: "multiMedia" // 可选，默认为“NebulaBiz”
+		            }
+		        }, function (result) {
+		            // result: {error, dataURL, fileURL, originalFileURL, useFrontCamera, scene, multimediaID
+		            // cb(result)
+		            // var image = document.getElementById('myImage');
+		            // image.src = "data:image/jpeg;base64," + result.dataURL;
+
+		            loading(false, '开始压缩');
+			        var img = new Image();
+			        img.src = "data:image/jpeg;base64," + result.dataURL;
+			        img.onload = function(){
+			            var base = compress(img, 0.1)
+			            var blobData = dataURLtoBlob(base);
+
+			            loading(true);
+			            loading(false, '开始上传');
+			            
+			            var formData = new FormData();
+			            formData.append("upfile", blobData);
+			            $.ajax({
+			                type: 'POST',
+			                url: 'http://run.alisports.com/api/uploadImage',
+			                data: formData,
+			                contentType: false,
+			                processData: false,
+			                success: function(data) {
+			                    loading(true);
+			                    alert(JSON.stringify(data));
+			                    cb(data);
+			                },
+			                error: function(data) {
+			                    loading(true);
+			                    alert("上传出错"+JSON.stringify(data));
+			                }
+			            });
+        			}
+		        });
+
+        		// aliPayNative.getPhoto(allowEdit, function(res){
+			       //  aliPayNative.loading(false, '开始压缩');
+			       //  var img = new Image();
+			       //  img.src = "data:image/jpeg;base64," + res.dataURL;
+			       //  img.onload = function(){
+			       //      var base = compress(img, 0.1)
+			       //      var blobData = dataURLtoBlob(base);
+
+			       //      aliPayNative.loading(true);
+			       //      aliPayNative.loading(false, '开始上传');
+			            
+			       //      var formData = new FormData();
+			       //      formData.append("upfile", blobData);
+			       //      $.ajax({
+			       //          type: 'POST',
+			       //          url: 'http://run.alisports.com/api/uploadImage',
+			       //          data: formData,
+			       //          contentType: false,
+			       //          processData: false,
+			       //          success: function(data) {
+			       //              aliPayNative.loading(true);
+			       //              alert(JSON.stringify(data));
+			       //              cb(data);
+			       //          },
+			       //          error: function(data) {
+			       //              aliPayNative.loading(true);
+			       //              alert("上传出错"+JSON.stringify(data));
+			       //          }
+			       //      });
+        		// 	}
+        		// })
+        	})
+        }
 
 
         document.getElementById('file').addEventListener('change',function(){
@@ -73,7 +181,6 @@
         }
 
         function compress(img, quality) {
-            alert('开始压缩')
             var canvas = document.createElement("canvas");
             var ctx = canvas.getContext('2d');
             var moreCanvas = document.createElement("canvas");
@@ -111,9 +218,6 @@
             }
             var ndata = canvas.toDataURL('image/jpeg', quality);
             moreCanvas.width = moreCanvas.height = canvas.width = canvas.height = 0;
-            alert('压缩成base64成功')
-            console.log('ndata')
-            console.log(ndata)
             return ndata;
         }
 
@@ -127,9 +231,6 @@
                 u8arr[n] = bstr.charCodeAt(n);
             }
             var blob = new Blob([u8arr], { type: mime });
-            // blob.filename="1.jpg"
-            console.log('blob')
-            console.log(blob)
             return blob
         }
     </script>

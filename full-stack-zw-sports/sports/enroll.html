@@ -39,7 +39,7 @@
 		.form .row .fr textarea,
 		.form .row .fr select,
 		.form .row .fr input{
-			font-size: 1.5rem;
+			font-size: 1rem;
 			padding-left: 0.5rem;
 			width: 100%;
 			height: 3rem;
@@ -69,13 +69,13 @@
 
 	<div class="form ctn">
 		<div class="row">
-			<div class="fl">请课程类型</div>
+			<div class="fl">课程类型</div>
 			<div class="fr">
 				<!-- <input type="text" v-model="type"/> -->
 				<select v-model="item.classType">
-					<option value="0">初级</option>
-					<option value="1">中级</option>
+					<option value="1">初级</option>
 					<option value="2">高级</option>
+					<option value="3">精英</option>
 				</select>
 			</div>
 		</div>
@@ -98,7 +98,7 @@
 		<div class="row">
 			<div class="fl">生日</div>
 			<div class="fr">
-				<input type="text" v-model="item.birth"/>
+				<input type="text" v-model="item.birthVal" placeholder="-符号隔开： 2017-01-01"/>
 			</div>
 		</div>
 
@@ -138,11 +138,12 @@
 					<span v-if="item.classType==2">{{item.pay2}}</span>
 				</span>元
 			</div>
-			<div class="fr" @click="pay">支付</div>
+			<div class="fr" @click="pay">报名</div>
 		</div>
 	</div>
 
 	<script>
+	Vue.config.devtools = true;
 
 		new Vue({
 			el: '.ctn',
@@ -151,14 +152,14 @@
 					classType: 0,
 					name: '',
 					sex: '',
-					birth: '',
+					birthVal: '',
 					address: '',
 					familyName: '',
 					mobile: '',
 					desc: '',
-					pay0: 0,
-					pay1: 1,
-					pay2: 2,
+					pay1: 100,
+					pay2: 200,
+					pay3: 300,
 					trainId: null
 				}
 			},
@@ -171,24 +172,52 @@
 			},
 			methods: {
 				pay(){
+					var _this = this;
 					// if(!localStorage.zwUserId){
 					// 	if(confirm('还没登陆，是否去登陆？')){
 					// 		location.href = "/login.html"
 					// 	}
 					// }
+					// alert(this.item.name)
+					if(!this.item.classType || this.item.classType == 0){
+						alert('课程类型没选~');
+						return;
+					}
+					if(!this.item.name || this.item.name.trim() == ''){
+						alert('姓名没填~');
+						return;
+					}
+					if(!this.item.sex || this.item.sex.trim() == ''){
+						alert('性别没选~');
+						return;
+					}
+					if(!this.item.birthVal || this.item.birthVal.trim() == ''){
+						alert('生日没填~');
+						return;
+					}
+					if(!this.item.address || this.item.address.trim() == ''){
+						alert('地址没填~');
+						return;
+					}
+					if(!this.item.familyName || this.item.familyName.trim() == ''){
+						alert('家长姓名没填~');
+						return;
+					}
+					if(!this.item.mobile || this.item.mobile.trim() == ''){
+						alert('手机没选~');
+						return;
+					}
+
 					if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(this.item.mobile))){
 						alert('手机号格式不对~');
 						return;
 					}
-					this.item.pay = this.item['pay'+this.item.classType];
-					this._ajaxData('post', '/zhengwu/pay', this.item, function(data){
-						if(data.code == 1){
-							// location.href.
-						}else{
-							// _this.page--;
-							alert(data.msg);
-						}
-						_this.done = true;
+					this.item.pay = this.item['pay'+(this.item.classType)];
+					// this.item.birth = new Date(this.item.birthVal).getTime();
+					this.item.birth = this.item.birthVal;
+					this._ajaxData('post', '/zhengwu/user', this.item, function(data){
+						alert('报名成功，接入微信支付中，')
+						if(true) location.href = ''
 					})
 				}
 			}
