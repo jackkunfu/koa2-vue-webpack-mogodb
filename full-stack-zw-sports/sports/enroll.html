@@ -71,12 +71,37 @@
 		<div class="row">
 			<div class="fl">课程类型</div>
 			<div class="fr">
-				<!-- <input type="text" v-model="type"/> -->
-				<select v-model="item.classType">
-					<option value="1">初级</option>
-					<option value="2">高级</option>
-					<option value="3">精英</option>
-				</select>
+				<div class="select" @click="selectOpen=!selectOpen;">
+					<span>{{item.classType}}</span>
+					<ul v-show="selectOpen">
+						<li v-for="cl in item.classes" @click="item.pay = cl.pay; item.classType= cl.name;">{{cl.name}}</li>
+						<li @click="item.pay = 0; item.classType= cl.name;isTry=true;">体验课</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="row" v-show="!isTry">
+			<div class="fl">课程时间</div>
+			<div class="fr">
+				<div class="select" @click="selectOpen=!selectOpen;">
+					<span>{{item.classType}}</span>
+					<ul v-show="selectOpen">
+						<li v-for="cl in item.times" @click="item.pay = cl.pay; item.classType= cl.name;">{{cl.name}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="row" v-show="!isTry">
+			<div class="fl">课程频次</div>
+			<div class="fr">
+				<div class="select" @click="selectOpen=!selectOpen;">
+					<span>{{item.classType}}</span>
+					<ul v-show="selectOpen">
+						<li v-for="cl in item.classes" @click="item.pay = cl.pay; item.classType= cl.name;">{{cl.name}}</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 
@@ -148,8 +173,9 @@
 		new Vue({
 			el: '.ctn',
 			data: {
+				isTry: false,  // 是否是体验课
 				item: {
-					classType: 0,
+					classType: '',
 					name: '',
 					sex: '',
 					birthVal: '',
@@ -161,7 +187,8 @@
 					pay2: 200,
 					pay3: 300,
 					trainId: null
-				}
+				},
+				selectOpen: false
 			},
 			mounted: function(){
 				this.item.trainId = location.href.split('id=')[1];

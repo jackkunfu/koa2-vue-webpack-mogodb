@@ -193,15 +193,17 @@
 						</div> -->
 					</li>
 					<li :class="cur == 1 ? 'show' : 'hide'">
+						<div class="upload">我要上传
+							<input type="file" id="upfile" />
+						</div>
 						<ul style="overflow: hidden;margin-top:2rem;" class="img-list" v-if="imglists.length>0">
 							<li v-for="item in imglists">
 								<img :src="'http://www.zhengwusport.com'+item.addr" alt=""/>
 							</li>
 						</ul>
 						<div class="no-list" v-if="imglists.length==0">暂无图片</div>
-						<div class="upload">我要上传
-							<input type="file" id="upfile" />
-						</div>
+						<div class="no-list" v-if="imglists.length>0 && isImgMore">没有更多了</div>
+						
 					</li>
 					<li :class="cur == 2 ? 'show' : 'hide'">
 						<div class="judge" v-for="item in judgeLists" v-if="judgeLists.length>0">
@@ -213,6 +215,7 @@
 							</div>
 						</div>
 						<div class="no-list" v-if="judgeLists.length==0">暂无评价</div>
+						<div class="no-list" v-if="judgeLists.length>0 && isJudgeMore">没有更多了</div>
 					</li>
 				</ul>
 			</div>
@@ -230,6 +233,12 @@
 		new Vue({
 			el: '#el',
 			data: {
+				isJudgeMore: true,  // 是否有更多评价，
+				judgePage: 1,
+				judgeDone: true,
+				isImgMore: true,
+				imgPage: 1,
+				imgDone: true,
 				id: null,
 				cur: 0,
 				judgeLists: [
@@ -262,15 +271,19 @@
 				this.id = location.href.split('id=')[1].split('&')[0];
 				this.detail = decodeURI(location.href.split('remarks=')[1].split('&')[0]);
 				var _this = this;
+				_this.imgDone = false;
 				_this._ajaxData('get', '/zhengwu/image', {
-					trainId: this.id
+					trainId: this.id, page: 1
 				}, function(data){
 					_this.imglists = data.list || [];
+					_this.imgDone = true;
 				})
+				_this.judgeDone = false;
 				_this._ajaxData('get', '/zhengwu/comment/list', {
-					trainId: this.id
+					trainId: this.id, page: 1
 				}, function(data){
 					_this.judgeLists = data.list || [];
+					_this.judgeDone = true;
 				})
 				// _this._ajaxData('get', '/zhengwu/detail', {
 				// 	trainId: this.id
@@ -282,6 +295,9 @@
 				// 	var editor = new wangEditor('#editor');
 				// 	editor.create();
 				// })
+
+				var _this = this;
+
 				// 轮播图
 				var curPoster = 0, flag = true;
 				var w = document.documentElement.clientWidth || document.body.clientWidth;
@@ -300,7 +316,6 @@
 				}
 
 				// 上传图片
-				var _this = this;
 				document.getElementById('upfile').onchange = function(){
 					var data = document.getElementById('upfile').files[0];
 					var fd = new FormData()
@@ -313,15 +328,47 @@
 						contentType: false,
 						processData: false,
 						success: function(data) {
-							alert('上传成功');
-							_this.imglists.push({addr: data})
+							alert('上传成功，经过审核后，会展示');
+							// _this.imglists.push({addr: data})
 						},
 						error: function(data) {
-							loading(true);
 							alert("上传出错"+JSON.stringify(data));
 						}
 					});
 				}
+
+
+				// 滚动加载
+				$(window).scroll(()=>{
+	                if($(document).height() - $(document).scrollTop() - $(window).height() == 0){
+	                    console.log('到底啦');
+	                    if(this.cur == 1){
+	                    	if(this.isImgMore && this.imgDone){
+		                        this.imgPage++;
+		                        _this.imgDone = false;
+								_this._ajaxData('get', '/zhengwu/image', {
+									trainId: this.id, page: _this.imgPage
+								}, function(data){
+									if(data.list.length>0) _this.imglists = _this.imglists.concat(data.list)
+									_this.imgDone = true;
+								})
+		                    }
+	                    }
+	                    if(this.cur == 2){
+	                    	if(this.isMore && this.done){
+		                        this.judgePage++;
+		                        _this.judgeDone = false;
+								_this._ajaxData('get', '/zhengwu/comment/list', {
+									trainId: this.id, page: _this.judgePage
+								}, function(data){
+									if(data.list.length>0) _this.judgeLists = _this.judgeLists.concat(data.list)
+									_this.judgeDone = true;
+								})
+		                    }
+	                    }
+						
+			        }
+	            })
 
 			},
 			methods: {
