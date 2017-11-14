@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<title>demo</title>
 	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
 	<!-- <link rel="stylesheet" type="text/css" href="js/wangEditor.min.css"/> -->
@@ -33,7 +34,7 @@
 		}
 
 		.detail ul.tab{
-			border: 1px solid #666;
+			border: 1px solid #00aaee;
 			overflow: hidden;
 		}
 		.detail .tab li{
@@ -156,7 +157,7 @@
 	</style>
 	<div id="el">
 		<div class="top">
-			白塔湖训练馆
+			{{name}}
 		</div>
 
 		<div class="poster">
@@ -233,6 +234,7 @@
 		new Vue({
 			el: '#el',
 			data: {
+				name: null,
 				isJudgeMore: true,  // 是否有更多评价，
 				judgePage: 1,
 				judgeDone: true,
@@ -267,9 +269,9 @@
 			mounted: function(){
 				var baseUrl = 'http://www.zhengwusport.com'
 
-
 				this.id = location.href.split('id=')[1].split('&')[0];
 				this.detail = decodeURI(location.href.split('remarks=')[1].split('&')[0]);
+				this.name = location.href.split('name=')[1].split('&')[0];
 				var _this = this;
 				_this.imgDone = false;
 				_this._ajaxData('get', '/zhengwu/image', {
@@ -372,8 +374,9 @@
 
 			},
 			methods: {
-				enroll(id){
-					location.href = '/enroll.html?id='+this.id
+				enroll(){
+					alert('enroll.html?id='+this.id+'&name='+this.name)
+					location.href = 'enroll.html?id=' + this.id + '&name=' + this.name;
 				}
 			}
 		})

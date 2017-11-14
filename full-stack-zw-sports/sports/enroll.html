@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<title>demo</title>
 	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
 
@@ -13,8 +14,9 @@
 
 	<style>
 		.row{
-			overflow: hidden;
-			padding: 0.5rem;
+			/*overflow: hidden;*/
+			/*padding: 0.5rem;*/
+			margin-bottom: 0.5rem;
 		}
 		.row::after{
 			clear: both;
@@ -22,18 +24,21 @@
 
 		.form .row .fl,
 		.form .row .fr{
-			float: left;
+			float: none;
 			font-size: 1.3rem;
 			line-height: 3rem;
 		}
 
 		.form .row .fl{
-			width: 40%;
+			/*width: 40%;*/
 			padding-left: 1rem;
+			line-height: 1.5;
+			color: rgb(125, 200, 225);
 		}
 
 		.form .row .fr{
-			width: 60%;
+			width: 100%;
+			padding: 0 1rem;
 		}
 
 		.form .row .fr textarea,
@@ -62,117 +67,136 @@
 		}
 
 	</style>
+	<div id="ctn">
+		<div class="top">
+			报名{{name}}
+		</div>
 
-	<div class="top">
-		我要报名
+		<div class="form ctn" style="padding-bottom: 3rem;">
+			<div class="row">
+				<div class="fl">课程类型</div>
+				<div class="fr">
+					<div class="select" @click="selectOpen1=!selectOpen1;">
+						<span>{{item.classType}}</span>
+						<ul v-show="selectOpen1">
+							<li v-for="cl in item.classes" @click="item.pay = cl.pay; item.classType= cl.name;">{{cl.name}}</li>
+							<li @click="item.pay = 0; item.classType= cl.name;isTry=true;">体验课</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" v-show="!isTry">
+				<div class="fl">课程时间</div>
+				<div class="fr">
+					<div class="select" @click="selectOpen2=!selectOpen2;">
+						<span>{{item.classType}}</span>
+						<ul v-show="selectOpen2">
+							<li v-for="cl in item.times" @click="item.pay = cl.pay; item.classType= cl.name;">{{cl.name}}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" v-show="!isTry">
+				<div class="fl">课程频次</div>
+				<div class="fr">
+					<div class="select" @click="selectOpen3=!selectOpen3;">
+						<span>{{item.classType}}</span>
+						<ul v-show="selectOpen3">
+							<li v-for="cl in item.classes" @click="item.pay = cl.pay; item.classType= cl.name;">{{cl.name}}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="fl">学员姓名</div>
+				<div class="fr">
+					<input type="text" v-model="item.name"/>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="fl">性别</div>
+				<!-- <div class="fr">
+					<input type="radio" name="sex" value="0" v-model="item.sex"/><span style="position: relative;top:-1.5rem;">男</span>
+					<input type="radio" name="sex" value="1" v-model="item.sex"/><span style="position: relative;top:-1.5rem;">女</span>
+				</div> -->
+				<div class="fr">
+					<div class="select" @click="selectOpen=!selectOpen;">
+						<span>{{item.sex | sex}}</span>
+						<ul v-show="selectOpen">
+							<li @click="item.sex = '0'">男</li>
+							<li @click="item.sex = '1'">女</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="fl">生日</div>
+				<div class="fr">
+					<input type="text" v-model="item.birthVal" placeholder="-符号隔开： 2017-01-01"/>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="fl">地址</div>
+				<div class="fr">
+					<input type="text" v-model="item.address"/>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="fl">父母姓名</div>
+				<div class="fr">
+					<input type="text" v-model="item.familyName"/>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="fl">父母手机</div>
+				<div class="fr">
+					<input type="text" v-model="item.mobile"/>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="fl">备注</div>
+				<div class="fr">
+					<textarea type="text" v-model="item.desc"></textarea>
+				</div>
+			</div>
+
+			<div class="fixed-btm">
+				<div class="fl">费用合计
+					<span style="color: red;margin: 0 10px;">
+						<span v-if="item.classType==0">{{item.pay0}}</span>
+						<span v-if="item.classType==1">{{item.pay1}}</span>
+						<span v-if="item.classType==2">{{item.pay2}}</span>
+					</span>元
+				</div>
+				<div class="fr" @click="pay">报名</div>
+			</div>
+		</div>
 	</div>
 
-	<div class="form ctn">
-		<div class="row">
-			<div class="fl">课程类型</div>
-			<div class="fr">
-				<div class="select" @click="selectOpen=!selectOpen;">
-					<span>{{item.classType}}</span>
-					<ul v-show="selectOpen">
-						<li v-for="cl in item.classes" @click="item.pay = cl.pay; item.classType= cl.name;">{{cl.name}}</li>
-						<li @click="item.pay = 0; item.classType= cl.name;isTry=true;">体验课</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-
-		<div class="row" v-show="!isTry">
-			<div class="fl">课程时间</div>
-			<div class="fr">
-				<div class="select" @click="selectOpen=!selectOpen;">
-					<span>{{item.classType}}</span>
-					<ul v-show="selectOpen">
-						<li v-for="cl in item.times" @click="item.pay = cl.pay; item.classType= cl.name;">{{cl.name}}</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-
-		<div class="row" v-show="!isTry">
-			<div class="fl">课程频次</div>
-			<div class="fr">
-				<div class="select" @click="selectOpen=!selectOpen;">
-					<span>{{item.classType}}</span>
-					<ul v-show="selectOpen">
-						<li v-for="cl in item.classes" @click="item.pay = cl.pay; item.classType= cl.name;">{{cl.name}}</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="fl">学员姓名</div>
-			<div class="fr">
-				<input type="text" v-model="item.name"/>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="fl">性别</div>
-			<div class="fr">
-				<input type="radio" name="sex" value="0" v-model="item.sex"/><span style="position: relative;top:-1.5rem;">男</span>
-				<input type="radio" name="sex" value="1" v-model="item.sex"/><span style="position: relative;top:-1.5rem;">女</span>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="fl">生日</div>
-			<div class="fr">
-				<input type="text" v-model="item.birthVal" placeholder="-符号隔开： 2017-01-01"/>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="fl">地址</div>
-			<div class="fr">
-				<input type="text" v-model="item.address"/>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="fl">父母姓名</div>
-			<div class="fr">
-				<input type="text" v-model="item.familyName"/>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="fl">父母手机</div>
-			<div class="fr">
-				<input type="text" v-model="item.mobile"/>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="fl">备注</div>
-			<div class="fr">
-				<textarea type="text" v-model="item.desc"></textarea>
-			</div>
-		</div>
-
-		<div class="fixed-btm">
-			<div class="fl">费用合计
-				<span style="color: red;margin: 0 10px;">
-					<span v-if="item.classType==0">{{item.pay0}}</span>
-					<span v-if="item.classType==1">{{item.pay1}}</span>
-					<span v-if="item.classType==2">{{item.pay2}}</span>
-				</span>元
-			</div>
-			<div class="fr" @click="pay">报名</div>
-		</div>
-	</div>
+	
 
 	<script>
 	Vue.config.devtools = true;
 
 		new Vue({
-			el: '.ctn',
+			el: '#ctn',
+			filters: {
+				sex(v){
+					if(v-0 == 1) return '女';
+					else return '男';
+				}
+			},
 			data: {
+				name: null,
 				isTry: false,  // 是否是体验课
 				item: {
 					classType: '',
@@ -188,10 +212,14 @@
 					pay3: 300,
 					trainId: null
 				},
+				selectOpen1: false,
+				selectOpen2: false,
+				selectOpen3: false,
 				selectOpen: false
 			},
 			mounted: function(){
-				this.item.trainId = location.href.split('id=')[1];
+				this.item.trainId = location.href.split('id=')[1].split('&')[0];
+				this.name = location.href.split('name=')[1].split('&')[0];
 
 				var _this = this;
 				this.$nextTick(function () {})

@@ -3,9 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
-body{
-    background-color: #e7e7e7;
-}
+// body{
+//     background-color: #e7e7e7;
+// }
 
 a,
 a:hover,
@@ -47,10 +47,10 @@ li {
 
 .top{
     text-align: center;
-    line-height: 3.5rem;
+    line-height: 3rem;
     font-size: 1.4rem;
     color: #333;
-    /*border-bottom: 1px solid #00aaee;*/
+    border-bottom: 1px solid #e7e7e7;
     background-color: #fff;
 }
 
@@ -92,7 +92,7 @@ li {
     width: 100%;
     height: 3.5rem;
     line-height: 3.5rem;
-    /*border-top: 1px solid #c1c1c1;*/
+    border-top: 1px solid #e7e7e7;
     background-color: #fff;
 }
 .fix-btm a{
@@ -122,4 +122,9 @@ li {
     top: 3rem;
     left: 0;
     border: 1px solid #ccc;
+    background: #fff;
+    z-index: 1;
+}
+.select ul li{
+    padding-left: 1rem;
 }
