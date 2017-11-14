@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>upload 11 base64</title>
@@ -10,13 +11,25 @@
 <body>
 
     <input type="file" id="file" accept="image/*" />
+    <div style="background: red;height:140px;"></div>
+    <button id="btn">上传</button>
+
 
     <button id="button" onclick="up">支付宝选呢图片</button>
 
     <script>
-
-        alert(1)
-
+        // if(Blob){
+        //     alert('Blob ok')
+        // }
+        // if(FileReader){
+        //     alert('FileReader ok')
+        // }
+        // if(atob){
+        //     alert('atob ok')
+        // }
+        // if(Uint8Array){
+        //     alert('Uint8Array ok')
+        // }
 
         function aliPayOk(callback) {
             // 如果jsbridge已经注入则直接调用
@@ -27,29 +40,49 @@
                 document.addEventListener('AlipayJSBridgeReady', callback, false);
             }
         }
-        document.getElementById('button').onclick = function(){
-            alert(2)
-            up()
+
+        function loading(stop, text) {
+            aliPayOk(function() {
+                if (!stop) {
+                    AlipayJSBridge.call('showLoading', {
+                        text: text ? text : '加载中'
+                    });
+                } else {
+                    AlipayJSBridge.call('hideLoading');
+                }
+            })
         }
-        function up(){
-            aliPayOk(function(){
+
+        document.getElementById('btn').onclick = function() {
+            alert(1)
+
+            aliPayOk(function() {
                 AlipayJSBridge.call('photo', {
                     dataType: 'dataURL',
                     quality: 75,
-                    allowEdit: false,
+                    allowEdit: true,
                     multimediaConfig: { // 可选，仅当该项被配置时，图片被传输至 APMultimedia
                         compress: 2, // 可选，默认为4。 0-低质量，1-中质量，2-高质量，3-不压缩，4-根据网络情况自动选择
                         business: "multiMedia" // 可选，默认为“NebulaBiz”
                     }
-                }, function (result) {
-                    alert(4)
-                    var img = new Image()
+                }, function(result) {
+                    // result: {error, dataURL, fileURL, originalFileURL, useFrontCamera, scene, multimediaID
+                    // cb(result)
+                    // var image = document.getElementById('myImage');
+                    // image.src = "data:image/jpeg;base64," + result.dataURL;
+
+                    loading(false, '开始压缩');
+                    var img = new Image();
                     img.src = "data:image/jpeg;base64," + result.dataURL;
-                    img.onload = function(){
+                    img.onload = function() {
                         var base = compress(img, 0.1)
-                        var data = dataURLtoBlob(base);
+                        var blobData = dataURLtoBlob(base);
+
+                        loading(true);
+                        loading(false, '开始上传');
+
                         var formData = new FormData();
-                        formData.append("upfile", data);
+                        formData.append("upfile", blobData);
                         $.ajax({
                             type: 'POST',
                             url: 'http://run.alisports.com/api/uploadImage',
@@ -57,21 +90,52 @@
                             contentType: false,
                             processData: false,
                             success: function(data) {
-                                console.log(data);
+                                loading(true);
                                 alert(JSON.stringify(data));
+                                cb(data);
                             },
                             error: function(data) {
-                                aliPayNative.loading(true);
-                                // alert("图片过大，上传出错"+JSON.stringify(data));
-                                alert('图片过大，上传失败，1M以内');
+                                loading(true);
+                                alert("上传出错" + JSON.stringify(data));
                             }
                         });
                     }
-                    
                 });
+
+                // aliPayNative.getPhoto(allowEdit, function(res){
+                //  aliPayNative.loading(false, '开始压缩');
+                //  var img = new Image();
+                //  img.src = "data:image/jpeg;base64," + res.dataURL;
+                //  img.onload = function(){
+                //      var base = compress(img, 0.1)
+                //      var blobData = dataURLtoBlob(base);
+
+                //      aliPayNative.loading(true);
+                //      aliPayNative.loading(false, '开始上传');
+
+                //      var formData = new FormData();
+                //      formData.append("upfile", blobData);
+                //      $.ajax({
+                //          type: 'POST',
+                //          url: 'http://run.alisports.com/api/uploadImage',
+                //          data: formData,
+                //          contentType: false,
+                //          processData: false,
+                //          success: function(data) {
+                //              aliPayNative.loading(true);
+                //              alert(JSON.stringify(data));
+                //              cb(data);
+                //          },
+                //          error: function(data) {
+                //              aliPayNative.loading(true);
+                //              alert("上传出错"+JSON.stringify(data));
+                //          }
+                //      });
+                // 	}
+                // })
             })
         }
-        
+
 
         // if(Blob){
         //     alert('Blob ok')
@@ -92,14 +156,16 @@
         // alert(localStorage.aa)
         // alert(JSON.stringify(localStorage))
 
-        document.getElementById('file').addEventListener('change',function(){
+
+        document.getElementById('file').addEventListener('change', function() {
             var file = document.getElementById('file').files[0];
-            baseToBlob(file, function(data){
+            baseToBlob(file, function(data) {
                 var formData = new FormData();
                 formData.append("upfile", data);
                 $.ajax({
                     type: 'POST',
-                    url: 'http://test.hpaopao.com/uploadImage',
+                    url: 'http://run.alisports.com/api/uploadImage',
+                    // url: 'http://192.168.2.50:8000/api/uploadImage',
                     data: formData,
                     contentType: false,
                     processData: false,
@@ -108,7 +174,7 @@
                         alert(JSON.stringify(data));
                     },
                     error: function(data) {
-                        aliPayNative.loading(true);
+                        // aliPayNative.loading(true);
                         // alert("图片过大，上传出错"+JSON.stringify(data));
                         alert('图片过大，上传失败，1M以内');
                     }
@@ -138,7 +204,6 @@
         }
 
         function compress(img, quality) {
-            alert('开始压缩')
             var canvas = document.createElement("canvas");
             var ctx = canvas.getContext('2d');
             var moreCanvas = document.createElement("canvas");
@@ -176,7 +241,6 @@
             }
             var ndata = canvas.toDataURL('image/jpeg', quality);
             moreCanvas.width = moreCanvas.height = canvas.width = canvas.height = 0;
-            alert('压缩成base64成功')
             return ndata;
             // dataURLtoBlob(ndata)
 
@@ -191,28 +255,13 @@
             while (n--) {
                 u8arr[n] = bstr.charCodeAt(n);
             }
-            return new Blob([u8arr], { type: mime });
-            // var data = new Blob([u8arr], { type: mime })
-            // var formData = new FormData();
-            // formData.append("upfile", data);
-            // $.ajax({
-            //     type: 'POST',
-            //     url: 'http://run.alisports.com/api/uploadImage',
-            //     data: formData,
-            //     contentType: false,
-            //     processData: false,
-            //     success: function(data) {
-            //         console.log(data);
-            //         alert(JSON.stringify(data));
-            //     },
-            //     error: function(data) {
-            //         aliPayNative.loading(true);
-            //         // alert("图片过大，上传出错"+JSON.stringify(data));
-            //         alert('图片过大，上传失败，1M以内');
-            //     }
-            // });
+            var blob = new Blob([u8arr], {
+                type: mime
+            });
+            return blob
         }
     </script>
-    
+
 </body>
+
 </html>

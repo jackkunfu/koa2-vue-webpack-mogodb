@@ -47,10 +47,10 @@ li {
 
 .top{
     text-align: center;
-    line-height: 4rem;
-    font-size: 2rem;
+    line-height: 3.5rem;
+    font-size: 1.4rem;
     color: #333;
-    border-bottom: 1px solid #00aaee;
+    /*border-bottom: 1px solid #00aaee;*/
     background-color: #fff;
 }
 
@@ -102,4 +102,24 @@ li {
     color: #00aaee;
     font-size: 1.5rem;
     text-align: center;
+}
+.select{
+    position: relative;
+}
+.select span{
+    display: block;
+    font-size: 1rem;
+    padding-left: 0.5rem;
+    width: 100%;
+    height: 3rem;
+    line-height: 3rem;
+    border: 1px solid #eee;
+    background: #fff;
+}
+.select ul{
+    position: absolute;
+    width: 100%;
+    top: 3rem;
+    left: 0;
+    border: 1px solid #ccc;
 }

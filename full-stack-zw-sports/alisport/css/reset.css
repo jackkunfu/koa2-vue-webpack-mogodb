@@ -1,0 +1,105 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #e7e7e7;
+}
+
+a,
+a:hover,
+a:active,
+a:link {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+.ctn {
+    /*width: 15rem;*/
+    padding: 1rem;
+}
+
+.fl {
+    float: left;
+    display: block;
+}
+
+.fr {
+    float: right;
+    display: block;
+}
+
+.btn {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 2px;
+    background: skyblue;
+    color: #FFF;
+    cursor: pointer;
+}
+
+.top{
+    text-align: center;
+    line-height: 3.5rem;
+    font-size: 1.4rem;
+    color: #333;
+    border-bottom: 1px solid #00aaee;
+    background-color: #fff;
+}
+
+.fixed-btm{
+    width: 100%;
+    border-top: 1px solid #efefef;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+.fixed-btm >div, .fixed-btm a{
+    text-align: center;
+    line-height: 4rem;
+    height: 4rem;
+    font-size: 1.5rem;
+}
+.fixed-btm .fl{
+    width: 70%;
+    color: #fff;
+    border-right: 1px solid #efefef;
+    background: #00aaee;
+}
+.fixed-btm .fr{
+    width: 30%;
+    background-color: #fff;
+}
+
+.no-list{
+    font-size: 1.5rem;
+    color: #666;
+    text-align: center;
+    line-height: 5rem;
+}
+
+.fix-btm{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3.5rem;
+    line-height: 3.5rem;
+    /*border-top: 1px solid #c1c1c1;*/
+    background-color: #fff;
+}
+.fix-btm a{
+    display: block;
+    float: left;
+    width: 50%;
+    color: #00aaee;
+    font-size: 1.5rem;
+    text-align: center;
+}
