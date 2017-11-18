@@ -1,5 +1,6 @@
 (function(Vue, $) {
-    var base = 'http://zhengwusport.com'
+    // var base = 'http://zhengwusport.com'
+    var base = 'http://zhengwu.com:8888/web';
     Vue.prototype._ajaxData = function(type, url, options, cb) {
         $.ajax({
             type: type,

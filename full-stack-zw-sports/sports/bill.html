@@ -67,13 +67,17 @@
 		<div class="list">
 			<a v-for="(item,i) in lists" :href="'detail.html?id='+item.trainId">
 				<div class="box">
-					<img :src="item.photo" alt="" />
+					<img :src="'http://www.zhengwusport.com'+item.train.photo" alt="" />
 					<div>
-						<div class="name">{{item.name}}</div>
-						<div class="address">
+						<div class="name">{{item.train.name}}</div>
+						<!-- <div class="address">
 							<img src="address.png" />
 							{{item.address}}
-						</div>
+						</div> -->
+						<div class="address">{{item.tClass.name}}</div>
+						<div class="address">费用：{{item.pay}}</div>
+						<div v-if="item.address-0==0" class="address">未支付</div>
+						<div v-if="item.address-0==1" class="address">已支付</div>
 					</div>
 				</div>
 			</a>
@@ -113,7 +117,7 @@
 				list(v){
 					var _this = this;
 					_this.done = false;
-					_this._ajaxData('get', '/zhengwu/train', {pageNo: v, pageSize: 20}, function(data){
+					_this._ajaxData('get', '/zhengwu/pay/list', {pageNo: v, userId: localStorage.userId || 1}, function(data){
 						var list = data.list || [];
 						if(list.length > 0) _this.lists = _this.lists.concat(list)
 						else _this.isMore = false;

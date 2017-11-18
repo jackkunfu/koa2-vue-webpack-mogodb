@@ -73,7 +73,7 @@
 		</div>
 
 		<div class="form ctn" style="padding-bottom: 3rem;">
-			<div class="row">
+			<!-- <div class="row">
 				<div class="fl">课程类型</div>
 				<div class="fr">
 					<div class="select" @click="selectOpen1=!selectOpen1;">
@@ -105,6 +105,18 @@
 						<span>{{item.classType}}</span>
 						<ul v-show="selectOpen3">
 							<li v-for="cl in item.classes" @click="item.pay = cl.pay; item.classType= cl.name;">{{cl.name}}</li>
+						</ul>
+					</div>
+				</div>
+			</div> -->
+
+			<div class="row">
+				<div class="fl">课程类型</div>
+				<div class="fr">
+					<div class="select" @click="selectOpen1=!selectOpen1;">
+						<span>{{item.classTypeName}}</span>
+						<ul v-show="selectOpen1">
+							<li v-for="cl in selectList" @click="item.pay = cl.fee; item.classType= cl.id;item.classTypeName=cl.name">{{cl.name}}</li>
 						</ul>
 					</div>
 				</div>
@@ -171,10 +183,13 @@
 
 			<div class="fixed-btm">
 				<div class="fl">费用合计
-					<span style="color: red;margin: 0 10px;">
+					<!-- <span style="color: red;margin: 0 10px;">
 						<span v-if="item.classType==0">{{item.pay0}}</span>
 						<span v-if="item.classType==1">{{item.pay1}}</span>
 						<span v-if="item.classType==2">{{item.pay2}}</span>
+					</span>元 -->
+					<span style="color: red;margin: 0 10px;">
+						<span>{{item.pay}}</span>
 					</span>元
 				</div>
 				<div class="fr" @click="pay">报名</div>
@@ -196,17 +211,23 @@
 				}
 			},
 			data: {
+				selectList: [
+					{id:1, fee: 1, name: 'xxx'},
+					{id:1, fee: 2, name: 'xxx2'},
+					{id:1, fee: 3, name: 'xxx3'},
+				],   // 课程类型时间频次
 				name: null,
 				isTry: false,  // 是否是体验课
 				item: {
 					classType: '',
 					name: '',
-					sex: '',
+					sex: '0',
 					birthVal: '',
 					address: '',
 					familyName: '',
 					mobile: '',
 					desc: '',
+					pay: '',
 					pay1: 100,
 					pay2: 200,
 					pay3: 300,
@@ -219,10 +240,14 @@
 			},
 			mounted: function(){
 				this.item.trainId = location.href.split('id=')[1].split('&')[0];
-				this.name = location.href.split('name=')[1].split('&')[0];
+				// this.name = location.href.split('name=')[1].split('&')[0];
 
 				var _this = this;
 				this.$nextTick(function () {})
+
+				this._ajaxData('get', '/zhengwu/class/list', {trainId: this.item.trainId, pageNo: 1}, function(d){
+					_this.selectList = d.list;
+				})
 
 			},
 			methods: {
@@ -234,7 +259,7 @@
 					// 	}
 					// }
 					// alert(this.item.name)
-					if(!this.item.classType || this.item.classType == 0){
+					if(!this.item.classType){
 						alert('课程类型没选~');
 						return;
 					}
@@ -267,12 +292,20 @@
 						alert('手机号格式不对~');
 						return;
 					}
-					this.item.pay = this.item['pay'+(this.item.classType)];
+					// this.item.pay = this.item['pay'+(this.item.classType)];
 					// this.item.birth = new Date(this.item.birthVal).getTime();
 					this.item.birth = this.item.birthVal;
 					this._ajaxData('post', '/zhengwu/user', this.item, function(data){
 						alert('报名成功，接入微信支付中，')
-						if(true) location.href = ''
+						// if(true) location.href = ''
+						_this._ajaxData('post', '/zhengwu/pay', {
+							fee: '11',
+							userId: localStorage.userId || '1',
+							title: 'hgkdlv'
+						}, function(data){
+							alert('报名成功，接入微信支付中，')
+							// if(true) location.href = ''
+						})
 					})
 				}
 			}

@@ -208,7 +208,7 @@
 					</li>
 					<li :class="cur == 2 ? 'show' : 'hide'">
 						<div class="judge" v-for="item in judgeLists" v-if="judgeLists.length>0">
-							<img :src="item.img"/>
+							<!-- <img :src="item.img"/> -->
 							<div class="right">
 								<div class="name">{{item.name}}</div>
 								<div class="time">{{item.time}}</div>
@@ -268,21 +268,22 @@
 			},
 			mounted: function(){
 				var baseUrl = 'http://www.zhengwusport.com'
+				// var baseUrl = 'zhengwu.com:8888/web';
 
 				this.id = location.href.split('id=')[1].split('&')[0];
 				this.detail = decodeURI(location.href.split('remarks=')[1].split('&')[0]);
-				this.name = location.href.split('name=')[1].split('&')[0];
+				// this.name = location.href.split('name=')[1].split('&')[0];
 				var _this = this;
 				_this.imgDone = false;
 				_this._ajaxData('get', '/zhengwu/image', {
-					trainId: this.id, page: 1
+					trainId: this.id, pageNo: 1
 				}, function(data){
 					_this.imglists = data.list || [];
 					_this.imgDone = true;
 				})
 				_this.judgeDone = false;
 				_this._ajaxData('get', '/zhengwu/comment/list', {
-					trainId: this.id, page: 1
+					trainId: this.id, pageNo: 1
 				}, function(data){
 					_this.judgeLists = data.list || [];
 					_this.judgeDone = true;
@@ -349,7 +350,7 @@
 		                        this.imgPage++;
 		                        _this.imgDone = false;
 								_this._ajaxData('get', '/zhengwu/image', {
-									trainId: this.id, page: _this.imgPage
+									trainId: this.id, pageNo: _this.imgPage
 								}, function(data){
 									if(data.list.length>0) _this.imglists = _this.imglists.concat(data.list)
 									_this.imgDone = true;
@@ -361,7 +362,7 @@
 		                        this.judgePage++;
 		                        _this.judgeDone = false;
 								_this._ajaxData('get', '/zhengwu/comment/list', {
-									trainId: this.id, page: _this.judgePage
+									trainId: this.id, pageNo: _this.judgePage
 								}, function(data){
 									if(data.list.length>0) _this.judgeLists = _this.judgeLists.concat(data.list)
 									_this.judgeDone = true;
