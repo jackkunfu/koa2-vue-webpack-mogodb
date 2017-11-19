@@ -223,7 +223,7 @@
 		</div>
 
 		<div class="fixed-btm">
-			<a :href="'enroll.html?id='+id" class="fl" @click="enroll(id)">立即报名</a>
+			<a :href="'enroll.html?id='+id+'&name='+name" class="fl" @click="enroll(id)">立即报名</a>
 			<a href="tel:" class="fr">咨询</a>
 		</div>
 
@@ -272,7 +272,7 @@
 
 				this.id = location.href.split('id=')[1].split('&')[0];
 				this.detail = decodeURI(location.href.split('remarks=')[1].split('&')[0]);
-				// this.name = location.href.split('name=')[1].split('&')[0];
+				this.name = decodeURI(location.href.split('name=')[1].split('&')[0]);
 				var _this = this;
 				_this.imgDone = false;
 				_this._ajaxData('get', '/zhengwu/image', {
@@ -354,11 +354,14 @@
 								}, function(data){
 									if(data.list.length>0) _this.imglists = _this.imglists.concat(data.list)
 									_this.imgDone = true;
+
+									if(data.list.length < data.pageSize) _this.isImgMore = false;
+									if(_this.imglists.length >= data.count) _this.isImgMore = false;
 								})
 		                    }
 	                    }
 	                    if(this.cur == 2){
-	                    	if(this.isMore && this.done){
+	                    	if(this.isJudgeMore && this.judgeDone){
 		                        this.judgePage++;
 		                        _this.judgeDone = false;
 								_this._ajaxData('get', '/zhengwu/comment/list', {
@@ -366,6 +369,9 @@
 								}, function(data){
 									if(data.list.length>0) _this.judgeLists = _this.judgeLists.concat(data.list)
 									_this.judgeDone = true;
+
+									if(data.list.length < data.pageSize) _this.isJudgeMore = false;
+									if(_this.judgeLists.length >= data.count) _this.isJudgeMore = false;
 								})
 		                    }
 	                    }
@@ -376,8 +382,9 @@
 			},
 			methods: {
 				enroll(){
-					alert('enroll.html?id='+this.id+'&name='+this.name)
-					location.href = 'enroll.html?id=' + this.id + '&name=' + this.name;
+					// var name = encodeURI(this.name)
+					// alert(name)
+					// window.location.href = '/enroll.html?name=' + name + '&id=' + this.id;
 				}
 			}
 		})

@@ -93,9 +93,6 @@
 		</div>
 	</div>
 
-
-
-
 	<script>
 
 		new Vue({
@@ -126,7 +123,8 @@
 			methods:{
 				gotoDetail(item){
 					var remarks = encodeURI(item.remarks)
-					location.href = 'detail.html?id='+ item.id +'&remarks=' + remarks+'&name='+item.name;
+					var name = encodeURI(item.name)
+					location.href = 'detail.html?id='+ item.id +'&remarks=' + remarks+'&name='+name;
 				},
 				list(v){
 					var _this = this;
