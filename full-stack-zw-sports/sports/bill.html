@@ -96,7 +96,8 @@
 					</div>
 				</div>
 			</a>
-			<div v-if="!isMore" style="margin: 0.5rem; text-align:center;">没有更多了</div>
+			<div v-if="lists.length==0" style="margin: 0.5rem; text-align:center;">暂无</div>
+			<div v-if="!isMore && lists.length>0" style="margin: 0.5rem; text-align:center;">没有更多了</div>
 		</div>
 	</div>
 
