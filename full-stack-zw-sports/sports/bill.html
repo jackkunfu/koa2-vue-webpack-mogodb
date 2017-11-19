@@ -132,7 +132,15 @@
 				list(v){
 					var _this = this;
 					_this.done = false;
-					_this._ajaxData('get', '/zhengwu/pay/list', {pageNo: v, userId: localStorage.userId || 1}, function(data){
+					// this._ajaxData('post', '/zhengwu/user', this.item, function(res){
+					// 	// alert('报名成功，接入微信支付中，')
+					// 	// if(true) location.href = ''
+					// })
+					if(!localStorage.zwOpenId){
+						this.isMore = false;
+						return;
+					}
+					_this._ajaxData('get', '/zhengwu/pay/list', {pageNo: v, openid: localStorage.zwOpenId || 1}, function(data){
 						var list = data.list || [];
 						if(list.length > 0) _this.lists = _this.lists.concat(list)
 						else _this.isMore = false;
