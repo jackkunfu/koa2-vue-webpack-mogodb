@@ -165,7 +165,7 @@
 							var _this = this;
 							_this._ajaxData('post', '/zhengwu/pay', {
 								fee: item.pay,
-								// userId: localStorage.userId || '1',
+								userId: localStorage.zwUserId,
 								title: item.tClass.name
 							}, function(data){
 								// alert('报名成功，接入微信支付中，')
