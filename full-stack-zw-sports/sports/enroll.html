@@ -117,7 +117,7 @@
 					<div class="select" @click="selectOpen1=!selectOpen1;">
 						<span>{{item.classTypeName}}</span>
 						<ul v-show="selectOpen1">
-							<li v-for="cl in selectList" @click="item.pay = cl.fee; item.classType= cl.id;item.classTypeName=cl.name">{{cl.name}}</li>
+							<li v-for="cl in selectList" @click="item.pay = cl.fee/100; item.classType= cl.id;item.classTypeName=cl.name">{{cl.name}}</li>
 						</ul>
 					</div>
 				</div>
@@ -302,13 +302,18 @@
 						localStorage.zwUserId = res.id;
 						localStorage.zwOpenId = res.openid;
 						_this._ajaxData('post', '/zhengwu/pay', {
-							fee: _this.item.pay,
+							fee: _this.item.pay*100,
 							userId: res.id,
 							title: _this.item.classTypeName
 						}, function(data){
 							// alert('报名成功，接入微信支付中，')
 							// if(true) location.href = ''
-							_this.startWxPay(data);
+							if(_this.item.pay>0){
+								_this.startWxPay(data);
+							}else{
+								window.location.href  = "/bill.html";
+							}
+							
 						})
 					})
 				},
