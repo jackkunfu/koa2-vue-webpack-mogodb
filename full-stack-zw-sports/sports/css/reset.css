@@ -68,7 +68,7 @@ li {
     width: 70%;
     color: #fff;
     border-right: 1px solid #efefef;
-    background: #00aaee;
+    background: #93D0FF;
 }
 .fixed-btm .fr{
     width: 30%;
@@ -96,7 +96,7 @@ li {
     display: block;
     float: left;
     width: 50%;
-    color: #00aaee;
+    color: #93D0FF;
     font-size: 1.5rem;
     text-align: center;
 }
