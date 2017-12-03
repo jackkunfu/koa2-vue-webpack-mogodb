@@ -47,8 +47,8 @@
 		}
 
 		.detail .tab li.cur{
-			background: #93D0FF;
-			color: #fff;
+			/* background: #93D0FF; */
+			color: #93D0FF;
 		}
 
 		.detail .tab li img{
@@ -181,8 +181,8 @@
 
 				<ul class="tab">
 					<li :class="cur == 0 ? 'cur':''" @click="cur=0"><img src="img/d1.png" />课程介绍</li>
-					<li :class="cur == 1 ? 'cur':''" @click="cur=1"><img src="img/d2.png" />精彩瞬间</li>
-					<li :class="cur == 2 ? 'cur':''" @click="cur=2"><img src="img/d3.png" />课程评价</li>
+					<li :class="cur == 1 ? 'cur':''" @click="cur=1"><img src="img/d3.png" />精彩瞬间</li>
+					<li :class="cur == 2 ? 'cur':''" @click="cur=2"><img src="img/d2.png" />课程评价</li>
 				</ul>
 
 				<div style="margin:0.5rem -1rem;background: #eee;clear:both;height:1rem;"></div>
