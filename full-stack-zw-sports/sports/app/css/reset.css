@@ -19,7 +19,7 @@ li {
 
 .ctn {
     /*width: 15rem;*/
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 .fl {
@@ -46,9 +46,15 @@ li {
     text-align: center;
     line-height: 3rem;
     font-size: 1.4rem;
-    color: #333;
+    color: #93D0FF;
     border-bottom: 1px solid #e7e7e7;
     background-color: #fff;
+}
+.top img{
+    width: 2rem;
+    position: relative;
+    top: 0.4rem;
+    right: 0.3rem;
 }
 
 .fixed-btm{

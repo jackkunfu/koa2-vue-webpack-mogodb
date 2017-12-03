@@ -128,7 +128,7 @@
 			width: 15rem;
 			height: 3rem;
 			line-height: 3rem;
-			font-size: 1.5rem;
+			font-size: 1.4rem;
 			margin: 1rem auto;
 			text-align: center;
 			background: #93D0FF;
@@ -145,10 +145,15 @@
 			opacity: 0;
 		}
 
+		ul.img-list{
+			margin: 1rem -0.5rem 0;
+			background: #000;
+			overflow: hidden;
+		}
 		ul.img-list li{
-			width: 50%;
-			height: 10rem;
-			margin-bottom: 1rem;
+			width: 33.33333%;
+			border: 3px solid #000;
+			height: 7rem;
 			float: left;
 		}
 		ul.img-list li img{
@@ -203,10 +208,10 @@
 						</div> -->
 					</li>
 					<li :class="cur == 1 ? 'show' : 'hide'">
-						<div class="upload">我要上传
+						<div class="upload">上传图片
 							<input type="file" id="upfile" />
 						</div>
-						<ul style="overflow: hidden;margin-top:2rem;" class="img-list" v-if="imglists.length>0">
+						<ul class="img-list" v-if="imglists.length>0">
 							<li v-for="item in imglists">
 								<img :src="'http://www.zhengwusport.com'+item.addr" alt=""/>
 							</li>

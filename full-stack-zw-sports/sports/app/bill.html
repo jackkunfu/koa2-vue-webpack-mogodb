@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<title>我的账单</title>
+	<title>我的课程</title>
 	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
 
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
@@ -76,7 +76,8 @@
 	</style>
 
 	<div class="top">
-		我的账单课程
+		<img src="img/ball.png">
+		我的课程
 	</div>
 	<div class="ctn">
 		<div class="list">
@@ -156,7 +157,7 @@
 
 						if(list.length < data.pageSize) _this.isMore = false;
 						if(_this.lists.length >= data.count) _this.isMore = false;
-						
+
 					})
 				},
 				clickItem(item){
