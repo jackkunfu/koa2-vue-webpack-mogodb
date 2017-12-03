@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<title>demo</title>
+	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+<body>
+
+	<style>
+		.row{
+			/*overflow: hidden;*/
+			/*padding: 0.5rem;*/
+			margin-bottom: 0.5rem;
+		}
+		.row::after{
+			clear: both;
+		}
+
+		.form .row .fl,
+		.form .row .fr{
+			float: none;
+			font-size: 1.3rem;
+			line-height: 3rem;
+		}
+
+		.form .row .fl{
+			/*width: 40%;*/
+			padding-left: 1rem;
+			line-height: 1.5;
+			color: rgb(125, 200, 225);
+		}
+
+		.form .row .fr{
+			width: 100%;
+			padding: 0 1rem;
+		}
+
+		.form .row .fr textarea,
+		.form .row .fr select,
+		.form .row .fr input{
+			font-size: 1rem;
+			padding-left: 0.5rem;
+			width: 100%;
+			height: 3rem;
+			line-height: 3rem;
+			border: 1px solid #eee;
+		}
+
+		select option{
+			font-size: 1.5rem;
+			line-height: 1;
+		}
+
+		.form .row .fr textarea{
+			height: 10rem;
+		}
+
+		.form .row .fr input[type=radio]{
+			margin-left: 1rem;
+			width: 1rem;
+		}
+
+	</style>
+	<div id="ctn">
+		<div class="top">
+			报名{{name}}
+		</div>
+
+		<div class="form ctn" style="padding-bottom: 3rem;">
+			<!-- <div class="row">
+				<div class="fl">课程类型</div>
+				<div class="fr">
+					<div class="select" @click="selectOpen1=!selectOpen1;">
+						<span>{{item.classType}}</span>
+						<ul v-show="selectOpen1">
+							<li v-for="cl in item.classes" @click="item.pay = cl.pay; item.classType= cl.name;">{{cl.name}}</li>
+							<li @click="item.pay = 0; item.classType= cl.name;isTry=true;">体验课</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" v-show="!isTry">
+				<div class="fl">课程时间</div>
+				<div class="fr">
+					<div class="select" @click="selectOpen2=!selectOpen2;">
+						<span>{{item.classType}}</span>
+						<ul v-show="selectOpen2">
+							<li v-for="cl in item.times" @click="item.pay = cl.pay; item.classType= cl.name;">{{cl.name}}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" v-show="!isTry">
+				<div class="fl">课程频次</div>
+				<div class="fr">
+					<div class="select" @click="selectOpen3=!selectOpen3;">
+						<span>{{item.classType}}</span>
+						<ul v-show="selectOpen3">
+							<li v-for="cl in item.classes" @click="item.pay = cl.pay; item.classType= cl.name;">{{cl.name}}</li>
+						</ul>
+					</div>
+				</div>
+			</div> -->
+
+			<div class="row">
+				<div class="fl">课程类型</div>
+				<div class="fr">
+					<div class="select" @click="selectOpen1=!selectOpen1;">
+						<span>{{item.classTypeName}}</span>
+						<ul v-show="selectOpen1">
+							<li v-for="cl in selectList" @click="item.pay = cl.fee/100; item.classType= cl.id;item.classTypeName=cl.name">{{cl.name}}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="fl">学员姓名</div>
+				<div class="fr">
+					<input type="text" v-model="item.name"/>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="fl">性别</div>
+				<!-- <div class="fr">
+					<input type="radio" name="sex" value="0" v-model="item.sex"/><span style="position: relative;top:-1.5rem;">男</span>
+					<input type="radio" name="sex" value="1" v-model="item.sex"/><span style="position: relative;top:-1.5rem;">女</span>
+				</div> -->
+				<div class="fr">
+					<div class="select" @click="selectOpen=!selectOpen;">
+						<span>{{item.sex | sex}}</span>
+						<ul v-show="selectOpen">
+							<li @click="item.sex = '0'">男</li>
+							<li @click="item.sex = '1'">女</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="fl">生日</div>
+				<div class="fr">
+					<input type="text" v-model="item.birthVal" placeholder="-符号隔开： 2017-01-01"/>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="fl">地址</div>
+				<div class="fr">
+					<input type="text" v-model="item.address"/>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="fl">父母姓名</div>
+				<div class="fr">
+					<input type="text" v-model="item.familyName"/>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="fl">父母手机</div>
+				<div class="fr">
+					<input type="text" v-model="item.mobile"/>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="fl">备注</div>
+				<div class="fr">
+					<textarea type="text" v-model="item.desc"></textarea>
+				</div>
+			</div>
+
+			<div class="fixed-btm">
+				<div class="fl">费用合计
+					<!-- <span style="color: red;margin: 0 10px;">
+						<span v-if="item.classType==0">{{item.pay0}}</span>
+						<span v-if="item.classType==1">{{item.pay1}}</span>
+						<span v-if="item.classType==2">{{item.pay2}}</span>
+					</span>元 -->
+					<span style="color: red;margin: 0 10px;">
+						<span>{{item.pay}}</span>
+					</span>元
+				</div>
+				<div class="fr" @click="pay">报名支付</div>
+			</div>
+		</div>
+	</div>
+
+	
+
+	<script>
+		Vue.config.devtools = true;
+
+		new Vue({
+			el: '#ctn',
+			filters: {
+				sex(v){
+					if(v-0 == 1) return '女';
+					else return '男';
+				}
+			},
+			data: {
+				selectList: [
+					{id:1, fee: 1, name: 'xxx'},
+					{id:1, fee: 2, name: 'xxx2'},
+					{id:1, fee: 3, name: 'xxx3'},
+				],   // 课程类型时间频次
+				name: null,
+				isTry: false,  // 是否是体验课
+				item: {
+					classType: '',
+					name: '',
+					sex: '0',
+					birthVal: '',
+					address: '',
+					familyName: '',
+					mobile: '',
+					desc: '',
+					pay: '',
+					pay1: 100,
+					pay2: 200,
+					pay3: 300,
+					trainId: null
+				},
+				selectOpen1: false,
+				selectOpen2: false,
+				selectOpen3: false,
+				selectOpen: false
+			},
+			mounted: function(){
+				this.item.trainId = location.href.split('id=')[1].split('&')[0];
+				this.name = location.href.split('name=')[1] ? decodeURI(location.href.split('name=')[1].split('&')[0]) : '';
+
+				var _this = this;
+				this.$nextTick(function () {})
+
+				this._ajaxData('get', '/zhengwu/class/list', {trainId: this.item.trainId, pageNo: 1}, function(d){
+					_this.selectList = d.list;
+				})
+
+			},
+			methods: {
+				pay(){
+					var _this = this;
+					// if(!localStorage.zwUserId){
+					// 	if(confirm('还没登陆，是否去登陆？')){
+					// 		location.href = "/login.html"
+					// 	}
+					// }
+					// alert(this.item.name)
+					if(!this.item.classType){
+						alert('课程类型没选~');
+						return;
+					}
+					if(!this.item.name || this.item.name.trim() == ''){
+						alert('姓名没填~');
+						return;
+					}
+					if(!this.item.sex || this.item.sex.trim() == ''){
+						alert('性别没选~');
+						return;
+					}
+					if(!this.item.birthVal || this.item.birthVal.trim() == ''){
+						alert('生日没填~');
+						return;
+					}
+					if(!this.item.address || this.item.address.trim() == ''){
+						alert('地址没填~');
+						return;
+					}
+					if(!this.item.familyName || this.item.familyName.trim() == ''){
+						alert('家长姓名没填~');
+						return;
+					}
+					if(!this.item.mobile || this.item.mobile.trim() == ''){
+						alert('手机没选~');
+						return;
+					}
+
+					if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(this.item.mobile))){
+						alert('手机号格式不对~');
+						return;
+					}
+					// this.item.pay = this.item['pay'+(this.item.classType)];
+					// this.item.birth = new Date(this.item.birthVal).getTime();
+					this.item.birth = this.item.birthVal;
+					this._ajaxData('post', '/zhengwu/user', this.item, function(res){
+						// alert('报名成功，接入微信支付中，')
+						// if(true) location.href = ''
+						localStorage.zwUserId = res.id;
+						localStorage.zwOpenId = res.openid;
+						_this._ajaxData('post', '/zhengwu/pay', {
+							fee: _this.item.pay*100,
+							userId: res.id,
+							title: _this.item.classTypeName
+						}, function(data){
+							// alert('报名成功，接入微信支付中，')
+							// if(true) location.href = ''
+							if(_this.item.pay>0){
+								_this.startWxPay(data);
+							}else{
+								alert('报名成功')
+								window.location.href  = "/bill.html";
+							}
+							
+						})
+					})
+				},
+				startWxPay(param){
+					wx.config({
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: param.appId, // 必填，公众号的唯一标识
+                        timestamp: param.timeStamp, // 必填，生成签名的时间戳
+                        nonceStr: param.nonceStr, // 必填，生成签名的随机串
+                        signature: param.paySign,// 必填，调用js签名，
+                        jsApiList: ['chooseWXPay'] // 必填，需要使用的JS接口列表，这里只写支付的
+                    });
+                    wx.chooseWXPay({
+                        timestamp: param.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                        nonceStr: param.nonceStr, // 支付签名随机串，不长于 32 位
+                        package: param.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                        signType: "MD5", // 签名方式，默认为´SHA1´，使用新版支付需传入´MD5´
+                        paySign: param.paySign, // 支付签名
+                        success: function (res) {
+                            if(res.errMsg == "chooseWXPay:ok"){
+                                alert("支付成功");
+                            }else{
+                                alert(res.errMsg);
+                            }
+							window.location.href  = "/bill.html";
+                        },
+                        cancel: function(res){
+                            //alert(´取消支付´);
+                            window.location.href  = "/bill.html";
+                        }
+                    });
+				}
+			}
+		})
+
+	</script>
+
+
+</body>
+</html>

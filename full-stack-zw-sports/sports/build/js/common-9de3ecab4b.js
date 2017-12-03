@@ -1,0 +1,1 @@
+!function(Vue,$){Vue.prototype._ajaxData=function(type,url,options,cb){$.ajax({type:type,url:""+url,dataType:"json",data:options,xhrFields:{withCredentials:!0}}).done(function(res){cb(res)}).fail(function(e){console.error(e),alert("请求失败"+JSON.stringify(e))})},"ontouchstart"in window&&(document.documentElement.style.fontSize=document.documentElement.clientWidth/30+"px")}(Vue,$);
