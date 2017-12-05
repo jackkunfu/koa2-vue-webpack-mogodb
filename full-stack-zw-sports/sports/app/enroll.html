@@ -6,7 +6,6 @@
 	<title>课程报名</title>
 	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
 
-	<script src="https://cdn.bootcss.com/babel-polyfill/6.26.0/polyfill.min.js"></script>
 	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://cdn.bootcss.com/vue/2.2.6/vue.min.js"></script>
 	<script type="text/javascript" src="js/common.js"></script>
@@ -207,7 +206,7 @@
 		new Vue({
 			el: '#ctn',
 			filters: {
-				sex(v){
+				sex: function(v){
 					if(v-0 == 1) return '女';
 					else return '男';
 				}
