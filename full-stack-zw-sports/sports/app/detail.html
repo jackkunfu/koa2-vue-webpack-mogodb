@@ -70,6 +70,14 @@
 			margin-bottom: 4rem;
 		}
 
+		.detail ul.main >li img{
+			max-width: 100%;
+		}
+		.detail ul.main >li.de img{
+			height: auto!important;
+		}
+		
+
 		.detail ul.main li .title{
 			font-size: 1.5rem;
 			color: #333;
@@ -192,7 +200,7 @@
 				<div style="margin:0.5rem -1rem;background: #eee;clear:both;height:1rem;"></div>
 
 				<ul class="main">
-					<li :class="cur == 0 ? 'show' : 'hide'" style="padding-top:1rem;">
+					<li :class="cur == 0 ? 'show' : 'hide'" style="padding-top:1rem;" class="de">
 						<div v-html="detail"></div>
 						<!-- <div id="editor"></div> -->
 						<!-- <div v-html="trainDetail"></div> -->
