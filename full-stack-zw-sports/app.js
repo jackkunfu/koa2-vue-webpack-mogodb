@@ -37,8 +37,8 @@ app.use(logger())
 
 
 // sports project
-app.use(views(__dirname + '/sports'))
-app.use(require('koa-static')(__dirname + '/sports'))
+app.use(views(__dirname + '/sports/app'))
+app.use(require('koa-static')(__dirname + '/sports/app'))
 
 // alisports project
 // app.use(views(__dirname + '/alisport'))

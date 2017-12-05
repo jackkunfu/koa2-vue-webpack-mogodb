@@ -5,8 +5,9 @@
 	<title>demo</title>
 	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
 
-	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script src="https://cdn.bootcss.com/babel-polyfill/6.26.0/polyfill.min.js"></script>
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/vue/2.2.6/vue.min.js"></script>
 	<script type="text/javascript" src="js/common.js"></script>
 </head>
 <body>
@@ -68,8 +69,6 @@
 	</div>
 
 
-
-
 	<script>
 
 		new Vue({
@@ -88,7 +87,7 @@
 
 			},
 			methods: {
-				pay(){
+				pay: function(){
 					if(!localStorage.zwUserId){
 						if(confirm('还没登陆，是否去登陆？')){
 							location.href = "/login.html"
@@ -96,7 +95,7 @@
 					}
 					_this._ajaxData('type', '/zhengwu/train', {page: 1, row: 10}, function(data){
 						if(data.code == 1){
-							location.href.
+							// location.href.
 						}else{
 							// _this.page--;
 							alert(data.msg);

@@ -6,8 +6,9 @@
 	<title>上课记录</title>
 	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
 
-	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script src="https://cdn.bootcss.com/babel-polyfill/6.26.0/polyfill.min.js"></script>
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/vue/2.2.6/vue.min.js"></script>
 	<script type="text/javascript" src="js/common.js"></script>
 </head>
 <body>
@@ -98,11 +99,11 @@
 
 				this.$nextTick(function () {
 					// 底部
-					$(window).scroll(()=>{
+					$(window).scroll(function(){
 						if($(document).height() - $(document).scrollTop() - $(window).height() == 0){
-							if(this.isMore && this.done){
-								this.page++
-								this.list(this.page);
+							if(_this.isMore && _this.done){
+								_this.page++
+								_this.list(_this.page);
 							}
 						}
 					})
@@ -110,7 +111,7 @@
 
 			},
 			methods:{
-				list(v){
+				list: function(v){
 					var _this = this;
 					_this.done = false;
 					_this._ajaxData('get', '/zhengwu/train', {pageNo: v, pageSize: 20}, function(data){

@@ -6,8 +6,9 @@
 	<title>课程报名</title>
 	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
 
-	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script src="https://cdn.bootcss.com/babel-polyfill/6.26.0/polyfill.min.js"></script>
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/vue/2.2.6/vue.min.js"></script>
 	<script type="text/javascript" src="js/common.js"></script>
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </head>
@@ -252,7 +253,7 @@
 
 			},
 			methods: {
-				pay(){
+				pay: function(){
 					var _this = this;
 					// if(!localStorage.zwUserId){
 					// 	if(confirm('还没登陆，是否去登陆？')){
@@ -312,13 +313,13 @@
 								_this.startWxPay(data);
 							}else{
 								alert('报名成功')
-								window.location.href  = "/bill.html";
+								window.location.href  = "bill.html";
 							}
 
 						})
 					})
 				},
-				startWxPay(param){
+				startWxPay: function(param){
 					wx.config({
                         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                         appId: param.appId, // 必填，公众号的唯一标识
@@ -339,11 +340,11 @@
                             }else{
                                 alert(res.errMsg);
                             }
-							window.location.href  = "/bill.html";
+							window.location.href  = "bill.html";
                         },
                         cancel: function(res){
                             //alert(´取消支付´);
-                            window.location.href  = "/bill.html";
+                            window.location.href  = "bill.html";
                         }
                     });
 				}

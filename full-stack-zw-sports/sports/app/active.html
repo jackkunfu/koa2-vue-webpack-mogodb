@@ -6,8 +6,9 @@
 	<title>最新活动</title>
 	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
 
-	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script src="https://cdn.bootcss.com/babel-polyfill/6.26.0/polyfill.min.js"></script>
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/vue/2.2.6/vue.min.js"></script>
 	<script type="text/javascript" src="js/common.js"></script>
 </head>
 <body>
@@ -97,12 +98,13 @@
 				this.list(1);
 
 				this.$nextTick(function () {
+					var _this = this;
 					// 底部
-					$(window).scroll(()=>{
+					$(window).scroll(function(){
 						if($(document).height() - $(document).scrollTop() - $(window).height() == 0){
-							if(this.isMore && this.done){
-								this.page++
-								this.list(this.page);
+							if(_this.isMore && _this.done){
+								_this.page++
+								_this.list(_this.page);
 							}
 						}
 					})

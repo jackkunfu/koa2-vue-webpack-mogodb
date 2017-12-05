@@ -7,9 +7,9 @@
 	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
 	<!-- <link rel="stylesheet" type="text/css" href="js/wangEditor.min.css"/> -->
 
-	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="js/vue.min.js"></script>
-	<!-- <script type="text/javascript" src="js/wangEditor.min.js"></script> -->
+	<script src="https://cdn.bootcss.com/babel-polyfill/6.26.0/polyfill.min.js"></script>
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/vue/2.2.6/vue.min.js"></script>
 	<script type="text/javascript" src="js/common.js"></script>
 </head>
 <body>
@@ -281,13 +281,14 @@
 				// }
 			},
 			mounted: function(){
+				var _this = this;
 				var baseUrl = 'http://www.zhengwusport.com'
 				// var baseUrl = 'zhengwu.com:8888/web';
 
 				this.id = location.href.split('id=')[1].split('&')[0];
 				this.detail = decodeURI(location.href.split('remarks=')[1].split('&')[0]);
 				this.name = decodeURI(location.href.split('name=')[1].split('&')[0]);
-				var _this = this;
+				
 				_this.imgDone = false;
 				_this._ajaxData('get', '/zhengwu/image', {
 					trainId: this.id, pageNo: 1
@@ -312,8 +313,6 @@
 				// 	var editor = new wangEditor('#editor');
 				// 	editor.create();
 				// })
-
-				var _this = this;
 
 				// 轮播图
 				var curPoster = 0, flag = true;
@@ -356,15 +355,15 @@
 
 
 				// 滚动加载
-				$(window).scroll(()=>{
+				$(window).scroll(function(){
 	                if($(document).height() - $(document).scrollTop() - $(window).height() == 0){
 	                    console.log('到底啦');
-	                    if(this.cur == 1){
-	                    	if(this.isImgMore && this.imgDone){
-		                        this.imgPage++;
+	                    if(_this.cur == 1){
+	                    	if(_this.isImgMore && _this.imgDone){
+		                        _this.imgPage++;
 		                        _this.imgDone = false;
 								_this._ajaxData('get', '/zhengwu/image', {
-									trainId: this.id, pageNo: _this.imgPage
+									trainId: _this.id, pageNo: _this.imgPage
 								}, function(data){
 									if(data.list.length>0) _this.imglists = _this.imglists.concat(data.list)
 									_this.imgDone = true;
@@ -374,12 +373,12 @@
 								})
 		                    }
 	                    }
-	                    if(this.cur == 2){
-	                    	if(this.isJudgeMore && this.judgeDone){
-		                        this.judgePage++;
+	                    if(_this.cur == 2){
+	                    	if(_this.isJudgeMore && _this.judgeDone){
+		                        _this.judgePage++;
 		                        _this.judgeDone = false;
 								_this._ajaxData('get', '/zhengwu/comment/list', {
-									trainId: this.id, pageNo: _this.judgePage
+									trainId: _this.id, pageNo: _this.judgePage
 								}, function(data){
 									if(data.list.length>0) _this.judgeLists = _this.judgeLists.concat(data.list)
 									_this.judgeDone = true;
@@ -395,7 +394,7 @@
 
 			},
 			methods: {
-				enroll(){
+				enroll: function(){
 					// var name = encodeURI(this.name)
 					// alert(name)
 					// window.location.href = '/enroll.html?name=' + name + '&id=' + this.id;
