@@ -173,6 +173,18 @@
 		ul.img-list li:nth-of-type(2n-1) img{
 			padding-right: 0.5rem;
 		}
+		.add-judge{
+			text-align: center;
+			font-size: 1.2rem;
+			color: #666;
+		}
+		.add-judge textarea{
+			font-size: 1.2rem;
+			width: 18rem;
+			height: 2.4rem;
+			line-height: 1;
+			border: 1px solid #eee;
+		}
 	</style>
 	<div id="el">
 		<div class="top">
@@ -228,6 +240,11 @@
 
 					</li>
 					<li :class="cur == 2 ? 'show' : 'hide'">
+						<div class="add-judge">
+							<textarea v-model="newJudge"></textarea>
+							<span @click="addJudge">添加评价</span>
+						</div>
+						
 						<div class="judge" v-for="item in judgeLists" v-if="judgeLists.length>0">
 							<!-- <img :src="item.img"/> -->
 							<div class="right">
@@ -277,7 +294,8 @@
 				imglists: [
 					// {addr:'http://mpic.tiankong.com/ecc/3e3/ecc3e349338dbe58603cf270d9cd7c9c/640.jpg?x-oss-process=image/resize,m_lfit,h_600,w_600/watermark,image_cXVhbmppbmcucG5n,t_90,g_ne,x_5,y_5'}
 				],
-				detail: ''
+				detail: '',
+				newJudge: ''
 				// detail:{
 				// 	desc: 'bfuhiegnlNEOPVAJOBJNl;nb;WJ;EOBJbn;WBEOnbWBPE',
 				// 	good: '优势；aoaj[goagkp[kb;,bfjodajoajogja,z/vldj;avm,nvmzbfklhfkjvlfmb]] ',
@@ -360,7 +378,6 @@
 					});
 				}
 
-
 				// 滚动加载
 				$(window).scroll(function(){
 	                if($(document).height() - $(document).scrollTop() - $(window).height() == 0){
@@ -395,16 +412,30 @@
 								})
 		                    }
 	                    }
-
 			        }
 	            })
-
 			},
 			methods: {
 				enroll: function(){
 					// var name = encodeURI(this.name)
 					// alert(name)
 					// window.location.href = '/enroll.html?name=' + name + '&id=' + this.id;
+				},
+				addJudge(){
+					if(this.newJudge.trim() == ''){
+						alert('评价内容不能为空');
+						return
+					}
+					if(localStorage.zwUserId){
+						this._ajaxData('post', '/zhengwu/comment', {
+							trainId: this.id, userId: localStorage.zwUserId, comment: this.newJudge.trim()
+						}, function(data){
+							alert('评论通过后，即可展示~')
+						})
+					}else{
+						alert('授权开发中，请稍候，或者现在随便去报名个体验课然后再来评论')
+					}
+					
 				}
 			}
 		})
