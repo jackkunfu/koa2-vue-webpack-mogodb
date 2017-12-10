@@ -72,6 +72,22 @@
 			/* top: 0.2rem; */
 			/* margin-left: 0.3rem; */
 		}
+		.poster{
+			height: 12rem;
+			width: 100%;
+			overflow: hidden;
+		}
+		.poster ul{
+			position: relative;
+			transition: all .3s;
+		}
+		.poster ul li{
+			float: left;
+		}
+		.poster ul li img{
+			width: 100%;
+			height: 12rem;
+		}
 	</style>
 </head>
 <body>
@@ -93,11 +109,11 @@
 					this.list(1);
 
 					_this._ajaxData('get', '/zhengwu/lunbo', {}, function(data){
-						_this.judgeLists = data.list || [];
+						_this.posterlists = data.list || [];
 						// 轮播图
 						var curPoster = 0, flag = true;
 						var w = document.documentElement.clientWidth || document.body.clientWidth;
-						if(this.posterlists.length > 1){
+						if(_this.posterlists.length > 1){
 							setInterval(function(){
 								if(curPoster == _this.posterlists.length-1) flag = false;
 								else if(curPoster == 0) flag = true;
@@ -163,7 +179,7 @@
 	<!-- <div class="top">
 		训练营
 	</div> -->
-	<img src="img/team.jpg" style="width:100%;height:12rem;display:block" alt="" />
+	<!-- <img src="img/team.jpg" style="width:100%;height:12rem;display:block" alt="" /> -->
 	<div class="poster">
 		<ul :style="{ overflow: 'hidden', width: posterlists.length*100+'%', left: posterLeft+'px' }">
 			<li v-for="item in posterlists" :style="{ width: 100/(posterlists.length)+'%' }">

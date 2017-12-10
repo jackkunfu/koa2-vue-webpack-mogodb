@@ -349,11 +349,11 @@
 				_this._ajaxData('get', '/zhengwu/lunbo/train', {
 					trainId: _this.id
 				}, function(data){
-					_this.judgeLists = data.list || [];
+					_this.posterlists = data.list || [];
 					// 轮播图
 					var curPoster = 0, flag = true;
 					var w = document.documentElement.clientWidth || document.body.clientWidth;
-					if(this.posterlists.length > 1){
+					if(_this.posterlists.length > 1){
 						setInterval(function(){
 							if(curPoster == _this.posterlists.length-1) flag = false;
 							else if(curPoster == 0) flag = true;
