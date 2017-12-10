@@ -76,7 +76,7 @@
 		.detail ul.main >li.de img{
 			height: auto!important;
 		}
-		
+
 
 		.detail ul.main li .title{
 			font-size: 1.5rem;
@@ -133,15 +133,19 @@
 
 		.upload{
 			width: 15rem;
-			height: 3rem;
-			line-height: 3rem;
+			height: 3.4rem;
+			line-height: 3.4rem;
 			font-size: 1.4rem;
-			margin: 1rem auto;
+			/* margin: 1rem auto; */
 			text-align: center;
 			background: #93D0FF;
 			color: #FFF;
-			border-radius: 8px;
-			position: relative;
+			/* border-radius: 8px; */
+			/* position: relative; */
+			position: fixed;
+			width: 100%;
+			bottom: 0;
+			left: 0;
 		}
 		#upfile{
 			position: absolute;
@@ -183,7 +187,16 @@
 			width: 18rem;
 			height: 2.4rem;
 			line-height: 1;
-			border: 1px solid #eee;
+			border: 1px solid #93D0FF;
+		}
+		.add-judge span {
+			position: relative;
+			top: -0.7rem;
+			background: #93d0ff;
+			color: #fff;
+			padding: 0.5rem 1.8rem;
+			border-radius: 0.5rem;
+			margin-left: 1rem;
 		}
 	</style>
 	<div id="el">
@@ -225,6 +238,10 @@
 							<div>{{detail.title}}</div>
 							{{detail.desc}}
 						</div> -->
+						<div class="fixed-btm">
+							<a :href="'enroll.html?id='+id+'&name='+name" class="fl" @click="enroll(id)">立即报名</a>
+							<a href="tel:" class="fr">咨询</a>
+						</div>
 					</li>
 					<li :class="cur == 1 ? 'show' : 'hide'">
 						<div class="upload">上传图片
@@ -242,9 +259,9 @@
 					<li :class="cur == 2 ? 'show' : 'hide'">
 						<div class="add-judge">
 							<textarea v-model="newJudge"></textarea>
-							<span @click="addJudge">添加评价</span>
+							<span @click="addJudge">评价</span>
 						</div>
-						
+
 						<div class="judge" v-for="item in judgeLists" v-if="judgeLists.length>0">
 							<!-- <img :src="item.img"/> -->
 							<div class="right">
@@ -258,11 +275,6 @@
 					</li>
 				</ul>
 			</div>
-		</div>
-
-		<div class="fixed-btm">
-			<a :href="'enroll.html?id='+id+'&name='+name" class="fl" @click="enroll(id)">立即报名</a>
-			<a href="tel:" class="fr">咨询</a>
 		</div>
 
 	</div>
@@ -313,7 +325,7 @@
 				this.id = location.href.split('id=')[1].split('&')[0];
 				this.detail = decodeURI(location.href.split('remarks=')[1].split('&')[0]);
 				this.name = decodeURI(location.href.split('name=')[1].split('&')[0]);
-				
+
 				_this.imgDone = false;
 				_this._ajaxData('get', '/zhengwu/image', {
 					trainId: this.id, pageNo: 1
@@ -376,6 +388,8 @@
 							alert("上传出错"+JSON.stringify(data));
 						}
 					});
+					// baseToBlob(document.getElementById('upfile').files[0], function(data){
+					// })
 				}
 
 				// 滚动加载
@@ -421,26 +435,99 @@
 					// alert(name)
 					// window.location.href = '/enroll.html?name=' + name + '&id=' + this.id;
 				},
-				addJudge(){
+				addJudge: function(){
 					if(this.newJudge.trim() == ''){
 						alert('评价内容不能为空');
 						return
 					}
+					var _this = this;
 					if(localStorage.zwUserId){
 						this._ajaxData('post', '/zhengwu/comment', {
 							trainId: this.id,
-							userId: localStorage.zwUserId,
+							userinfoId: localStorage.zwUserId,
 							content: this.newJudge.trim()
 						}, function(data){
 							alert('评论通过后，即可展示~')
+							_this.newJudge = ''
 						})
 					}else{
 						alert('授权处理开发中，请稍候，或者现在随便去报名个体验课然后再来评论')
 					}
-					
+
 				}
 			}
 		})
+
+		function baseToBlob(file, cb) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var img = new Image();
+                img.src = this.result;
+                if (img.complete) {
+                    callback();
+                } else {
+                    img.onload = callback;
+                }
+                function callback() {
+                    var baseData = compress(img, 0.1);
+                    cb(dataURLtoBlob(baseData));
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function compress(img, quality) {
+            var canvas = document.createElement("canvas");
+            var ctx = canvas.getContext('2d');
+            var moreCanvas = document.createElement("canvas");
+            var morectx = moreCanvas.getContext("2d");
+            var maxsize = 100 * 1024;
+            var width = img.width;
+            var height = img.height;
+            var ratio;
+            if ((ratio = width * height / 4000000) > 1) {
+                ratio = Math.sqrt(ratio);
+                width /= ratio;
+                height /= ratio;
+            } else {
+                ratio = 1;
+            }
+            canvas.width = width;
+            canvas.height = height;
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            var count;
+            if ((count = width * height / 1000000) > 1) {
+                count = ~~(Math.sqrt(count) + 1);
+                var nw = ~~(width / count);
+                var nh = ~~(height / count);
+                moreCanvas.width = nw;
+                moreCanvas.height = nh;
+                for (var i = 0; i < count; i++) {
+                    for (var j = 0; j < count; j++) {
+                        morectx.drawImage(img, i * nw * ratio, j * nh * ratio, nw * ratio, nh * ratio, 0, 0, nw, nh);
+                        ctx.drawImage(moreCanvas, i * nw, j * nh, nw, nh);
+                    }
+                }
+            } else {
+                ctx.drawImage(img, 0, 0, width, height);
+            }
+            var ndata = canvas.toDataURL('image/jpeg', quality);
+            moreCanvas.width = moreCanvas.height = canvas.width = canvas.height = 0;
+            return ndata;
+        }
+
+        function dataURLtoBlob(dataurl) {
+            var arr = dataurl.split(','),
+                mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]),
+                n = bstr.length,
+                u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], { type: mime });
+        }
 
 	</script>
 

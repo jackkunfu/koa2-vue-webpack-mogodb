@@ -35,15 +35,7 @@
 			height: 6.5rem;
 			margin-right: 0.5rem;
 		}
-		.box .address img {
-			float: none;
-			display: inline-block;
-			width: 2rem;
-			height: auto;
-			position: relative;
-			top: 0.4rem;
-			margin-left: 0.3rem;
-		}
+
 		.box .name{
 			width: 13rem;
 			font-size: 1.5rem;
@@ -55,13 +47,30 @@
 		}
 		.box .address{
 			width: 14rem;
-			font-size: 0.8rem;
+			font-size: 1.1rem;
 			margin-top: 0.2rem;
+			position: relative;
 			/* padding-top: 0.5rem; */
 			color: #666;
 			/* text-overflow: ellipsis;
 			overflow: hidden;
 			white-space: nowrap; */
+		}
+		.box .address span{
+			display: inline-block;
+			margin-left: 2rem;
+		}
+		.box .address img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			float: none;
+			display: inline-block;
+			width: 1.6rem;
+			height: auto;
+			/* position: relative; */
+			/* top: 0.2rem; */
+			/* margin-left: 0.3rem; */
 		}
 	</style>
 </head>
@@ -80,7 +89,11 @@
 				mounted: function(){
 					var _this = this;
 					this.list(1);
-	
+
+					_this._ajaxData('get', '/zhengwu/userinfo', {}, function(data){
+						localStorage.zwUserId = data.id;
+					})
+
 					this.$nextTick(function () {
 						// 底部
 						$(window).scroll(function(){
@@ -92,7 +105,7 @@
 							}
 						})
 					})
-	
+
 				},
 				methods: {
 					gotoDetail: function(item){
@@ -151,7 +164,7 @@
 		</div>
 	</div>
 
-	
+
 
 
 </body>
