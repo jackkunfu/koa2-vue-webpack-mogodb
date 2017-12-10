@@ -90,7 +90,7 @@
 							<img src="address.png" />
 							{{item.address}}
 						</div> -->
-						<div class="address">{{item.tClass.name}}</div>
+						<div class="address">{{item.tclass.name}}</div>
 						<div class="address">费用：{{item.pay}}</div>
 						<div v-if="item.pay-0==0" class="address pay no">未支付</div>
 						<div v-if="item.pay-0==1" class="address pay ok">已支付</div>
@@ -160,7 +160,7 @@
 							_this._ajaxData('post', '/zhengwu/pay', {
 								fee: item.pay,
 								userId: localStorage.zwUserId,
-								title: item.tClass.name
+								title: item.tclass.name
 							}, function(data){
 								// alert('报名成功，接入微信支付中，')
 								// if(true) location.href = ''

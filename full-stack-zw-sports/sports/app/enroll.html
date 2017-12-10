@@ -296,11 +296,12 @@
 					// this.item.pay = this.item['pay'+(this.item.classType)];
 					// this.item.birth = new Date(this.item.birthVal).getTime();
 					this.item.birth = this.item.birthVal;
+					this.item.userinfoId = localStorage.zwUserId;
 					this._ajaxData('post', '/zhengwu/user', this.item, function(res){
 						// alert('报名成功，接入微信支付中，')
 						// if(true) location.href = ''
-						localStorage.zwUserId = res.id;
-						localStorage.zwOpenId = res.openid;
+						// localStorage.zwUserId = res.id;
+						// localStorage.zwOpenId = res.openid;
 						_this._ajaxData('post', '/zhengwu/pay', {
 							fee: _this.item.pay*100,
 							userId: res.id,

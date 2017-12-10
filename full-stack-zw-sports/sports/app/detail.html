@@ -207,7 +207,7 @@
 		<div class="poster">
 			<ul :style="{ overflow: 'hidden', width: posterlists.length*100+'%', left: posterLeft+'px' }">
 				<li v-for="item in posterlists" :style="{ width: 100/(posterlists.length)+'%' }">
-					<img :src="item.img" alt=""/>
+					<img :src="'http://www.zhengwusport.com'+item.image" alt=""/>
 				</li>
 			</ul>
 		</div>
@@ -328,45 +328,45 @@
 
 				_this.imgDone = false;
 				_this._ajaxData('get', '/zhengwu/image', {
-					trainId: this.id, pageNo: 1
+					trainId: _this.id, pageNo: 1
 				}, function(data){
 					_this.imglists = data.list || [];
 					_this.imgDone = true;
 				})
 				_this.judgeDone = false;
 				_this._ajaxData('get', '/zhengwu/comment/list', {
-					trainId: this.id, pageNo: 1
+					trainId: _this.id, pageNo: 1
 				}, function(data){
 					_this.judgeLists = data.list || [];
 					_this.judgeDone = true;
 				})
-				// _this._ajaxData('get', '/zhengwu/detail', {
-				// 	trainId: this.id
-				// }, function(data){
-				// 	_this.judgeLists = data.list || [];
-				// })
 
 				// this.$nextTick(function () {
 				// 	var editor = new wangEditor('#editor');
 				// 	editor.create();
 				// })
 
-				// 轮播图
-				var curPoster = 0, flag = true;
-				var w = document.documentElement.clientWidth || document.body.clientWidth;
-				if(this.posterlists.length > 1){
-					setInterval(function(){
-						if(curPoster == _this.posterlists.length-1) flag = false;
-						else if(curPoster == 0) flag = true;
-						if(flag){
-							curPoster++;
-							_this.posterLeft -= w;
-						}else{
-							curPoster--;
-							_this.posterLeft += w;
-						}
-					}, 2000)
-				}
+				_this._ajaxData('get', '/zhengwu/lunbo/train', {
+					trainId: _this.id
+				}, function(data){
+					_this.judgeLists = data.list || [];
+					// 轮播图
+					var curPoster = 0, flag = true;
+					var w = document.documentElement.clientWidth || document.body.clientWidth;
+					if(this.posterlists.length > 1){
+						setInterval(function(){
+							if(curPoster == _this.posterlists.length-1) flag = false;
+							else if(curPoster == 0) flag = true;
+							if(flag){
+								curPoster++;
+								_this.posterLeft -= w;
+							}else{
+								curPoster--;
+								_this.posterLeft += w;
+							}
+						}, 2000)
+					}
+				})
 
 				// 上传图片
 				document.getElementById('upfile').onchange = function(){
@@ -381,8 +381,17 @@
 						contentType: false,
 						processData: false,
 						success: function(data) {
-							alert('上传成功，经过审核后，会展示');
+							alert('上传成功~');
 							// _this.imglists.push({addr: data})
+							_this._ajaxData('get', '/zhengwu/image', {
+								trainId: _this.id, pageNo: 1
+							}, function(data){
+								if(data.list.length>0) _this.imglists = data.list;
+								_this.imgDone = true;
+
+								if(data.list.length < data.pageSize) _this.isImgMore = false;
+								if(_this.imglists.length >= data.count) _this.isImgMore = false;
+							})
 						},
 						error: function(data) {
 							alert("上传出错"+JSON.stringify(data));
@@ -447,8 +456,15 @@
 							userinfoId: localStorage.zwUserId,
 							content: this.newJudge.trim()
 						}, function(data){
-							alert('评论通过后，即可展示~')
-							_this.newJudge = ''
+							alert('评论成功~')
+							_this.newJudge = '';
+							_this._ajaxData('get', '/zhengwu/comment/list', {
+								trainId: _this.id, pageNo: 1
+							}, function(data){
+								_this.judgeLists = data.list || [];
+								_this.judgeDone = true;
+							})
+
 						})
 					}else{
 						alert('授权处理开发中，请稍候，或者现在随便去报名个体验课然后再来评论')
