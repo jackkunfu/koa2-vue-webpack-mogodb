@@ -44,7 +44,7 @@
 		}
 		.box .name{
 			width: 15rem;
-			font-size: 2rem;
+			font-size: 1.5rem;
 			color: #333;
 			/*margin-top: 1rem;*/
 			text-overflow: ellipsis;
@@ -91,9 +91,10 @@
 							{{item.address}}
 						</div> -->
 						<div class="address">{{item.tclass.name}}</div>
-						<div class="address">费用：{{item.pay}}</div>
-						<div v-if="item.pay-0==0" class="address pay no">未支付</div>
-						<div v-if="item.pay-0==1" class="address pay ok">已支付</div>
+						<div class="address">费用：{{item.tclass.fee}}</div>
+						<div class="address">时间：{{item.tclass.startDate}} ~ {{item.tclass.endDate}}</div>
+						<div v-if="item.pay.pay-0==0" class="address pay no">未支付</div>
+						<div v-if="item.pay.pay-0==1" class="address pay ok">已支付</div>
 					</div>
 				</div>
 			</a>
