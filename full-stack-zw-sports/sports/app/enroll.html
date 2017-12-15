@@ -151,7 +151,8 @@
 			<div class="row">
 				<div class="fl">生日</div>
 				<div class="fr">
-					<input type="text" id="birth" v-model="item.birthVal" placeholder="-符号隔开： 2017-01-01"/>
+					<!-- <input type="text" id="birth" v-model="item.birthVal" placeholder="-符号隔开： 2017-01-01"/> -->
+					<div id="birth" style="height:2.5rem;border:1px solid #eee;padding-left:0.5rem;line-height:2.5rem;">{{item.birth}}</div>
 				</div>
 			</div>
 
@@ -224,6 +225,7 @@
 					classType: '',
 					name: '',
 					sex: '0',
+					birth: '',
 					birthVal: '',
 					address: '',
 					familyName: '',
@@ -287,7 +289,11 @@
 						alert('性别没选~');
 						return;
 					}
-					if(!this.item.birthVal || this.item.birthVal.trim() == ''){
+					// if(!this.item.birthVal || this.item.birthVal.trim() == ''){
+					// 	alert('生日没填~');
+					// 	return;
+					// }
+					if(!this.item.birth || this.item.birth.trim() == ''){
 						alert('生日没填~');
 						return;
 					}
@@ -310,7 +316,7 @@
 					}
 					// this.item.pay = this.item['pay'+(this.item.classType)];
 					// this.item.birth = new Date(this.item.birthVal).getTime();
-					this.item.birth = this.item.birthVal;
+					// this.item.birth = this.item.birthVal;
 					this.item.userinfoId = localStorage.zwUserId;
 					this._ajaxData('post', '/zhengwu/user', this.item, function(res){
 						// alert('报名成功，接入微信支付中，')
