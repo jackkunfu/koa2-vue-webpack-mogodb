@@ -131,6 +131,8 @@
 
 					_this._ajaxData('get', '/zhengwu/userinfo', {}, function(data){
 						localStorage.zwUserId = data.id;
+						localStorage.wxname = data.nickname;
+						localStorage.wximg = data.headimgurl;
 					})
 
 					this.$nextTick(function () {
