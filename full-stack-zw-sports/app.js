@@ -12,6 +12,9 @@ const index = require('./controller/routes/index')
 const users = require('./controller/routes/users')
 const admin = require('./controller/routes/admin')
 const api = require('./controller/api')
+const feature = require('./controller/feature')
+
+var cors = require('koa-cors')
 
 // error handler
 onerror(app)
@@ -44,6 +47,8 @@ app.use(require('koa-static')(__dirname + '/sports/app'))
 // app.use(views(__dirname + '/alisport'))
 // app.use(require('koa-static')(__dirname + '/alisport'))
 
+// 允许跨域中间件
+app.use(cors());
 
 // logger
 app.use(async(ctx, next) => {
@@ -60,5 +65,8 @@ app.use(admin.routes(), admin.allowedMethods())
 
 // api
 app.use(api.routes(), api.allowedMethods())
+
+// 尝试小功能 feature
+app.use(feature.routes(), feature.allowedMethods())
 
 module.exports = app

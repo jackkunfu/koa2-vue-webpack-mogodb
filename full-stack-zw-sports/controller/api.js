@@ -106,9 +106,6 @@ api.post('/delHall', async(ctx, next) => {
 
 });
 
-
-
-
 api.post('/addHall', async(ctx, next) => {
     var newHall = ctx.request.body;
     var search = await Hall.fentch({ name: newHall.name })
