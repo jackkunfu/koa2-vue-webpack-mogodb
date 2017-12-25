@@ -13,23 +13,34 @@
 <body>
 
 	<style>
+		/* html{
+			height: 100%;
+		}
+		body{
+			height: 100%;
+			background-image: url('img/bg.png');
+			background-size: 100% 100%;
+		} */
+
+		.self{
+			background-image: url('img/bg.png');
+			background-size: 100% auto;
+		}
 
 		.self-top{
 			padding: 0.5rem 0;
 			font-size: 2rem;
 			text-align: center;
-			border-bottom: 1px solid #e7e7e7;
-			background: #000;
+			/* border-bottom: 1px solid #e7e7e7; */
 			color: #fff;
-			background-image: url('img/mybg.jpg');
-			background-size: 100% 100%;
-			line-height: 4rem;
+
+			line-height: 7rem;
 		}
 		.self-top img{
 			display: block;
 			width: 8rem;
 			height: 8rem;
-			margin: 1rem auto 0;
+			margin: 3rem auto 0;
 			background: #ccc;
 			border-radius: 4rem;
 		}
@@ -67,6 +78,16 @@
 			left: 0.8rem;
 			top: 1rem;
 		}
+		.part{
+			height: 4rem;
+			background: #fff;
+			border-radius: 1.5rem 1.5rem 0 0;
+			border-bottom: 0.5rem solid #e4e4e4;
+			overflow: hidden;
+		}
+		.ctn{
+			background: #fff;
+		}
 	</style>
 
 	<!-- <div class="top">
@@ -78,7 +99,7 @@
 			<img :src="wximg" alt="" />
 			{{wxname}}
 		</div>
-
+		<div class="part"></div>
 		<div class="ctn">
 			<a href="bill.html" class="box">
 				<img src="img/ball.png">我的订单课程</a>
