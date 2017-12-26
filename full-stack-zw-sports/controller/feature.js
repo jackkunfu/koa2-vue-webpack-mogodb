@@ -7,7 +7,7 @@ const feature = require('koa-router')();
 feature.get('/paqu', async (ctx, next)=>{
     // console.log(ctx.query.url)
     var data = await paQu(ctx.query.url)
-    console.log(data)
+    // console.log(data)
     ctx.body = data;
 })
 
