@@ -40,12 +40,15 @@ app.use(logger())
 
 
 // sports project
-app.use(views(__dirname + '/sports/app'))
-app.use(require('koa-static')(__dirname + '/sports/app'))
+// app.use(views(__dirname + '/sports/app'))
+// app.use(require('koa-static')(__dirname + '/sports/app'))
 
 // alisports project
 // app.use(views(__dirname + '/alisport'))
 // app.use(require('koa-static')(__dirname + '/alisport'))
+
+// 爬取静态目录
+app.use(require('koa-static')(__dirname + '/paqu'))
 
 // 允许跨域中间件
 app.use(cors());

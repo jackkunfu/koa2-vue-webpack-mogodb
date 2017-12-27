@@ -1,25 +1,47 @@
 var request = require('request')
+var fs = require('fs')
 
-function getImgData(url){
+function getImgData(imgUrl){
     console.log('开始处理每一个')
     return new Promise((r, j)=>{
-        request(url, function(err, res, data){
-            if(err) j(err)
-            console.log('each img data');
-            console.log(data);
-            // console.log(data);
-            if(res && res.statusCode === 200){
-                r(data)
-            }else{
-                j()
-            }
+        // request(url, function(err, res, data){
+        //     if(err) j(err)
+        //     console.log('each img data');
+        //     console.log(data);
+        //     // console.log(data);
+        //     if(res && res.statusCode === 200){
+        //         r(data)
+        //     }else{
+        //         j()
+        //     }
+        // })
+        var name = imgUrl.split('/')[imgUrl.split('/').length-1]
+        console.log(name)
+        request.get(imgUrl)
+        .on('error', function(err) {
+            console.log(err)
+            j(err)
         })
+        .on('response', function(response) {
+            console.log(response.statusCode) // 200
+            console.log(response.headers['content-type']) // 'image/png'
+            r(name)
+        })
+        .pipe(fs.createWriteStream('paqu/'+name))
+        // .pipe(request.put('http://mysite.com/img.png'))
     })
 }
 
 async function getImageListData(list){
     console.log('开始处理数组')
     var arr = [];
+    // list.forEach(
+    //     (v, i) => {
+    //         console.log('v.middleURL')
+    //         console.log(i)
+    //         console.log(v.middleURL)
+    //     }
+    // )
     list.forEach(
         async (v) => {
             console.log('v.middleURL')
@@ -27,6 +49,7 @@ async function getImageListData(list){
             arr.push(v.middleURL ? ( await getImgData(v.middleURL) ) : null )
         }
     )
+    arr.push(await getImgData(list[0].middleURL))
     console.log(arr);
     var data = await Promise.all(arr)
     console.log('all data')
@@ -49,8 +72,8 @@ module.exports = function(url){
                 console.log('22')
 
                 var list = d.data;
-                console.log('list')
-                console.log(list[0])
+                // console.log('list')
+                // console.log(list[0])
                 var imageArr = []
                 try{
                     imageArr = await getImageListData(list);
