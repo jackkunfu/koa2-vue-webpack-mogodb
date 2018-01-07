@@ -127,8 +127,9 @@ li {
     border: 1px solid #ccc;
     background: #fff;
     z-index: 1;
-    max-height: 15rem;
-    overflow: auto;
+    max-height: 18rem;
+    min-height: 10rem;
+    overflow: scroll;
 }
 .select ul li{
     padding-left: 1rem;
