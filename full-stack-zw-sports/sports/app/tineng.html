@@ -76,14 +76,14 @@
 	</style>
 
 	<div class="top">
-		<img src="img/ball.png">
-		我的课程
+		<!-- <img src="img/ball.png"> -->
+		体能素质
 	</div>
 	<div class="ctn">
 		<div class="list">
 			<div class="search">
 				<input type="text" placeholder="输入学员姓名或手机号查询" v-model="sear" />
-				<div class="sear">搜索</div>
+				<div class="sear" @click="search">搜索</div>
 			</div>
 
 			<div class="box" v-for="(item,i) in lists" v-if="lists.length>0">
@@ -186,7 +186,7 @@
 					var _this = this;
 					_this.done = false;
 					_this._ajaxData('get', '/zhengwu/tineng/list', {
-						pageNo: v,
+						pageNo: 1,
 						name: this.sear.trim()
 					}, function(data){
 						var list = data.list || [];
