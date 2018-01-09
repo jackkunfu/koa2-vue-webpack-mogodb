@@ -162,7 +162,7 @@
 					_this.done = false;
 					var opt = { pageNo: v }
 					if(this.sear.trim() != '') opt.name = this.sear.trim();
-					_this._ajaxData('get', opt, function(data){
+					_this._ajaxData('get', '/zhengwu/tineng/list', opt, function(data){
 						var list = data.list || [];
 						if(list.length > 0) _this.lists = _this.lists.concat(list)
 						else _this.isMore = false;
