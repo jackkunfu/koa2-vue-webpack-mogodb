@@ -71,13 +71,13 @@ li {
     font-size: 1.5rem;
 }
 .fixed-btm .fl{
-    width: 70%;
+    width: 50%;
     color: #fff;
     border-right: 1px solid #efefef;
     background: #93D0FF;
 }
 .fixed-btm .fr{
-    width: 30%;
+    width: 50%;
     background-color: #fff;
 }
 

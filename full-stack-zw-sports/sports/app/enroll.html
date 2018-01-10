@@ -117,7 +117,7 @@
 				<div class="fr">
 					<div class="select" @click="selectOpen1=!selectOpen1;">
 						<span>{{item.classTypeName}}</span>
-						<ul v-show="selectOpen1">
+						<ul v-show="selectOpen1" style="height:27rem;max-height:27rem;">
 							<li v-for="cl in selectList" @click="item.pay = cl.fee; item.classType= cl.id;item.classTypeName=cl.name">{{cl.name}}</li>
 						</ul>
 					</div>
