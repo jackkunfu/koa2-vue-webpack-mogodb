@@ -331,7 +331,8 @@
 							// alert('报名成功，接入微信支付中，')
 							// if(true) location.href = ''
 							if(_this.item.pay>0){
-								_this.startWxPay(data);
+								console.log(data);
+								setTimeout(_this.startWxPay(data), 100);
 							}else{
 								alert('报名成功')
 								window.location.href  = "bill.html";
